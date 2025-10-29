@@ -13,21 +13,21 @@ const Authors = () => {
       name: "Daniel Alston", 
       image: "/images/author-2.png",
       bio: "Daniel Alston is known for his engaging and imaginative childrens books, bringing stories to life for young readers.",
-      books: "1 Published Books. 1 on it way",
+      books: "Published Books: 01",
       genre: "Childrens book"
     },
     { 
       name: "Judith Hobson", 
       image: "/images/author-1.png",
       bio: "Judith Hobson writes self biographies, sharing personal journeys and life experiences through her published works.",
-      books: "3 Published Books",
-      genre: "Self Biographies"
+      books: "Published Books: 03",
+      genre: "Self-Biography"
     },
     { 
       name: "Cotton Mather", 
       image: "/images/author-3.png",
       bio: "Cotton Mather is a dedicated author who writes on faith, morality, and early American thought. His work blends historical insight with spiritual depth, inspiring readers to reflect on purpose and conviction in everyday life.",
-      books: "6 Published Books",
+      books: "Published Book: 03",
       genre: "Mystery, Thriller & Suspense"
     },
   ];
