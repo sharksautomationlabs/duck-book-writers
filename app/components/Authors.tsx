@@ -24,11 +24,11 @@ const Authors = () => {
       genre: "Self Biographies"
     },
     { 
-      name: "Michael Thompson", 
+      name: "Cotton Mather", 
       image: "/images/author-3.png",
-      bio: "Michael Thompson specializes in business and self-help, offering readers valuable insights and practical advice.",
+      bio: "Cotton Mather is a dedicated author who writes on faith, morality, and early American thought. His work blends historical insight with spiritual depth, inspiring readers to reflect on purpose and conviction in everyday life.",
       books: "6 Published Books",
-      genre: "Business & Self-Help"
+      genre: "Mystery, Thriller & Suspense"
     },
   ];
 
