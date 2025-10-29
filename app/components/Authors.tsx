@@ -27,7 +27,7 @@ const Authors = () => {
       name: "Cotton Mather", 
       image: "/images/author-3.png",
       bio: "Cotton Mather is a dedicated author who writes on faith, morality, and early American thought. His work blends historical insight with spiritual depth, inspiring readers to reflect on purpose and conviction in everyday life.",
-      books: "Published Book: 03",
+      books: "Published Book: 02",
       genre: "Mystery, Thriller & Suspense"
     },
   ];
