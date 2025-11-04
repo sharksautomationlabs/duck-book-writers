@@ -20,14 +20,14 @@ const Bestsellers = () => {
     },
     {
       title: "You Are Not Only One", 
-      author: "Judy Hobson",
+      author: "Judith Hobson",
       image: "/images/judy-book2.jpg",
       imageWidth: 200,
       imageHeight: 300,
       amazonLink: "https://www.amazon.com/You-Are-Not-Only-One/dp/1304017710",
     },
     {
-      title: "Reggie The Redbird & Talking Subway car",
+      title: "Reggie The Redbird & Talking Subway cars",
       author: "Daniel A Alston",
       image: "/images/judy-book3.jpg",
       imageWidth: 200,
