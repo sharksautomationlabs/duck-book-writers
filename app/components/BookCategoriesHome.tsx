@@ -177,7 +177,7 @@ const BookCategoriesHome = () => {
                 <motion.button
                   key={index}
                   onClick={() => setActiveCategory(activeCategory === category.name ? null : category.name)}
-                  className={`relative flex flex-col items-center transition-all duration-300 whitespace-nowrap flex-shrink-0 group ${
+                  className={`relative flex flex-col items-center transition-all duration-300 flex-shrink-0 group min-h-[60px] ${
                     activeCategory === category.name 
                       ? 'text-[#ffbe02]' 
                       : 'text-white hover:text-gray-200'
@@ -189,8 +189,8 @@ const BookCategoriesHome = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <span className="font-['Poppins'] font-semibold text-sm sm:text-base lg:text-lg tracking-wide mb-2 px-2 text-center leading-tight">
-                    {category.name.replace("\n", " ")}
+                  <span className="font-['Poppins'] font-semibold text-sm sm:text-base lg:text-lg tracking-wide mb-2 px-2 text-center leading-tight whitespace-pre-line">
+                    {category.name}
                   </span>
                   {/* Active category highlight */}
                   <div className={`absolute bottom-0 left-0 right-0 h-0.5 transition-all duration-300 ${

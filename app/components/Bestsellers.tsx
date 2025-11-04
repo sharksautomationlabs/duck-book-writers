@@ -32,6 +32,7 @@ const Bestsellers = () => {
       image: "/images/judy-book3.jpg",
       imageWidth: 200,
       imageHeight: 300,
+      amazonLink: "https://www.amazon.com/Reggie-Redbird-Talking-Subway-Cars-ebook/dp/B0FXPDW2KQ/ref=sr_1_1?crid=33G34XQHFE4Q6&dib=eyJ2IjoiMSJ9.ZtTs5ClGCxsf2XQ-cNkfQw.ryPNjuqtFIm9Y3pWO6NlQxJWLAQQkOXLwlObTwKMUes&dib_tag=se&keywords=Reggie+The+Redbird+%26+Talking+Subway+car+by+Daniel+A+Alston&qid=1761936194&sprefix=%2Caps%2C329&sr=8-1",
     }
   ];
 
