@@ -351,7 +351,7 @@ const Footer: React.FC = () => {
           {/* DIV 3: Copyright Bar */}
           <div className="bg-[#ffbe02] rounded-[20px] sm:rounded-[30px] lg:rounded-[40px] mt-2 py-1 text-center">
             <p className="font-['Poppins'] text-[10px] sm:text-xs text-gray-800 font-medium">
-              © 2025 Duck Book Writers. All Rights Reserved.
+             A Project of ECOMMERCE SHARKS LLC |  © 2025 Duck Book Writers. All Rights Reserved.
             </p>
           </div>
 

@@ -23,7 +23,7 @@ const Header = () => {
   
   
   return (
-    <header className={`${isHomePage ? 'bg-transparent absolute top-0 left-0 right-0 z-50' : 'bg-white shadow-sm relative'} z-50`}>
+    <header className={`${isHomePage ? 'bg-transparent absolute left-0 right-0 z-50 top-[40px] sm:top-[44px]' : 'bg-white shadow-sm relative'} z-50`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-12 sm:h-16 lg:h-28">
           

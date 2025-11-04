@@ -145,3 +145,23 @@ html {
 .book-shadow {
   box-shadow: 6px 6px 20px 0px rgba(0, 0, 0, 0.1);
 }
+
+/* Marquee animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+  display: flex;
+  width: max-content;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}

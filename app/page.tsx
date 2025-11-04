@@ -14,10 +14,12 @@ import Authors from './components/Authors';
 import NewsEvents from './components/NewsEvents';
 import Footer from './components/Footer';
 import AnimatedSection from './components/AnimatedSection';
+import MarqueeBanner from './components/MarqueeBanner';
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-white overflow-x-hidden">
+      <MarqueeBanner />
       <Header />
       <Hero />
       <AnimatedSection delay={0.1}>
