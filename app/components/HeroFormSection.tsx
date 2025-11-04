@@ -36,12 +36,22 @@ const HeroFormSection = () => {
       const templateId = 'template_kagzkck';
       const publicKey = 'nRYR8C_VGeFw1myb9';
 
+      // Format project value for better readability
+      const formatProjectValue = (value: string) => {
+        if (!value) return 'Not specified';
+        // Capitalize first letter of each word
+        return value.split(' ').map(word => 
+          word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        ).join(' ');
+      };
+
       const templateParams = {
         from_name: formData.name,
         from_email: formData.email,
-        contact_number: formData.contact,
-        project_service: formData.project,
-        budget: formData.budget,
+        contact_number: formData.contact || 'Not provided',
+        project_service: formatProjectValue(formData.project),
+        project: formatProjectValue(formData.project), // Also send as 'project' for compatibility
+        budget: formData.budget || 'No budget specified',
         to_name: 'Duck Book Writers'
       };
 
@@ -158,6 +168,7 @@ const HeroFormSection = () => {
                     <option value="marketing">Marketing</option>
                     <option value="distribution">Distribution</option>
                     <option value="printing">Printing</option>
+                    <option value="book to youtube">Book to YouTube</option>
                   </select>
                 </div>
 

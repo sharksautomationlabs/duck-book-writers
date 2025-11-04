@@ -33,7 +33,7 @@ const Footer: React.FC = () => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: value.trim()
     }));
   };
 
@@ -50,6 +50,15 @@ const Footer: React.FC = () => {
 
       // EmailJS is now configured and ready to use
 
+      // Format project value for better readability
+      const formatProjectValue = (value: string) => {
+        if (!value) return 'Not specified';
+        // Capitalize first letter of each word
+        return value.split(' ').map(word => 
+          word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        ).join(' ');
+      };
+
       // Send email using EmailJS
       const result = await emailjs.send(
         serviceId,
@@ -58,8 +67,8 @@ const Footer: React.FC = () => {
           to_email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'Contact@duckbookwriters.com',
           from_name: formData.name,
           from_email: formData.email,
-          contact_number: formData.contact,
-          project: formData.project,
+          contact_number: formData.contact || 'Not provided',
+          project: formatProjectValue(formData.project),
           budget: formData.budget || 'No budget specified',
         },
         publicKey
@@ -262,6 +271,7 @@ const Footer: React.FC = () => {
                         <option value="marketing">Marketing</option>
                         <option value="distribution">Distribution</option>
                         <option value="printing">Printing</option>
+                        <option value="book to youtube">Book to YouTube</option>
                       </select>
                     </div>
 
