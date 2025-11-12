@@ -28,14 +28,14 @@ const Careers = () => {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
         >
           <motion.h1 
             className="font-['Poppins'] font-bold text-4xl sm:text-5xl lg:text-6xl xl:text-7xl text-[#1A1A1A] mb-6 sm:mb-8"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
           >
             Join Our <span className="text-yellow-500">Creative</span> Team
           </motion.h1>
@@ -45,7 +45,7 @@ const Careers = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
           >
             Be part of a dynamic publishing team that brings stories to life. 
             We&apos;re looking for passionate individuals who share our vision of transforming manuscripts into masterpieces.
@@ -60,7 +60,7 @@ const Careers = () => {
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
           >
             <div className="text-center lg:text-left">
               <motion.h2 
@@ -68,7 +68,7 @@ const Careers = () => {
                 initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              transition={{ duration: 0.3, delay: 0.2 }}
             >
                 Why Work With Us?
               </motion.h2>
@@ -78,7 +78,7 @@ const Careers = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.6 }}
+              transition={{ duration: 0.3, delay: 0.3 }}
             >
                 <div className="flex items-center space-x-3">
                   <div className="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center">
@@ -125,14 +125,14 @@ const Careers = () => {
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+            transition={{ duration: 0.4, delay: 0.2, ease: "easeOut" }}
           >
             <motion.h2 
               className="font-['Poppins'] font-semibold text-2xl sm:text-3xl lg:text-[32px] text-[#1A1A1A] mb-4 sm:mb-6"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.6 }}
+              transition={{ duration: 0.3, delay: 0.3 }}
             >
               Contact Us
             </motion.h2>
@@ -144,7 +144,7 @@ const Careers = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.7 }}
+                transition={{ duration: 0.25, delay: 0.35 }}
               >
                 <div className="flex-shrink-0 w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center">
                   <svg className="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -163,7 +163,7 @@ const Careers = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.8 }}
+                transition={{ duration: 0.25, delay: 0.4 }}
               >
                 <div className="flex-shrink-0 w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center">
                   <svg className="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -182,7 +182,7 @@ const Careers = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.9 }}
+                transition={{ duration: 0.25, delay: 0.45 }}
               >
                 <div className="flex-shrink-0 w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center">
                   <svg className="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -202,7 +202,7 @@ const Careers = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 1.1 }}
+                transition={{ duration: 0.25, delay: 0.55 }}
               >
                 <h3 className="font-['Poppins'] font-bold text-xl text-black mb-2">Ready to Join Our Team?</h3>
                 <p className="font-['Poppins'] text-sm text-black/80 mb-4">Send us your resume and cover letter to get started!</p>

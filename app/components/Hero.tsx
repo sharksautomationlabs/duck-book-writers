@@ -235,13 +235,13 @@ const Hero = () => {
           className="flex-1 max-w-2xl lg:max-w-none lg:pr-8 text-center lg:text-left pt-8 sm:pt-0 pb-4 sm:pb-0"
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
+          transition={{ duration: 0.4, delay: 0.25 }}
         >
           <motion.h1 
             className="font-['Poppins'] text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold leading-none tracking-tight mb-4 sm:mb-6"
             initial={{ opacity: 0, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
+            transition={{ duration: 0.4, delay: 0.35 }}
           >
             Your <span className="text-yellow-400">Story</span> Deserves<br />
             to Make a <span className="text-yellow-400">Splash</span>
@@ -250,7 +250,7 @@ const Hero = () => {
             className="font-['Poppins'] text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 mb-6 sm:mb-8 px-4 sm:px-0 font-medium leading-relaxed max-w-lg"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.9 }}
+            transition={{ duration: 0.3, delay: 0.45 }}
           >
             We transform your manuscript into a published masterpiece that makes waves in the literary world.
           </motion.p>
@@ -268,7 +268,7 @@ const Hero = () => {
         className="absolute bottom-8 sm:bottom-12 lg:bottom-20 left-1/2 transform -translate-x-1/2 z-30"
         initial={{ opacity: 0, y: 30, scale: 0.9 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.6, delay: 1.5 }}
+        transition={{ duration: 0.3, delay: 0.75 }}
       >
         <motion.div
           whileHover={{ scale: 1.05 }}

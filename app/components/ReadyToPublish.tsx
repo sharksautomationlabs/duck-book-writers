@@ -64,14 +64,14 @@ const ReadyToPublish = () => {
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
         >
           <motion.h2 
             className="font-['Poppins'] font-semibold text-[48px] text-[#1A1A1A] mb-6"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
           >
             Ready to Publish Your Book?
           </motion.h2>
@@ -81,7 +81,7 @@ const ReadyToPublish = () => {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
           >
             Join hundreds of successful authors who trust us with their stories. Let&apos;s bring your book to life together.
           </motion.p>
@@ -91,7 +91,7 @@ const ReadyToPublish = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.6 }}
+            transition={{ duration: 0.3, delay: 0.3 }}
           >
             <motion.div
               className="flex items-center gap-2 text-[#6B6B6B] font-['Poppins'] text-sm"

@@ -47,7 +47,7 @@ const AnimatedContainer = ({
             <motion.div 
               key={index} 
               variants={itemVariants}
-              transition={{ duration: 0.5, ease: "easeOut" }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
             >
               {child}
             </motion.div>

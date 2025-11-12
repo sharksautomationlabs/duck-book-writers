@@ -41,28 +41,28 @@ const Header = () => {
           </div>
 
           {/* Desktop Navigation - Hidden on mobile */}
-          <div className="hidden lg:flex flex-grow flex-col items-center mx-32">
+          <div className={`hidden lg:flex flex-grow flex-col items-center mx-32 ${isHomePage ? 'bg-black/20 backdrop-blur-md border border-black/30 rounded-2xl px-8 py-4 shadow-lg' : 'bg-black/80 backdrop-blur-md border border-black/50 rounded-2xl px-8 py-4 shadow-lg'}`}>
             {/* Top Row: Contact Info */}
             <div className="flex items-center gap-24 mb-2">
-              <a href="tel:+14694527618" className={`flex items-center gap-2 text-sm ${isHomePage ? 'text-white hover:text-yellow-300 drop-shadow-lg' : 'text-gray-600 hover:text-gray-900'} transition-colors duration-200`}>
-                <Image src="/images/phone-icon.svg" alt="Phone" width={16} height={16} className={isHomePage ? "filter brightness-0 invert" : ""} />
+              <a href="tel:+14694527618" className={`flex items-center gap-2 text-sm ${isHomePage ? 'text-white hover:text-yellow-300 drop-shadow-lg' : 'text-white hover:text-yellow-300'} transition-colors duration-200`}>
+                <Image src="/images/phone-icon.svg" alt="Phone" width={16} height={16} className="filter brightness-0 invert" />
                 <span>+1 (469) 452-7618</span>
               </a>
-              <a href="mailto:Contact@duckbookwriters.com" className={`flex items-center gap-2 text-sm ${isHomePage ? 'text-white hover:text-yellow-300 drop-shadow-lg' : 'text-gray-600 hover:text-gray-900'} transition-colors duration-200`}>
-                <Image src="/images/email-icon.svg" alt="Email" width={22} height={16} className={isHomePage ? "filter brightness-0 invert" : ""} />
+              <a href="mailto:Contact@duckbookwriters.com" className={`flex items-center gap-2 text-sm ${isHomePage ? 'text-white hover:text-yellow-300 drop-shadow-lg' : 'text-white hover:text-yellow-300'} transition-colors duration-200`}>
+                <Image src="/images/email-icon.svg" alt="Email" width={22} height={16} className="filter brightness-0 invert" />
                 <span>Contact@duckbookwriters.com</span>
               </a>
             </div>
 
             {/* Separator Line */}
-            <div className={`w-full max-w-lg border-t ${isHomePage ? 'border-white/50' : 'border-gray-200'}`}></div>
+            <div className={`w-full max-w-lg border-t ${isHomePage ? 'border-white/50' : 'border-white/30'}`}></div>
 
             {/* Bottom Row: Navigation Links */}
-            <nav className="mt-2">
-              <ul className="flex items-center space-x-8">
+            <nav className="mt-2 w-full">
+              <ul className="flex items-center justify-center space-x-6 flex-nowrap">
                 {navLinks.map((link) => (
-                  <li key={link.href}>
-                    <Link href={link.href} className={`text-base ${isHomePage ? 'text-white hover:text-yellow-300 drop-shadow-lg' : 'text-gray-700 hover:text-yellow-500'} transition-colors duration-200 font-medium`}>
+                  <li key={link.href} className="flex-shrink-0">
+                    <Link href={link.href} className={`text-sm whitespace-nowrap ${isHomePage ? 'text-white hover:text-yellow-300 drop-shadow-lg' : 'text-white hover:text-yellow-300'} transition-colors duration-200 font-medium`}>
                       {link.label}
                     </Link>
                   </li>

@@ -24,9 +24,9 @@ const Authors = () => {
       genre: "Self-Biography"
     },
     { 
-      name: "Cotton Mather", 
+      name: "Cotton Mathers", 
       image: "/images/author-3.png",
-      bio: "Cotton Mather is a dedicated author who writes on faith, morality, and early American thought. His work blends historical insight with spiritual depth, inspiring readers to reflect on purpose and conviction in everyday life.",
+      bio: "Cotton Mathers is a dedicated author who writes on faith, morality, and early American thought. His work blends historical insight with spiritual depth, inspiring readers to reflect on purpose and conviction in everyday life.",
       books: "Published Book: 02",
       genre: "Mystery, Thriller & Suspense"
     },
@@ -48,7 +48,7 @@ const Authors = () => {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.15 }}
         >
            <h2 className="font-['Poppins'] font-bold text-4xl sm:text-5xl lg:text-6xl text-gray-800 mb-4 sm:mb-6">
             Meet Our Authors
@@ -69,7 +69,7 @@ const Authors = () => {
                  initial={{ opacity: 0, x: 300 }}
                  animate={{ opacity: 1, x: 0 }}
                  exit={{ opacity: 0, x: -300 }}
-                 transition={{ duration: 0.5, ease: "easeInOut" }}
+                 transition={{ duration: 0.125, ease: "easeInOut" }}
                >
                 {/* Author Card */}
                 <div className="relative w-full max-w-4xl mx-auto">
@@ -78,7 +78,7 @@ const Authors = () => {
         <motion.div
                       className="relative"
                       whileHover={{ scale: 1.02 }}
-                      transition={{ duration: 0.3 }}
+                      transition={{ duration: 0.15 }}
                     >
                       <div className="relative w-full h-[400px] sm:h-[500px] lg:h-[600px] rounded-2xl overflow-hidden shadow-2xl">
                         <Image
@@ -106,13 +106,13 @@ const Authors = () => {
                       className="space-y-6 lg:space-y-8"
                       initial={{ opacity: 0, x: 50 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.6, delay: 0.2 }}
+                      transition={{ duration: 0.15, delay: 0.05 }}
                     >
                       <div>
                          <motion.h3 
                            className="font-['Poppins'] font-bold text-3xl sm:text-4xl lg:text-5xl text-gray-800 mb-4"
                           whileHover={{ color: "#ffbe02" }}
-                          transition={{ duration: 0.2 }}
+                          transition={{ duration: 0.1 }}
                         >
                           {authors[currentIndex].name}
                         </motion.h3>

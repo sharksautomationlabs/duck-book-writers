@@ -30,7 +30,7 @@ const About = () => {
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
           >
             <motion.div 
               className="w-full max-w-[400px] sm:max-w-[500px] lg:max-w-[647px] h-[350px] sm:h-[400px] lg:h-[653px] relative mx-auto"
@@ -254,14 +254,14 @@ const About = () => {
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
           >
             <motion.h2 
               className="font-['Poppins'] font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-none tracking-tight text-white text-center lg:text-left"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              transition={{ duration: 0.3, delay: 0.2 }}
             >
               Bringing Author&apos;s
               <br />
@@ -275,14 +275,14 @@ const About = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.6 }}
+              transition={{ duration: 0.3, delay: 0.3 }}
             >
               <motion.p 
                 className="font-['Poppins'] text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 font-medium leading-relaxed max-w-lg"
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.7 }}
+                transition={{ duration: 0.25, delay: 0.35 }}
               >
                 We transform your manuscript into a published masterpiece that makes waves in the literary world.
               </motion.p>
@@ -292,7 +292,7 @@ const About = () => {
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.8 }}
+                transition={{ duration: 0.25, delay: 0.4 }}
               >
                 From editing to distribution, we handle the heavy lifting so you can focus on what matters most: writing your story.
               </motion.p>
@@ -303,7 +303,7 @@ const About = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 1.0 }}
+              transition={{ duration: 0.25, delay: 0.5 }}
               className="mx-auto lg:mx-0"
             >
               <CalendlyWidget 

@@ -281,7 +281,31 @@ const NewsEvents = () => {
     }
   };
 
-  const upcomingEvents = useMemo(() => [
+  // Helper function to parse event date and check if it's outdated
+  const isEventOutdated = (dateString: string): boolean => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset time to start of day for accurate comparison
+    
+    // Parse date string (handles both "Month Day, Year" and "Month Day-Day, Year" formats)
+    const dateMatch = dateString.match(/(\w+)\s+(\d+)(?:-(\d+))?,\s+(\d+)/);
+    if (!dateMatch) return false;
+    
+    const [, month, startDay, endDay, year] = dateMatch;
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                       'July', 'August', 'September', 'October', 'November', 'December'];
+    const monthIndex = monthNames.indexOf(month);
+    
+    if (monthIndex === -1) return false;
+    
+    // Use end day if it's a date range, otherwise use start day
+    const day = endDay ? parseInt(endDay) : parseInt(startDay);
+    const eventDate = new Date(parseInt(year), monthIndex, day);
+    eventDate.setHours(23, 59, 59, 999); // Set to end of day
+    
+    return eventDate < today;
+  };
+
+  const allEvents = [
     {
       id: 1,
       title: "2025 American Association of School Librarians",
@@ -306,32 +330,6 @@ const NewsEvents = () => {
       attendees: "500+ Librarians & Professionals",
       price: "Reg. Deadline: Oct 10, 2025",
       image: "/images/ny-library-conference.jpg",
-      featured: true
-    },
-    {
-      id: 3,
-      title: "2025 National Council Teachers of English",
-      date: "November 21-23, 2025",
-      time: "9:00 AM - 6:00 PM",
-      location: "Denver, CO",
-      type: "Conference",
-      description: "Join us at the National Council Teachers of English conference to connect with educators and showcase our educational publishing services.",
-      attendees: "300+ Teachers & Educators",
-      price: "Reg. Deadline: Oct 15, 2025",
-      image: "/images/ncte-conference.jpg",
-      featured: true
-    },
-    {
-      id: 4,
-      title: "Online Publishing Masterclass",
-      date: "December 15, 2025",
-      time: "2:00 PM - 5:00 PM",
-      location: "Online",
-      type: "Masterclass",
-      description: "Learn the fundamentals of modern book publishing in this comprehensive online masterclass covering everything from manuscript to market.",
-      attendees: "50+ Authors",
-      price: "$99",
-      image: "/images/online-publishing-masterclass.jpg",
       featured: true
     },
     {
@@ -373,7 +371,12 @@ const NewsEvents = () => {
       image: "/images/ncte-2026-conference.jpg",
       featured: true
     },
-  ], []);
+  ];
+
+  // Filter out outdated events
+  const upcomingEvents = useMemo(() => {
+    return allEvents.filter(event => !isEventOutdated(event.date));
+  }, []);
 
   // Mobile viewport detection and intersection observer
   useEffect(() => {
@@ -580,7 +583,7 @@ const NewsEvents = () => {
             className="text-center mb-12 sm:mb-16"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.2 }}
           >
             <h1 className="font-['Poppins'] font-bold text-4xl sm:text-5xl lg:text-6xl text-black mb-4">
               News & Events
@@ -628,7 +631,7 @@ const NewsEvents = () => {
                   }}
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  transition={{ duration: 0.15, delay: index * 0.025 }}
                   whileHover={{ y: -5 }}
                 >
                   {event.featured && (
@@ -694,7 +697,7 @@ const NewsEvents = () => {
                   className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300"
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: (index + 6) * 0.1 }}
+                  transition={{ duration: 0.15, delay: (index + 6) * 0.025 }}
                   whileHover={{ y: -5 }}
                 >
                   <div className="h-48 bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center">
@@ -754,7 +757,7 @@ const NewsEvents = () => {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.15 }}
               style={{
                 background: 'linear-gradient(to top, #fbbf24 0%, #fbbf24 0%, white 0%, white 100%)',
                 transition: 'background 0.3s ease-in-out'
@@ -1169,7 +1172,7 @@ const NewsEvents = () => {
               className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+              transition={{ duration: 0.15, delay: index * 0.025 }}
               whileHover={{ y: -5 }}
             >
               <div className="h-48 bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center">
@@ -1224,7 +1227,7 @@ const NewsEvents = () => {
               }}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: (index + 2) * 0.1 }}
+              transition={{ duration: 0.15, delay: (index + 2) * 0.025 }}
               whileHover={{ y: -5 }}
             >
               {event.featured && (

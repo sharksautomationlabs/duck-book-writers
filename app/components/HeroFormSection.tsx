@@ -83,7 +83,7 @@ const HeroFormSection = () => {
             initial={{ opacity: 0, x: -100 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: false }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
           >
 
             <div className="bg-yellow-400 rounded-[20px] p-6 sm:p-8 shadow-lg max-w-md mx-auto lg:mx-0">
@@ -235,7 +235,7 @@ const HeroFormSection = () => {
             initial={{ opacity: 0, x: 100 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: false }}
-            transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
+            transition={{ duration: 0.4, ease: "easeOut", delay: 0.15 }}
           >
 
             {/* Book Display */}
@@ -324,7 +324,7 @@ const HeroFormSection = () => {
           initial={{ opacity: 0, y: -30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
         >
           <h2 className="font-['Poppins'] font-bold text-3xl sm:text-4xl lg:text-5xl text-gray-800 mb-4">
             Start Your <span className="text-yellow-400">Publishing</span> Journey

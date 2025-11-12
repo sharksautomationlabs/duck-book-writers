@@ -31,7 +31,7 @@ const NewReleases = () => {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.3 }}
         >
           <h2 className="font-['Poppins'] font-bold text-3xl sm:text-4xl lg:text-5xl text-gray-800 mb-3 sm:mb-4">
             New Releases
@@ -46,7 +46,7 @@ const NewReleases = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6, staggerChildren: 0.2 }}
+          transition={{ duration: 0.3, staggerChildren: 0.1 }}
         >
           {releases.map((book, index) => (
             <motion.div 
@@ -55,14 +55,14 @@ const NewReleases = () => {
               initial={{ opacity: 0, y: 30, scale: 0.95 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.2 }}
+              transition={{ duration: 0.25, delay: index * 0.1 }}
               whileHover={{ scale: 1.02 }}
             >
               {/* Book Image */}
               <motion.div 
                 className="flex-shrink-0 mx-auto sm:mx-0"
                 whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.15 }}
               >
                 <div className="w-32 h-44 sm:w-40 sm:h-56 lg:w-50 lg:h-68 rounded-lg overflow-hidden shadow-md">
                   <Image
@@ -83,7 +83,7 @@ const NewReleases = () => {
                   initial={{ opacity: 0, scale: 0.8 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: 0.3 + index * 0.2 }}
+                  transition={{ duration: 0.15, delay: 0.15 + index * 0.1 }}
                   whileHover={{ scale: 1.1 }}
                 >
                   New
@@ -95,7 +95,7 @@ const NewReleases = () => {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.4 + index * 0.2 }}
+                  transition={{ duration: 0.25, delay: 0.2 + index * 0.1 }}
                 >
                   {book.titleLine1} <br />
                   {book.titleLine2}
@@ -108,7 +108,7 @@ const NewReleases = () => {
                   initial={{ opacity: 0, y: 15 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.6 + index * 0.2 }}
+                  transition={{ duration: 0.25, delay: 0.3 + index * 0.1 }}
                 >
                   {book.description}
                 </motion.p>
@@ -120,7 +120,7 @@ const NewReleases = () => {
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.7 + index * 0.2 }}
+                    transition={{ duration: 0.25, delay: 0.35 + index * 0.1 }}
                     whileHover={{ x: 5 }}
                   >
                     <span className="font-['Poppins'] font-semibold text-[#ffbe02] text-sm sm:text-base">

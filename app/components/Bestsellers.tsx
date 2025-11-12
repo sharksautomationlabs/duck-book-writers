@@ -16,7 +16,6 @@ const Bestsellers = () => {
       image: "/images/judy-book1.jpg",
       imageWidth: 200,
       imageHeight: 300,
-      amazonLink: "https://www.amazon.in/dp/B0FQ2LTH5Y",
     },
     {
       title: "You Are Not Only One", 
@@ -24,7 +23,6 @@ const Bestsellers = () => {
       image: "/images/judy-book2.jpg",
       imageWidth: 200,
       imageHeight: 300,
-      amazonLink: "https://www.amazon.com/You-Are-Not-Only-One/dp/1304017710",
     },
     {
       title: "Reggie The Redbird & Talking Subway cars",
@@ -32,7 +30,6 @@ const Bestsellers = () => {
       image: "/images/judy-book3.jpg",
       imageWidth: 200,
       imageHeight: 300,
-      amazonLink: "https://www.amazon.com/Reggie-Redbird-Talking-Subway-Cars-ebook/dp/B0FXPDW2KQ/ref=sr_1_1?crid=33G34XQHFE4Q6&dib=eyJ2IjoiMSJ9.ZtTs5ClGCxsf2XQ-cNkfQw.ryPNjuqtFIm9Y3pWO6NlQxJWLAQQkOXLwlObTwKMUes&dib_tag=se&keywords=Reggie+The+Redbird+%26+Talking+Subway+car+by+Daniel+A+Alston&qid=1761936194&sprefix=%2Caps%2C329&sr=8-1",
     }
   ];
 
@@ -217,7 +214,7 @@ const Bestsellers = () => {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.3 }}
         >
           <div className="text-center sm:text-left">
             <motion.h2 
@@ -225,7 +222,7 @@ const Bestsellers = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              transition={{ duration: 0.25, delay: 0.1 }}
             >
               Recently Published
             </motion.h2>
@@ -234,7 +231,7 @@ const Bestsellers = () => {
               initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.3 }}
+              transition={{ duration: 0.25, delay: 0.15 }}
             >
               Explore books topping charts and winning hearts worldwide.
             </motion.p>
@@ -245,7 +242,7 @@ const Bestsellers = () => {
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.4 }}
+              transition={{ duration: 0.2, delay: 0.2 }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -259,7 +256,7 @@ const Bestsellers = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6, staggerChildren: 0.2 }}
+          transition={{ duration: 0.3, staggerChildren: 0.1 }}
         >
           {books.map((book, index) => (
             <motion.div 
@@ -271,7 +268,7 @@ const Bestsellers = () => {
               initial={{ opacity: 0, y: 30, scale: 0.95 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.2 }}
+              transition={{ duration: 0.25, delay: index * 0.1 }}
               whileHover={{ scale: 1.02 }}
             >
               {/* Book Image - Absolutely Positioned */}
@@ -280,7 +277,7 @@ const Bestsellers = () => {
                 initial={{ opacity: 0, y: -20, rotate: -5 }}
                 whileInView={{ opacity: 1, y: 0, rotate: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.3 + index * 0.2 }}
+                transition={{ duration: 0.25, delay: 0.15 + index * 0.1 }}
                 whileHover={{ scale: 1.05, rotate: 2 }}
               >
                 <Image
@@ -299,7 +296,7 @@ const Bestsellers = () => {
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.4 + index * 0.2 }}
+                transition={{ duration: 0.25, delay: 0.2 + index * 0.1 }}
               >
                 {/* Title */}
                 <motion.h3 
@@ -307,7 +304,7 @@ const Bestsellers = () => {
                   initial={{ opacity: 0, y: 15 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 0.5 + index * 0.2 }}
+                  transition={{ duration: 0.2, delay: 0.25 + index * 0.1 }}
                 >
                   {book.title}
                 </motion.h3>
@@ -318,7 +315,7 @@ const Bestsellers = () => {
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 0.6 + index * 0.2 }}
+                  transition={{ duration: 0.2, delay: 0.3 + index * 0.1 }}
                 >
                   by {book.author}
                 </motion.p>
@@ -329,7 +326,7 @@ const Bestsellers = () => {
                   initial={{ opacity: 0, scale: 0.8 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 0.6 + index * 0.2 }}
+                  transition={{ duration: 0.2, delay: 0.3 + index * 0.1 }}
                   whileHover={{ scale: 1.05 }}
                 >
                   <div className="flex items-center space-x-0.5">
@@ -342,31 +339,20 @@ const Bestsellers = () => {
                 </motion.div>
               </motion.div>
               
-              {/* Buy Now button - Repositioned and elongated */}
+              {/* View More button - Repositioned and elongated */}
               <motion.div 
                 className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6"
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.7 + index * 0.2 }}
+                transition={{ duration: 0.2, delay: 0.35 + index * 0.1 }}
               >
-                {book.amazonLink ? (
-                  <a 
-                    href={book.amazonLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full bg-[#ffbe02] hover:bg-yellow-500 text-black font-['Poppins'] font-semibold py-1 rounded-2xl text-sm sm:text-base shadow-lg shadow-yellow-300/50 hover-lift smooth-transition block text-center"
-                  >
-                    Buy Now
-                  </a>
-                ) : (
-                  <CalendlyWidget 
-                    url="https://calendly.com/contact-duckbookwriters/30min"
-                    text="Buy Now"
-                    size="sm"
-                    className="w-full bg-[#ffbe02] hover:bg-yellow-500 text-black font-['Poppins'] font-semibold py-1 rounded-2xl text-sm sm:text-base shadow-lg shadow-yellow-300/50 hover-lift smooth-transition"
-                  />
-                )}
+                <Link 
+                  href="/books"
+                  className="w-full bg-[#ffbe02] hover:bg-yellow-500 text-black font-['Poppins'] font-semibold py-1 rounded-2xl text-sm sm:text-base shadow-lg shadow-yellow-300/50 hover-lift smooth-transition block text-center"
+                >
+                  View More
+                </Link>
               </motion.div>
             </motion.div>
           ))}

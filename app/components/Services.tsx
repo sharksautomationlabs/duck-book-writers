@@ -156,7 +156,7 @@ const Services = () => {
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
               className="mb-8"
             >
               <motion.div
@@ -180,7 +180,7 @@ const Services = () => {
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+              transition={{ duration: 0.4, delay: 0.15, ease: "easeOut" }}
             >
               Our Services
             </motion.h1>
@@ -190,7 +190,7 @@ const Services = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
+              transition={{ duration: 0.4, delay: 0.25, ease: "easeOut" }}
             >
               Comprehensive Publishing Solutions for Every Author
             </motion.h2>
@@ -200,7 +200,7 @@ const Services = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.7, ease: "easeOut" }}
+              transition={{ duration: 0.4, delay: 0.35, ease: "easeOut" }}
             >
               From manuscript to bestseller, we provide end-to-end publishing services that bring your stories to life and connect them with readers worldwide.
             </motion.p>
@@ -209,7 +209,7 @@ const Services = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.9, ease: "easeOut" }}
+              transition={{ duration: 0.4, delay: 0.45, ease: "easeOut" }}
               className="flex justify-center items-center gap-4"
             >
               <motion.div
@@ -242,7 +242,7 @@ const Services = () => {
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
           >
             {services.map((service, index) => {
               const IconComponent = service.icon;
@@ -253,7 +253,7 @@ const Services = () => {
                   initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
-                  transition={{ duration: 0.6, delay: 0.1 * index }}
+                  transition={{ duration: 0.3, delay: 0.05 * index }}
                   whileHover={{ 
                     scale: 1.03,
                     y: -10,
@@ -274,7 +274,7 @@ const Services = () => {
                         rotate: [0, -5, 5, 0],
                         scale: 1.1
                       }}
-                      transition={{ duration: 0.5 }}
+                      transition={{ duration: 0.25 }}
                     >
                       <IconComponent className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-[#040404] transition-colors duration-300" />
                     </motion.div>
@@ -334,14 +334,14 @@ const Services = () => {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
           >
             <motion.h2 
               className="font-['Poppins'] font-semibold text-3xl sm:text-4xl lg:text-[48px] text-[#1A1A1A] mb-4"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.3, delay: 0.1 }}
             >
               Why Choose Duck Book Writers?
             </motion.h2>
@@ -350,7 +350,7 @@ const Services = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              transition={{ duration: 0.3, delay: 0.2 }}
             >
               We combine industry expertise with personalized service to deliver exceptional results for every author.
             </motion.p>
@@ -366,7 +366,7 @@ const Services = () => {
                   initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
-                  transition={{ duration: 0.6, delay: 0.1 * index, ease: "easeOut" }}
+                  transition={{ duration: 0.3, delay: 0.05 * index, ease: "easeOut" }}
                   whileHover={{ y: -10 }}
                 >
                   <motion.div 
@@ -417,14 +417,14 @@ const Services = () => {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
           >
             <motion.h2 
               className="font-['Poppins'] font-semibold text-3xl sm:text-4xl lg:text-[48px] text-[#1A1A1A] mb-4"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.3, delay: 0.1 }}
             >
               Our Publishing Process
             </motion.h2>
@@ -433,7 +433,7 @@ const Services = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              transition={{ duration: 0.3, delay: 0.2 }}
             >
               A streamlined 5-step process that takes your manuscript from concept to bestseller.
             </motion.p>
@@ -446,7 +446,7 @@ const Services = () => {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.5 }}
+              transition={{ duration: 0.25, delay: 0.25 }}
             >
               <motion.svg
                 width="100%"
@@ -504,7 +504,7 @@ const Services = () => {
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ 
-                  duration: 0.6, 
+                  duration: 0.3, 
                   delay: 0.8 + (index * 0.8), // Each step appears after the wave reaches it
                   ease: "easeOut" 
                 }}
@@ -520,7 +520,7 @@ const Services = () => {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 1 + (index * 0.8) }}
+                  transition={{ duration: 0.2, delay: 0.5 + (index * 0.4) }}
                 >
                   {step.title}
                 </motion.h3>
@@ -530,7 +530,7 @@ const Services = () => {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 1.2 + (index * 0.8) }}
+                  transition={{ duration: 0.2, delay: 0.6 + (index * 0.4) }}
                 >
                   {step.description}
                 </motion.p>
@@ -599,14 +599,14 @@ const Services = () => {
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
           >
             <motion.h2 
               className="font-['Poppins'] font-semibold text-[48px] text-[#1A1A1A] mb-6"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.3, delay: 0.1 }}
             >
               Ready to Publish Your Book?
             </motion.h2>
@@ -616,7 +616,7 @@ const Services = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              transition={{ duration: 0.3, delay: 0.2 }}
             >
               Join hundreds of successful authors who trust us with their stories. Let&apos;s bring your book to life together.
             </motion.p>
@@ -626,7 +626,7 @@ const Services = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.6 }}
+              transition={{ duration: 0.3, delay: 0.3 }}
             >
               <motion.div
                 className="flex items-center gap-2 text-[#6B6B6B] font-['Poppins'] text-sm"

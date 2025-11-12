@@ -16,7 +16,7 @@ const AnimatedSection = ({
   className = '', 
   delay = 0, 
   direction = 'up',
-  duration = 0.6 
+  duration = 0.3 
 }: AnimatedSectionProps) => {
   const directionVariants = {
     up: { y: 60, opacity: 0 },

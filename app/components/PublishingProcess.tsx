@@ -39,14 +39,14 @@ const PublishingProcess = () => {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
         >
           <motion.h2 
             className="font-['Poppins'] font-semibold text-3xl sm:text-4xl lg:text-[48px] text-[#1A1A1A] mb-4"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.15, delay: 0.05 }}
           >
             Our Publishing Process
           </motion.h2>
@@ -55,7 +55,7 @@ const PublishingProcess = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={{ duration: 0.15, delay: 0.1 }}
           >
             A streamlined 5-step process that takes your manuscript from concept to bestseller.
           </motion.p>
@@ -68,7 +68,7 @@ const PublishingProcess = () => {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.5 }}
+            transition={{ duration: 0.125, delay: 0.125 }}
           >
             <motion.svg
               width="100%"
@@ -126,8 +126,8 @@ const PublishingProcess = () => {
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ 
-                duration: 0.6, 
-                delay: 0.8 + (index * 0.8), // Each step appears after the wave reaches it
+                duration: 0.15, 
+                delay: 0.4 + (index * 0.4), // Each step appears after the wave reaches it
                 ease: "easeOut" 
               }}
             >
@@ -142,7 +142,7 @@ const PublishingProcess = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 1 + (index * 0.8) }}
+                transition={{ duration: 0.1, delay: 0.25 + (index * 0.2) }}
               >
                 {step.title}
               </motion.h3>
@@ -152,7 +152,7 @@ const PublishingProcess = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 1.2 + (index * 0.8) }}
+                transition={{ duration: 0.1, delay: 0.3 + (index * 0.2) }}
               >
                 {step.description}
               </motion.p>
