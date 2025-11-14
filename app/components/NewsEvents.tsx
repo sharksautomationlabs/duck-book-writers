@@ -281,6 +281,32 @@ const NewsEvents = () => {
     }
   };
 
+  // Helper function to parse date string and subtract days
+  const subtractDays = (dateString: string, days: number): string => {
+    // Parse date string (handles both "Month Day, Year" and "Month Day-Day, Year" formats)
+    const dateMatch = dateString.match(/(\w+)\s+(\d+)(?:-(\d+))?,\s+(\d+)/);
+    if (!dateMatch) return dateString;
+    
+    const [, month, startDay, endDay, year] = dateMatch;
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                       'July', 'August', 'September', 'October', 'November', 'December'];
+    const monthIndex = monthNames.indexOf(month);
+    
+    if (monthIndex === -1) return dateString;
+    
+    // Use start day for calculations
+    const day = parseInt(startDay);
+    const date = new Date(parseInt(year), monthIndex, day);
+    date.setDate(date.getDate() - days);
+    
+    const newMonth = monthNames[date.getMonth()];
+    const newDay = date.getDate();
+    const newYear = date.getFullYear();
+    
+    // Format as "Month Day, Year"
+    return `${newMonth} ${newDay}, ${newYear}`;
+  };
+
   // Helper function to parse event date and check if it's outdated
   const isEventOutdated = (dateString: string): boolean => {
     const today = new Date();
@@ -310,12 +336,12 @@ const NewsEvents = () => {
       id: 1,
       title: "2025 American Association of School Librarians",
       date: "October 16-18, 2025",
-      time: "9:00 AM - 6:00 PM",
       location: "St. Louis, MO",
       type: "Conference",
       description: "Join us at the American Association of School Librarians conference to showcase our educational publishing services and connect with school librarians nationwide.",
       attendees: "300+ School Librarians",
-      price: "Reg. Deadline: Sep 15, 2025",
+      price: "Reg. Deadline: Sep 10, 2025",
+      displayCopyDeadline: "Display Copy Deadline - Oct 11, 2025",
       image: "/images/aasl-conference.jpg",
       featured: true
     },
@@ -323,12 +349,12 @@ const NewsEvents = () => {
       id: 2,
       title: "2025 New York Library Association",
       date: "November 5-8, 2025",
-      time: "9:00 AM - 6:00 PM",
       location: "Saratoga Springs, NY",
       type: "Conference",
       description: "Join us at the New York Library Association conference to showcase our publishing services and connect with librarians and book industry professionals.",
       attendees: "500+ Librarians & Professionals",
-      price: "Reg. Deadline: Oct 10, 2025",
+      price: "Reg. Deadline: Oct 5, 2025",
+      displayCopyDeadline: "Display Copy Deadline - Oct 31, 2025",
       image: "/images/ny-library-conference.jpg",
       featured: true
     },
@@ -336,12 +362,12 @@ const NewsEvents = () => {
       id: 5,
       title: "2026 American Library Association Annual Conference",
       date: "June 26-29, 2026",
-      time: "9:00 AM - 6:00 PM",
       location: "Chicago, IL",
       type: "Conference",
       description: "Join us at the American Library Association Annual Conference to showcase our publishing services and connect with librarians nationwide.",
       attendees: "1000+ Librarians & Professionals",
-      price: "Reg. Deadline: May 22, 2026",
+      price: "Reg. Deadline: May 10, 2026",
+      displayCopyDeadline: "Display Copy Deadline - May 17, 2026",
       image: "/images/ala-conference.jpg",
       featured: true
     },
@@ -349,12 +375,12 @@ const NewsEvents = () => {
       id: 6,
       title: "2026 California Library Association",
       date: "October 21-23, 2026",
-      time: "9:00 AM - 6:00 PM",
       location: "Riverside, CA",
       type: "Conference",
       description: "Join us at the California Library Association conference to showcase our publishing services and connect with West Coast librarians.",
       attendees: "400+ Librarians & Professionals",
-      price: "Reg. Deadline: Sep 25, 2026",
+      price: "Reg. Deadline: Sep 13, 2026",
+      displayCopyDeadline: "Display Copy Deadline - Sep 20, 2026",
       image: "/images/california-library-conference.jpg",
       featured: true
     },
@@ -362,12 +388,12 @@ const NewsEvents = () => {
       id: 7,
       title: "2026 National Council Teachers of English",
       date: "November 20-23, 2026",
-      time: "9:00 AM - 6:00 PM",
       location: "Philadelphia, PA",
       type: "Conference",
       description: "Join us at the National Council Teachers of English conference to showcase our educational publishing services and connect with educators nationwide.",
       attendees: "400+ Teachers & Educators",
-      price: "Reg. Deadline: Oct 23, 2026",
+      price: "Reg. Deadline: Oct 18, 2026",
+      displayCopyDeadline: "Display Copy Deadline - Oct 25, 2026",
       image: "/images/ncte-2026-conference.jpg",
       featured: true
     },
@@ -659,7 +685,7 @@ const NewsEvents = () => {
                       </div>
                       <div className="flex items-center text-gray-600 group-hover:text-white group-active:text-white transition-colors duration-300">
                         <Clock className="w-4 h-4 mr-2" />
-                        <span className="text-sm">{event.time}</span>
+                        <span className="text-sm">{event.displayCopyDeadline}</span>
                       </div>
                       <div className="flex items-center text-gray-600 group-hover:text-white group-active:text-white transition-colors duration-300">
                         <MapPin className="w-4 h-4 mr-2" />
@@ -1255,7 +1281,7 @@ const NewsEvents = () => {
                   </div>
                   <div className="flex items-center text-gray-600 group-hover:text-white group-active:text-white transition-colors duration-300">
                     <Clock className="w-4 h-4 mr-2" />
-                    <span className="text-sm">{event.time}</span>
+                    <span className="text-sm">{event.displayCopyDeadline}</span>
                   </div>
                   <div className="flex items-center text-gray-600 group-hover:text-white group-active:text-white transition-colors duration-300">
                     <MapPin className="w-4 h-4 mr-2" />

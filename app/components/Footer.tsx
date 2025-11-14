@@ -64,7 +64,7 @@ const Footer: React.FC = () => {
         serviceId,
         templateId,
         {
-          to_email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'Contact@duckbookwriters.com',
+          to_email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'contact@duckbookwriters.com',
           from_name: formData.name,
           from_email: formData.email,
           contact_number: formData.contact || 'Not provided',
@@ -100,7 +100,7 @@ const Footer: React.FC = () => {
 
   const contactInfo: ContactInfo[] = [
     { icon: Phone, text: "+1 (469) 452-7618" },
-    { icon: Mail, text: "Contact@duckbookwriters.com" },
+    { icon: Mail, text: "contact@duckbookwriters.com" },
     { icon: MapPin, text: "22023 Rustic Canyon Ln, Richmond,\nTX 77469, USA" },
   ];
 
@@ -144,7 +144,7 @@ const Footer: React.FC = () => {
                           {item.text}
                         </a>
                       ) : index === 1 ? (
-                          <a href="mailto:Contact@duckbookwriters.com" className="font-['Poppins'] text-sm sm:text-base text-gray-600 hover:text-yellow-500 transition-colors duration-200 text-center lg:text-left">
+                          <a href="mailto:contact@duckbookwriters.com" className="font-['Poppins'] text-sm sm:text-base text-gray-600 hover:text-yellow-500 transition-colors duration-200 text-center lg:text-left">
                           {item.text}
                         </a>
                       ) : (

@@ -172,7 +172,7 @@ const Careers = () => {
                 </div>
                 <div>
                   <h3 className="font-['Poppins'] font-semibold text-lg text-[#1A1A1A]">Email</h3>
-                  <p className="font-['Poppins'] text-sm text-gray-600">Contact@duckbookwriters.com</p>
+                  <p className="font-['Poppins'] text-sm text-gray-600">contact@duckbookwriters.com</p>
                 </div>
               </motion.div>
 
@@ -207,7 +207,7 @@ const Careers = () => {
                 <h3 className="font-['Poppins'] font-bold text-xl text-black mb-2">Ready to Join Our Team?</h3>
                 <p className="font-['Poppins'] text-sm text-black/80 mb-4">Send us your resume and cover letter to get started!</p>
                 <a 
-                  href="https://mail.google.com/mail/?view=cm&fs=1&to=Contact@duckbookwriters.com&su=Job Application"
+                  href="https://mail.google.com/mail/?view=cm&fs=1&to=contact@duckbookwriters.com&su=Job Application"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-block bg-black text-white font-['Poppins'] font-semibold px-6 py-3 rounded-full hover:bg-gray-800 transition-colors duration-200"

@@ -48,9 +48,9 @@ const Header = () => {
                 <Image src="/images/phone-icon.svg" alt="Phone" width={16} height={16} className="filter brightness-0 invert" />
                 <span>+1 (469) 452-7618</span>
               </a>
-              <a href="mailto:Contact@duckbookwriters.com" className={`flex items-center gap-2 text-sm ${isHomePage ? 'text-white hover:text-yellow-300 drop-shadow-lg' : 'text-white hover:text-yellow-300'} transition-colors duration-200`}>
+              <a href="mailto:contact@duckbookwriters.com" className={`flex items-center gap-2 text-sm ${isHomePage ? 'text-white hover:text-yellow-300 drop-shadow-lg' : 'text-white hover:text-yellow-300'} transition-colors duration-200`}>
                 <Image src="/images/email-icon.svg" alt="Email" width={22} height={16} className="filter brightness-0 invert" />
-                <span>Contact@duckbookwriters.com</span>
+                <span>contact@duckbookwriters.com</span>
               </a>
             </div>
 
@@ -108,9 +108,9 @@ const Header = () => {
                   <Image src="/images/phone-icon.svg" alt="Phone" width={16} height={16} />
                   <span>+1 (469) 452-7618</span>
                 </a>
-                <a href="mailto:Contact@duckbookwriters.com" className="flex items-center justify-center gap-2 text-sm text-black hover:text-yellow-500 transition-colors duration-200">
+                <a href="mailto:contact@duckbookwriters.com" className="flex items-center justify-center gap-2 text-sm text-black hover:text-yellow-500 transition-colors duration-200">
                   <Image src="/images/email-icon.svg" alt="Email" width={22} height={16} />
-                  <span>Contact@duckbookwriters.com</span>
+                  <span>contact@duckbookwriters.com</span>
                 </a>
               </div>
 
