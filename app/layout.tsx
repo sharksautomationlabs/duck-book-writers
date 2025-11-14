@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import Script from "next/script";
 import FacebookPixel from "./components/FacebookPixel";
+import TawkTo from "./components/TawkTo";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -64,6 +65,7 @@ export default function RootLayout({
         className={`${poppins.variable} antialiased`}
       >
         <FacebookPixel />
+        <TawkTo />
         {children}
         <Script src="https://assets.calendly.com/assets/external/widget.js" strategy="lazyOnload" />   
         {/* added for calendly */}
