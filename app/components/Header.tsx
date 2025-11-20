@@ -44,9 +44,9 @@ const Header = () => {
           <div className={`hidden lg:flex flex-grow flex-col items-center mx-32 ${isHomePage ? 'bg-black/20 backdrop-blur-md border border-black/30 rounded-2xl px-8 py-4 shadow-lg' : 'bg-black/80 backdrop-blur-md border border-black/50 rounded-2xl px-8 py-4 shadow-lg'}`}>
             {/* Top Row: Contact Info */}
             <div className="flex items-center gap-24 mb-2">
-              <a href="tel:+14694527618" className={`flex items-center gap-2 text-sm ${isHomePage ? 'text-white hover:text-yellow-300 drop-shadow-lg' : 'text-white hover:text-yellow-300'} transition-colors duration-200`}>
+              <a href="tel:+13464637721" className={`flex items-center gap-2 text-sm ${isHomePage ? 'text-white hover:text-yellow-300 drop-shadow-lg' : 'text-white hover:text-yellow-300'} transition-colors duration-200`}>
                 <Image src="/images/phone-icon.svg" alt="Phone" width={16} height={16} className="filter brightness-0 invert" />
-                <span>+1 (469) 452-7618</span>
+                <span>+1 (346) 463-7721</span>
               </a>
               <a href="mailto:contact@duckbookwriters.com" className={`flex items-center gap-2 text-sm ${isHomePage ? 'text-white hover:text-yellow-300 drop-shadow-lg' : 'text-white hover:text-yellow-300'} transition-colors duration-200`}>
                 <Image src="/images/email-icon.svg" alt="Email" width={22} height={16} className="filter brightness-0 invert" />
@@ -104,9 +104,9 @@ const Header = () => {
             <div className="px-4 py-6 space-y-4 pt-8 text-center">
               {/* Mobile Contact Info */}
               <div className="space-y-3 pb-4 border-b border-black/20">
-                <a href="tel:+14694527618" className="flex items-center justify-center gap-2 text-sm text-black hover:text-yellow-500 transition-colors duration-200">
+                <a href="tel:+13464637721" className="flex items-center justify-center gap-2 text-sm text-black hover:text-yellow-500 transition-colors duration-200">
                   <Image src="/images/phone-icon.svg" alt="Phone" width={16} height={16} />
-                  <span>+1 (469) 452-7618</span>
+                  <span>+1 (346) 463-7721</span>
                 </a>
                 <a href="mailto:contact@duckbookwriters.com" className="flex items-center justify-center gap-2 text-sm text-black hover:text-yellow-500 transition-colors duration-200">
                   <Image src="/images/email-icon.svg" alt="Email" width={22} height={16} />

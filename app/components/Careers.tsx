@@ -153,7 +153,7 @@ const Careers = () => {
                 </div>
                 <div>
                   <h3 className="font-['Poppins'] font-semibold text-lg text-[#1A1A1A]">Phone</h3>
-                  <p className="font-['Poppins'] text-sm text-gray-600">+1 (469) 452-7618</p>
+                  <p className="font-['Poppins'] text-sm text-gray-600">+1 (346) 463-7721</p>
                 </div>
               </motion.div>
 

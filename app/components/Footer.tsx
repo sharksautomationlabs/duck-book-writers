@@ -99,7 +99,7 @@ const Footer: React.FC = () => {
   };
 
   const contactInfo: ContactInfo[] = [
-    { icon: Phone, text: "+1 (469) 452-7618" },
+    { icon: Phone, text: "+1 (346) 463-7721" },
     { icon: Mail, text: "contact@duckbookwriters.com" },
     { icon: MapPin, text: "22023 Rustic Canyon Ln, Richmond,\nTX 77469, USA" },
   ];
@@ -140,7 +140,7 @@ const Footer: React.FC = () => {
                       <div key={index} className="flex items-start gap-4 justify-center lg:justify-start">
                         <item.icon className="mt-1 flex-shrink-0 w-6 h-6 text-yellow-500" />
                       {index === 0 ? (
-                            <a href="tel:+14694527618" className="font-['Poppins'] text-sm sm:text-base text-gray-600 hover:text-yellow-500 transition-colors duration-200 text-center lg:text-left">
+                            <a href="tel:+13464637721" className="font-['Poppins'] text-sm sm:text-base text-gray-600 hover:text-yellow-500 transition-colors duration-200 text-center lg:text-left">
                           {item.text}
                         </a>
                       ) : index === 1 ? (
