@@ -12,6 +12,7 @@ import PublishingProcess from './components/PublishingProcess';
 import ReadyToPublish from './components/ReadyToPublish';
 import Authors from './components/Authors';
 import NewsEvents from './components/NewsEvents';
+import CalendlySection from './components/CalendlySection';
 import Footer from './components/Footer';
 import AnimatedSection from './components/AnimatedSection';
 
@@ -58,6 +59,9 @@ export default function Home() {
       </AnimatedSection>
       <AnimatedSection delay={1.2}>
         <NewsEvents />
+      </AnimatedSection>
+      <AnimatedSection delay={1.3}>
+        <CalendlySection />
       </AnimatedSection>
       <Footer />
     </main>

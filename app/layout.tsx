@@ -63,6 +63,7 @@ export default function RootLayout({
       </head>
       <body
         className={`${poppins.variable} antialiased`}
+        suppressHydrationWarning={true}
       >
         <FacebookPixel />
         <TawkTo />
