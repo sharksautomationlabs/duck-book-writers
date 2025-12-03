@@ -72,7 +72,7 @@ const Testimonials = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.3, delay: 0.2 }}
           >
-            Don't just take our word for it. Here's what our published authors have to say about working with us.
+            Don&apos;t just take our word for it. Here&apos;s what our published authors have to say about working with us.
           </motion.p>
         </motion.div>
 

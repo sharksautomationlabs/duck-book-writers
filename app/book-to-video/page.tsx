@@ -5,10 +5,10 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Testimonials from '../components/Testimonials';
 import Image from 'next/image';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  PlayCircle, ArrowRight, MoveRight, 
-  PenTool, MonitorPlay, Rocket, CheckCircle2, Sparkles,
+  PlayCircle, ArrowRight, 
+  MonitorPlay, Sparkles,
   Menu, Search, Mic, Bell, Share2, MoreVertical, ChevronLeft, ChevronRight, X
 } from 'lucide-react';
 
@@ -76,7 +76,7 @@ const VideoConversionServices = () => {
               </h3>
               <div className="w-10 sm:w-12 h-1 bg-[#FFBE02] mb-4 sm:mb-5 md:mb-6 rounded-full group-hover:w-20 sm:group-hover:w-24 transition-all duration-500"></div>
               <p className="text-sm sm:text-base text-zinc-600 leading-relaxed font-medium">
-                High-retention storytelling. We engineer scripts and visuals specifically to trigger YouTube's algorithm, turning your book's concepts into viral assets.
+                High-retention storytelling. We engineer scripts and visuals specifically to trigger YouTube&apos;s algorithm, turning your book&apos;s concepts into viral assets.
               </p>
             </div>
           </motion.div>
@@ -433,7 +433,7 @@ const YouTubeTVSection = () => {
 
   const extendedThumbnailList = [];
   for (let i = 0; i < 3; i++) {
-    extendedThumbnailList.push(...thumbnailList.map((thumb, idx) => ({ ...thumb, uniqueId: `${thumb.id}-${i}` })));
+    extendedThumbnailList.push(...thumbnailList.map((thumb) => ({ ...thumb, uniqueId: `${thumb.id}-${i}` })));
   }
 
   return (
@@ -799,8 +799,6 @@ const YouTubeTVSection = () => {
 };
 
 export default function BookToVideoPage() {
-  const [activeTab, setActiveTab] = useState<'long' | 'short'>('long');
-
   return (
     <div className="w-full bg-[#fafaf9] font-sans selection:bg-yellow-200 selection:text-yellow-900 overflow-x-hidden">
       <Header />
@@ -813,7 +811,7 @@ export default function BookToVideoPage() {
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="hidden lg:block absolute right-0 top-0 bottom-0 w-auto max-w-md xl:max-w-lg h-full pointer-events-none pr-8 xl:pr-16 flex items-center justify-end"
+          className="hidden lg:flex absolute right-0 top-0 bottom-0 w-auto max-w-md xl:max-w-lg h-full pointer-events-none pr-8 xl:pr-16 items-center justify-end"
         >
           <div className="relative w-full h-full flex items-center justify-end">
             <Image

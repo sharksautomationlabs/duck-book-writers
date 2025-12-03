@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useRef, useEffect, useState } from 'react';
-import Image from 'next/image';
+import React, { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 interface AmazonHeaderProps {
@@ -20,20 +19,19 @@ const AmazonHeader: React.FC<AmazonHeaderProps> = ({
   subtitleSize = 'text-lg lg:text-xl leading-relaxed opacity-90',
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isVideoInView, setIsVideoInView] = useState(false);
 
   useEffect(() => {
+    const currentVideo = videoRef.current;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setIsVideoInView(true);
-            if (videoRef.current) {
-              videoRef.current.play();
+            if (currentVideo) {
+              currentVideo.play();
             }
           } else {
-            if (videoRef.current) {
-              videoRef.current.pause();
+            if (currentVideo) {
+              currentVideo.pause();
             }
           }
         });
@@ -44,13 +42,13 @@ const AmazonHeader: React.FC<AmazonHeaderProps> = ({
       }
     );
 
-    if (videoRef.current) {
-      observer.observe(videoRef.current);
+    if (currentVideo) {
+      observer.observe(currentVideo);
     }
 
     return () => {
-      if (videoRef.current) {
-        observer.unobserve(videoRef.current);
+      if (currentVideo) {
+        observer.unobserve(currentVideo);
       }
     };
   }, []);
