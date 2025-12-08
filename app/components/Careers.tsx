@@ -23,14 +23,14 @@ const Careers = () => {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
-        <motion.div 
+        <motion.div
           className="text-center mb-16 sm:mb-20"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4, ease: "easeOut" }}
         >
-          <motion.h1 
+          <motion.h1
             className="font-['Poppins'] font-bold text-4xl sm:text-5xl lg:text-6xl xl:text-7xl text-[#1A1A1A] mb-6 sm:mb-8"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -39,15 +39,15 @@ const Careers = () => {
           >
             Join Our <span className="text-yellow-500">Creative</span> Team
           </motion.h1>
-          
-          <motion.p 
+
+          <motion.p
             className="font-['Poppins'] text-lg sm:text-xl lg:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.3, delay: 0.2 }}
           >
-            Be part of a dynamic publishing team that brings stories to life. 
+            Be part of a dynamic publishing team that brings stories to life.
             We&apos;re looking for passionate individuals who share our vision of transforming manuscripts into masterpieces.
           </motion.p>
         </motion.div>
@@ -55,7 +55,7 @@ const Careers = () => {
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left side - Content */}
-          <motion.div 
+          <motion.div
             className="relative flex justify-center lg:justify-start"
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -63,23 +63,23 @@ const Careers = () => {
             transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
           >
             <div className="text-center lg:text-left">
-              <motion.h2 
+              <motion.h2
                 className="font-['Poppins'] font-bold text-3xl sm:text-4xl lg:text-5xl text-[#1A1A1A] mb-6"
                 initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: 0.2 }}
-            >
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: 0.2 }}
+              >
                 Why Work With Us?
               </motion.h2>
-            
-            <motion.div 
+
+              <motion.div
                 className="space-y-4"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: 0.3 }}
-            >
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: 0.3 }}
+              >
                 <div className="flex items-center space-x-3">
                   <div className="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center">
                     <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -88,7 +88,7 @@ const Careers = () => {
                   </div>
                   <p className="font-['Poppins'] text-lg text-gray-700">Creative and collaborative environment</p>
                 </div>
-                
+
                 <div className="flex items-center space-x-3">
                   <div className="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center">
                     <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -97,7 +97,7 @@ const Careers = () => {
                   </div>
                   <p className="font-['Poppins'] text-lg text-gray-700">Opportunity to work with talented authors</p>
                 </div>
-                
+
                 <div className="flex items-center space-x-3">
                   <div className="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center">
                     <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -106,7 +106,7 @@ const Careers = () => {
                   </div>
                   <p className="font-['Poppins'] text-lg text-gray-700">Flexible working arrangements</p>
                 </div>
-                
+
                 <div className="flex items-center space-x-3">
                   <div className="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center">
                     <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -115,19 +115,19 @@ const Careers = () => {
                   </div>
                   <p className="font-['Poppins'] text-lg text-gray-700">Competitive benefits package</p>
                 </div>
-            </motion.div>
+              </motion.div>
             </div>
           </motion.div>
 
           {/* Right side - Contact Details */}
-          <motion.div 
+          <motion.div
             className="bg-white rounded-[15px] sm:rounded-[20px] p-4 sm:p-6 lg:p-8 shadow-lg"
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.4, delay: 0.2, ease: "easeOut" }}
           >
-            <motion.h2 
+            <motion.h2
               className="font-['Poppins'] font-semibold text-2xl sm:text-3xl lg:text-[32px] text-[#1A1A1A] mb-4 sm:mb-6"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -176,25 +176,6 @@ const Careers = () => {
                 </div>
               </motion.div>
 
-              {/* Location Contact */}
-              <motion.div
-                className="flex items-center space-x-4 p-4 bg-yellow-50 rounded-lg border border-yellow-200"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.25, delay: 0.45 }}
-              >
-                <div className="flex-shrink-0 w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center">
-                  <svg className="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="font-['Poppins'] font-semibold text-lg text-[#1A1A1A]">Address</h3>
-                  <p className="font-['Poppins'] text-sm text-gray-600">22023 Rustic Canyon Ln, Richmond,<br />TX 77469, USA</p>
-                </div>
-              </motion.div>
 
               {/* Call to Action */}
               <motion.div
@@ -206,7 +187,7 @@ const Careers = () => {
               >
                 <h3 className="font-['Poppins'] font-bold text-xl text-black mb-2">Ready to Join Our Team?</h3>
                 <p className="font-['Poppins'] text-sm text-black/80 mb-4">Send us your resume and cover letter to get started!</p>
-                <a 
+                <a
                   href="https://mail.google.com/mail/?view=cm&fs=1&to=contact@duckbookwriters.com&su=Job Application"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -214,7 +195,7 @@ const Careers = () => {
                 >
                   Apply Now
                 </a>
-                </motion.div>
+              </motion.div>
             </div>
           </motion.div>
         </div>

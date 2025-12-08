@@ -172,7 +172,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Duck Book Writers**
 - Phone: +1 (346) 463-7721
 - Email: contact@duckbookwriters.com
-- Address: 22023 Rustic Canyon Ln, Richmond, TX 77469, USA
 
 ## 🙏 Acknowledgments
 

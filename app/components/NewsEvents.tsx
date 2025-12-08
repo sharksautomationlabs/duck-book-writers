@@ -109,13 +109,13 @@ const NewsEvents = () => {
       }
     `;
     document.head.appendChild(style);
-    
+
     return () => {
       document.head.removeChild(style);
     };
   }, []);
-  
-  
+
+
   // Registration form state
   const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -184,12 +184,12 @@ const NewsEvents = () => {
       if (registrationData.ebookFile) {
         const manuscriptFormData = new FormData();
         manuscriptFormData.append('file', registrationData.ebookFile);
-        
+
         const manuscriptResponse = await fetch('/api/upload', {
           method: 'POST',
           body: manuscriptFormData,
         });
-        
+
         if (manuscriptResponse.ok) {
           const manuscriptResult = await manuscriptResponse.json();
           manuscriptFileName = manuscriptResult.filename;
@@ -199,12 +199,12 @@ const NewsEvents = () => {
       if (registrationData.bookCoverFile) {
         const bookCoverFormData = new FormData();
         bookCoverFormData.append('file', registrationData.bookCoverFile);
-        
+
         const bookCoverResponse = await fetch('/api/upload', {
           method: 'POST',
           body: bookCoverFormData,
         });
-        
+
         if (bookCoverResponse.ok) {
           const bookCoverResult = await bookCoverResponse.json();
           bookCoverFileName = bookCoverResult.filename;
@@ -246,7 +246,7 @@ const NewsEvents = () => {
       }
 
       setSubmitStatus('success');
-      
+
       // Reset form after successful submission
       setTimeout(() => {
         setRegistrationData({
@@ -286,23 +286,23 @@ const NewsEvents = () => {
     // Parse date string (handles both "Month Day, Year" and "Month Day-Day, Year" formats)
     const dateMatch = dateString.match(/(\w+)\s+(\d+)(?:-(\d+))?,\s+(\d+)/);
     if (!dateMatch) return dateString;
-    
+
     const [, month, startDay, endDay, year] = dateMatch;
-    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
-                       'July', 'August', 'September', 'October', 'November', 'December'];
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'];
     const monthIndex = monthNames.indexOf(month);
-    
+
     if (monthIndex === -1) return dateString;
-    
+
     // Use start day for calculations
     const day = parseInt(startDay);
     const date = new Date(parseInt(year), monthIndex, day);
     date.setDate(date.getDate() - days);
-    
+
     const newMonth = monthNames[date.getMonth()];
     const newDay = date.getDate();
     const newYear = date.getFullYear();
-    
+
     // Format as "Month Day, Year"
     return `${newMonth} ${newDay}, ${newYear}`;
   };
@@ -311,23 +311,23 @@ const NewsEvents = () => {
   const isEventOutdated = (dateString: string): boolean => {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Reset time to start of day for accurate comparison
-    
+
     // Parse date string (handles both "Month Day, Year" and "Month Day-Day, Year" formats)
     const dateMatch = dateString.match(/(\w+)\s+(\d+)(?:-(\d+))?,\s+(\d+)/);
     if (!dateMatch) return false;
-    
+
     const [, month, startDay, endDay, year] = dateMatch;
-    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
-                       'July', 'August', 'September', 'October', 'November', 'December'];
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'];
     const monthIndex = monthNames.indexOf(month);
-    
+
     if (monthIndex === -1) return false;
-    
+
     // Use end day if it's a date range, otherwise use start day
     const day = endDay ? parseInt(endDay) : parseInt(startDay);
     const eventDate = new Date(parseInt(year), monthIndex, day);
     eventDate.setHours(23, 59, 59, 999); // Set to end of day
-    
+
     return eventDate < today;
   };
 
@@ -409,7 +409,7 @@ const NewsEvents = () => {
     const checkScreenSize = () => {
       return window.innerWidth < 768; // md breakpoint
     };
-    
+
     const isMobile = checkScreenSize();
     if (!isMobile) {
       // On desktop, ensure no mobile effects are active and return early
@@ -427,22 +427,22 @@ const NewsEvents = () => {
     let hoverTimeout: NodeJS.Timeout;
     let observer: IntersectionObserver;
     let handleScroll: () => void;
-    
+
     const timer = setTimeout(() => {
       const cards = document.querySelectorAll('.event-card');
-      
+
       observer = new IntersectionObserver(
         (entries) => {
           // Only run on mobile devices
           if (!checkScreenSize()) return;
-          
+
           entries.forEach((entry) => {
             const target = entry.target as HTMLElement;
-            
+
             if (entry.isIntersecting) {
               // Clear any existing timeout
               if (hoverTimeout) clearTimeout(hoverTimeout);
-              
+
               // Remove hover from all other cards first
               cards.forEach((card) => {
                 if (card !== target) {
@@ -452,7 +452,7 @@ const NewsEvents = () => {
                   cardElement.style.background = 'linear-gradient(to top, black 0%, black 0%, white 0%, white 100%)';
                 }
               });
-              
+
               // Add hover effect to current card after delay
               hoverTimeout = setTimeout(() => {
                 // Trigger the same hover effect as desktop
@@ -460,7 +460,7 @@ const NewsEvents = () => {
                 target.style.animation = 'movingGlow 2s ease-in-out infinite';
                 target.style.background = 'linear-gradient(to top, #fbbf24 0%, #fbbf24 100%, white 0%, white 0%)';
               }, 800); // 800ms delay before showing hover effect
-              
+
             } else {
               // Card is out of view - reset to normal
               clearTimeout(hoverTimeout);
@@ -482,17 +482,17 @@ const NewsEvents = () => {
       handleScroll = () => {
         // Only run on mobile devices
         if (!checkScreenSize()) return;
-        
+
         cards.forEach((card) => {
           const cardElement = card as HTMLElement;
           const rect = cardElement.getBoundingClientRect();
           const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
           const isInFocus = rect.top < window.innerHeight * 0.7 && rect.bottom > window.innerHeight * 0.3;
-          
+
           if (isVisible && isInFocus) {
             // This card should have hover effect
             clearTimeout(hoverTimeout);
-            
+
             // Remove hover from all other cards
             cards.forEach((otherCard) => {
               if (otherCard !== card) {
@@ -502,7 +502,7 @@ const NewsEvents = () => {
                 otherElement.style.background = 'linear-gradient(to top, black 0%, black 0%, white 0%, white 100%)';
               }
             });
-            
+
             // Add hover to current card
             hoverTimeout = setTimeout(() => {
               cardElement.classList.add('group-touch');
@@ -515,7 +515,7 @@ const NewsEvents = () => {
 
       // Add scroll listener as fallback
       window.addEventListener('scroll', handleScroll, { passive: true });
-      
+
       // Initial check
       handleScroll();
 
@@ -605,7 +605,7 @@ const NewsEvents = () => {
       <section className="relative py-12 sm:py-16 lg:py-20 bg-gradient-to-br from-gray-50 to-white">
         <div className="max-w-[1920px] mx-auto px-4 sm:px-8 lg:px-16 xl:px-24 2xl:px-32">
           {/* Header */}
-          <motion.div 
+          <motion.div
             className="text-center mb-12 sm:mb-16"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -628,9 +628,8 @@ const NewsEvents = () => {
               {upcomingEvents.map((event, index) => (
                 <motion.div
                   key={event.id}
-                  className={`group event-card bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 flex flex-col h-full relative ${
-                    event.featured ? 'ring-2 ring-yellow-400' : ''
-                  }`}
+                  className={`group event-card bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 flex flex-col h-full relative ${event.featured ? 'ring-2 ring-yellow-400' : ''
+                    }`}
                   style={{
                     background: 'linear-gradient(to top, black 0%, black 0%, white 0%, white 100%)',
                     transition: 'background 0.3s ease-in-out'
@@ -665,14 +664,14 @@ const NewsEvents = () => {
                       FEATURED EVENT
                     </div>
                   )}
-                  
+
                   <div className="p-4 sm:p-6 flex flex-col h-full">
-                      <div className="flex items-center justify-start mb-4">
-                        <div className="text-left">
-                            <div className="text-sm text-gray-500 group-hover:text-white group-active:text-white transition-colors duration-300">{event.attendees}</div>
-                            <div className="font-bold text-yellow-600 group-hover:text-white group-active:text-white transition-colors duration-300">{event.price}</div>
-                        </div>
+                    <div className="flex items-center justify-start mb-4">
+                      <div className="text-left">
+                        <div className="text-sm text-gray-500 group-hover:text-white group-active:text-white transition-colors duration-300">{event.attendees}</div>
+                        <div className="font-bold text-yellow-600 group-hover:text-white group-active:text-white transition-colors duration-300">{event.price}</div>
                       </div>
+                    </div>
 
                     <h3 className="font-['Poppins'] font-bold text-lg sm:text-xl text-black group-hover:text-white group-active:text-white mb-3 line-clamp-2 transition-colors duration-300">
                       {event.title}
@@ -698,7 +697,7 @@ const NewsEvents = () => {
                     </p>
 
                     <div className="mt-auto">
-                      <button 
+                      <button
                         onClick={() => handleRegistrationClick(event)}
                         className="w-full bg-yellow-400 group-hover:bg-white group-hover:text-black group-active:bg-white group-active:text-black text-black font-['Poppins'] font-semibold py-2 px-4 rounded-lg transition-colors duration-300 text-sm sm:text-base"
                       >
@@ -729,7 +728,7 @@ const NewsEvents = () => {
                   <div className="h-48 bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center">
                     <BookOpen className="w-16 h-16 text-white" />
                   </div>
-                  
+
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-3">
                       <span className="bg-yellow-100 text-yellow-600 px-3 py-1 rounded-full text-sm font-medium">
@@ -1024,11 +1023,10 @@ const NewsEvents = () => {
                         key={star}
                         type="button"
                         onClick={() => handleStarRating(star)}
-                        className={`transition-all duration-300 transform hover:scale-110 active:scale-95 ${
-                          star <= registrationData.bookReviews
+                        className={`transition-all duration-300 transform hover:scale-110 active:scale-95 ${star <= registrationData.bookReviews
                             ? 'text-black'
                             : 'text-white group-hover:text-white'
-                        }`}
+                          }`}
                       >
                         <span className="text-2xl">
                           ★
@@ -1047,11 +1045,10 @@ const NewsEvents = () => {
                             {[...Array(5)].map((_, i) => (
                               <span
                                 key={i}
-                                className={`text-sm ${
-                                  i < registrationData.bookReviews
+                                className={`text-sm ${i < registrationData.bookReviews
                                     ? 'text-yellow-400'
                                     : 'text-gray-300'
-                                }`}
+                                  }`}
                               >
                                 ★
                               </span>
@@ -1158,7 +1155,7 @@ const NewsEvents = () => {
       </section>
     );
   }
-  
+
   return (
     <section className="relative py-12 sm:py-16 lg:py-20 bg-white">
       {/* Background image */}
@@ -1204,7 +1201,7 @@ const NewsEvents = () => {
               <div className="h-48 bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center">
                 <BookOpen className="w-16 h-16 text-white" />
               </div>
-              
+
               <div className="p-6">
                 <div className="flex items-center justify-between mb-3">
                   <span className="bg-yellow-100 text-yellow-600 px-3 py-1 rounded-full text-sm font-medium">
@@ -1261,7 +1258,7 @@ const NewsEvents = () => {
                   FEATURED EVENT
                 </div>
               )}
-              
+
               <div className="p-4 sm:p-6 flex flex-col h-full">
                 <div className="flex items-center justify-start mb-4">
                   <div className="text-left">
@@ -1294,7 +1291,7 @@ const NewsEvents = () => {
                 </p>
 
                 <div className="mt-auto">
-                  <button 
+                  <button
                     onClick={() => handleRegistrationClick(event)}
                     className="w-full bg-yellow-400 group-hover:bg-white group-hover:text-black group-active:bg-white group-active:text-black text-black font-['Poppins'] font-semibold py-2 px-4 rounded-lg transition-colors duration-300 text-sm sm:text-base"
                   >

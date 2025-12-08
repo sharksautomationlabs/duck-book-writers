@@ -54,7 +54,7 @@ const Footer: React.FC = () => {
       const formatProjectValue = (value: string) => {
         if (!value) return 'Not specified';
         // Capitalize first letter of each word
-        return value.split(' ').map(word => 
+        return value.split(' ').map(word =>
           word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
         ).join(' ');
       };
@@ -77,7 +77,7 @@ const Footer: React.FC = () => {
       console.log('Email sent successfully:', result);
 
       setSubmitStatus('success');
-      
+
       // Reset form after successful submission
       setTimeout(() => {
         setFormData({
@@ -101,7 +101,6 @@ const Footer: React.FC = () => {
   const contactInfo: ContactInfo[] = [
     { icon: Phone, text: "+1 (346) 463-7721" },
     { icon: Mail, text: "contact@duckbookwriters.com" },
-    { icon: MapPin, text: "22023 Rustic Canyon Ln, Richmond,\nTX 77469, USA" },
   ];
 
   const socialLinks: SocialLink[] = [
@@ -115,7 +114,7 @@ const Footer: React.FC = () => {
     <>
       <footer className="relative mt-16 sm:mt-20 lg:mt-24 mb-4">
         <div className="relative max-w-screen-2xl mx-auto px-4">
-          
+
           {/* DIV 1: Main Content (Logo, Details, Nav) */}
           <div className="relative bg-[#F8F9FA] rounded-[20px] sm:rounded-[30px] lg:rounded-[40px] z-10">
 
@@ -132,27 +131,27 @@ const Footer: React.FC = () => {
                       height={80}
                       className="w-40 sm:w-48 lg:w-52 h-auto"
                     />
-            </div>
+                  </div>
 
                   {/* Contact Info */}
                   <div className="space-y-4 sm:space-y-5 w-full">
-                  {contactInfo.map((item, index) => (
+                    {contactInfo.map((item, index) => (
                       <div key={index} className="flex items-start gap-4 justify-center lg:justify-start">
                         <item.icon className="mt-1 flex-shrink-0 w-6 h-6 text-yellow-500" />
-                      {index === 0 ? (
-                            <a href="tel:+13464637721" className="font-['Poppins'] text-sm sm:text-base text-gray-600 hover:text-yellow-500 transition-colors duration-200 text-center lg:text-left">
-                          {item.text}
-                        </a>
-                      ) : index === 1 ? (
+                        {index === 0 ? (
+                          <a href="tel:+13464637721" className="font-['Poppins'] text-sm sm:text-base text-gray-600 hover:text-yellow-500 transition-colors duration-200 text-center lg:text-left">
+                            {item.text}
+                          </a>
+                        ) : index === 1 ? (
                           <a href="mailto:contact@duckbookwriters.com" className="font-['Poppins'] text-sm sm:text-base text-gray-600 hover:text-yellow-500 transition-colors duration-200 text-center lg:text-left">
-                          {item.text}
-                        </a>
-                      ) : (
+                            {item.text}
+                          </a>
+                        ) : (
                           <p className="font-['Poppins'] text-sm sm:text-base text-gray-600 whitespace-pre-line text-center lg:text-left">{item.text}</p>
-                      )}
-                    </div>
-                  ))}
-                </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
 
                   {/* Social Media Links */}
                   <div className="mt-6 sm:mt-8 w-full">
@@ -254,8 +253,8 @@ const Footer: React.FC = () => {
                         onChange={handleInputChange}
                         required
                         className="w-full px-3 py-2 border border-gray-300 rounded-[8px] font-['Poppins'] text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#ffbe02] focus:border-transparent transition-all duration-200 appearance-none bg-white"
-                        style={{ 
-                          position: 'relative', 
+                        style={{
+                          position: 'relative',
                           zIndex: 10,
                           backgroundImage: 'url("data:image/svg+xml,%3csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3e%3cpath stroke=\'%236b7280\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'m6 8 4 4 4-4\'/%3e%3c/svg%3e")',
                           backgroundPosition: 'right 0.5rem center',
@@ -286,8 +285,8 @@ const Footer: React.FC = () => {
                         value={formData.budget}
                         onChange={handleInputChange}
                         className="w-full px-3 py-2 border border-gray-300 rounded-[8px] font-['Poppins'] text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#ffbe02] focus:border-transparent transition-all duration-200 appearance-none bg-white"
-                        style={{ 
-                          position: 'relative', 
+                        style={{
+                          position: 'relative',
                           zIndex: 10,
                           backgroundImage: 'url("data:image/svg+xml,%3csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3e%3cpath stroke=\'%236b7280\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'m6 8 4 4 4-4\'/%3e%3c/svg%3e")',
                           backgroundPosition: 'right 0.5rem center',
@@ -342,17 +341,17 @@ const Footer: React.FC = () => {
               {/* Links - centered on mobile, right aligned on desktop */}
               <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 sm:ml-auto sm:justify-end w-full sm:w-auto text-center sm:text-left">
                 <Link href="#" className="flex items-center gap-2 font-['Poppins'] text-xs sm:text-sm text-gray-600 hover:text-yellow-500 transition-colors duration-200">
-                    Privacy Policy
-                    <ChevronRight className="text-yellow-500 w-3 h-3 sm:w-4 sm:h-4" />
-                  </Link>
+                  Privacy Policy
+                  <ChevronRight className="text-yellow-500 w-3 h-3 sm:w-4 sm:h-4" />
+                </Link>
                 <Link href="#" className="flex items-center gap-2 font-['Poppins'] text-xs sm:text-sm text-gray-600 hover:text-yellow-500 transition-colors duration-200">
                   Terms of Service
-                    <ChevronRight className="text-yellow-500 w-3 h-3 sm:w-4 sm:h-4" />
-                  </Link>
+                  <ChevronRight className="text-yellow-500 w-3 h-3 sm:w-4 sm:h-4" />
+                </Link>
                 <Link href="#" className="flex items-center gap-2 font-['Poppins'] text-xs sm:text-sm text-gray-600 hover:text-yellow-500 transition-colors duration-200">
                   Cookie Policy
                   <ChevronRight className="text-yellow-500 w-3 h-3 sm:w-4 sm:h-4" />
-                      </Link>
+                </Link>
               </div>
 
             </div>
@@ -361,7 +360,7 @@ const Footer: React.FC = () => {
           {/* DIV 3: Copyright Bar */}
           <div className="bg-[#ffbe02] rounded-[20px] sm:rounded-[30px] lg:rounded-[40px] mt-2 py-1 text-center">
             <p className="font-['Poppins'] text-[10px] sm:text-xs text-gray-800 font-medium">
-             A Project of ECOMMERCE SHARKS LLC |  © 2025 Duck Book Writers. All Rights Reserved.
+              A Project of ECOMMERCE SHARKS LLC |  © 2025 Duck Book Writers. All Rights Reserved.
             </p>
           </div>
 
