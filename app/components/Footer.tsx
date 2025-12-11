@@ -104,9 +104,9 @@ const Footer: React.FC = () => {
   ];
 
   const socialLinks: SocialLink[] = [
-    { icon: "/images/facebook.png", alt: "Facebook", href: "https://www.facebook.com/share/1C6vAB9LkC/" },
-    { icon: "/images/instagram.svg", alt: "Instagram", href: "https://www.instagram.com/duckbookwriters?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" },
-    { icon: "/images/linkedin.png", alt: "LinkedIn", href: "https://www.linkedin.com/posts/duckbookwriters_bookwriter-bookwriters-book-activity-7369508314637914113-K3AA?utm_source=share&utm_medium=member_android&rcm=ACoAAES1QwQBkN7cj2uiSK3N8zIARlbIo_Z4iiU" },
+    { icon: "/images/facebook.png", alt: "Facebook", href: "https://www.facebook.com/duckbookwriters" },
+    { icon: "/images/instagram.svg", alt: "Instagram", href: "https://www.instagram.com/duckbookwriters/" },
+    { icon: "/images/linkedin.png", alt: "LinkedIn", href: "https://www.linkedin.com/company/duckbookwriters?trk=public_post_feed-actor-image" },
     // { icon: "/images/x.png", alt: "X", href: "#" },
   ];
 
