@@ -165,3 +165,29 @@ html {
 .animate-marquee:hover {
   animation-play-state: paused;
 }
+
+/* Calendly iframe responsive fix: ensure inline widget fills its container and isn't clipped */
+/* Calendly inline widget - ensure it fills the container and removes internal margins */
+#calendly-inline-embed .calendly-inline-widget,
+#calendly-inline-embed iframe,
+#calendly-inline-widget .calendly-inline-widget,
+#calendly-inline-widget iframe {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* Fallback if Calendly injects a fixed pixel height element: respect container min-height */
+#calendly-inline-embed,
+#calendly-inline-widget {
+  min-height: 760px;
+}
+
+.bg-white.rounded-\[20px\].sm\:rounded-\[30px\].shadow-xl.p-2.sm\:p-6.lg\:p-8.overflow-hidden {
+    height: 840px !important;
+    padding: 0;
+}

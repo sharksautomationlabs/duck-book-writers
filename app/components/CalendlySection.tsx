@@ -7,6 +7,7 @@ const CalendlySection = () => {
   const [isCalendlyLoaded, setIsCalendlyLoaded] = useState(false);
 
   useEffect(() => {
+    let resizeHandler: (() => void) | null = null;
     const initCalendlyWidget = () => {
       const widgetElement = document.getElementById('calendly-inline-embed');
       if ((window as any).Calendly && widgetElement && !widgetElement.hasChildNodes()) {
@@ -17,6 +18,29 @@ const CalendlySection = () => {
             prefill: {},
             utm: {}
           });
+
+          // Ensure the injected iframe fills the wrapper and doesn't produce an inner scrollbar.
+          setTimeout(() => {
+            const iframe = widgetElement.querySelector('iframe') as HTMLIFrameElement | null;
+            const setHeights = () => {
+              let h = 1250;
+              const w = window.innerWidth;
+              if (w < 640) h = 900;
+              else if (w < 1024) h = 1100;
+              else h = 1250;
+              widgetElement.style.height = `${h}px`;
+              if (iframe) {
+                iframe.style.height = '100%';
+                iframe.style.minHeight = `${h}px`;
+                iframe.style.width = '100%';
+                iframe.style.border = '0';
+                iframe.style.overflow = 'hidden';
+              }
+            };
+            setHeights();
+            resizeHandler = () => setHeights();
+            window.addEventListener('resize', resizeHandler);
+          }, 300);
         } catch (error) {
           console.error('Error initializing Calendly widget:', error);
         }
@@ -48,6 +72,7 @@ const CalendlySection = () => {
     return () => {
       clearInterval(checkCalendly);
       clearTimeout(timeout);
+      if (resizeHandler) window.removeEventListener('resize', resizeHandler);
     };
   }, []);
 
@@ -99,9 +124,9 @@ const CalendlySection = () => {
           </motion.p>
         </motion.div>
 
-        {/* Calendly Inline Widget */}
+       {/* Calendly Inline Widget */}
         <motion.div 
-          className="bg-white rounded-[20px] sm:rounded-[30px] shadow-xl p-4 sm:p-6 lg:p-8 overflow-hidden"
+          className="bg-white rounded-[20px] sm:rounded-[30px] shadow-xl p-2 sm:p-6 lg:p-8 overflow-hidden" // Changed overflow-visible to overflow-hidden
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -109,8 +134,9 @@ const CalendlySection = () => {
         >
           <div 
             id="calendly-inline-embed" 
-            className="w-full min-h-[600px] sm:min-h-[700px] lg:min-h-[800px]"
-            style={{ minWidth: '320px', height: '100%' }}
+            // Yahan maine height values badha di hain (1100px - 1250px)
+            className="w-full min-h-[1000px] sm:min-h-[1100px] lg:min-h-[1250px] h-auto overflow-hidden"
+            style={{ minWidth: '320px' }}
           />
         </motion.div>
       </div>
