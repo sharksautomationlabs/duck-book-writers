@@ -6,15 +6,21 @@ const BASE_URL = 'https://www.duckbookwriters.com';
 const YOUTUBE_BANNER_IMG = `${BASE_URL}/images/signature-1.png`;
 const DUCK_LOGO_IMG = `${BASE_URL}/images/signature-2.png`;
 
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT) || 465,
-  secure: true,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
+function getTransporter() {
+  const host = process.env.SMTP_HOST || 'mail.duckbookwriters.com';
+  const port = Number(process.env.SMTP_PORT) || 465;
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASS;
+
+  return nodemailer.createTransport({
+    host,
+    port,
+    secure: true,
+    auth: { user, pass },
+    tls: { rejectUnauthorized: false },
+    connectionTimeout: 10000,
+  });
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -39,8 +45,10 @@ export async function POST(request: NextRequest) {
     }
 
     if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-      console.error('Missing SMTP_USER or SMTP_PASS');
-      return NextResponse.json({ result: 'Error: Email service not configured.' });
+      console.error('Missing SMTP_USER or SMTP_PASS - add to Vercel Environment Variables');
+      return NextResponse.json({
+        result: 'Error: Email service not configured. Add SMTP_USER and SMTP_PASS to Vercel Environment Variables.',
+      }, { status: 200 });
     }
 
     const firstName = (client_name || 'there').split(' ')[0];
@@ -128,6 +136,7 @@ export async function POST(request: NextRequest) {
       </div>
     `;
 
+    const transporter = getTransporter();
     const info = await transporter.sendMail({
       from: `"Aly Reed - Duck Book Writers" <${CONTACT_EMAIL}>`,
       to: to,
@@ -140,8 +149,13 @@ export async function POST(request: NextRequest) {
       result: `Confirmation email has been successfully sent to ${to}. The email includes the Book to YouTube pitch, their project details, a Calendly booking link, and contact info for Aly Reed.`,
     });
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : 'Unknown error';
-    console.error('Send email webhook error:', message);
-    return NextResponse.json({ result: `Error sending email: ${message}` });
+    const err = error instanceof Error ? error : new Error('Unknown error');
+    const message = err.message;
+    const stack = err instanceof Error ? err.stack : '';
+    console.error('Send email webhook error:', message, stack);
+    return NextResponse.json(
+      { result: `Error sending email: ${message}` },
+      { status: 200 }
+    );
   }
 }
