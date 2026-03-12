@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
-import { CONTACT_EMAIL, CALENDLY_LINK } from '../../config/constants';
+import { CONTACT_EMAIL, CALENDLY_LINK } from '../../../config/constants';
 
 const BASE_URL = 'https://www.duckbookwriters.com';
 const YOUTUBE_BANNER_IMG = `${BASE_URL}/images/signature-1.png`;
