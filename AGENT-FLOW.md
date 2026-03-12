@@ -115,12 +115,13 @@ call_source      → "contact_form"
 1. Go to **Calendly Developer Portal** → Webhook Subscriptions
 2. Create webhook pointing to: `https://www.duckbookwriters.com/api/webhooks/calendly`
 3. Subscribe to event: `invitee.created`
-4. Add a **Phone Number** question in Calendly event type (required)
+4. Add a **Phone Number** question in your Calendly event type (required so we can call the invitee)
+5. **Vercel env:** Set `CALENDLY_API_TOKEN` (Calendly Personal Access Token, user or organization scope). The webhook payload only contains invitee/event URIs; we fetch name, email, and questions (including phone) from the Calendly API.
 
 **What happens on booking:**
 
-1. Calendly sends webhook to `/api/webhooks/calendly`
-2. Code extracts: name, email, phone from the invitee payload
+1. Calendly sends webhook to `/api/webhooks/calendly` (payload has `invitee.uri`, not full details)
+2. Code fetches invitee from Calendly API using `invitee.uri` and `CALENDLY_API_TOKEN`, then extracts name, email, phone
 3. Phone is found from: `phone_number` field, `questions_and_answers`, or `text_reminder_number`
 4. If phone found → Retell AI creates outbound call
 5. Agent receives `call_source: "calendly"`
@@ -159,7 +160,7 @@ call_source      → "calendly"
 | Model | GPT-4.1 |
 | Language | en-US |
 | Interruption Sensitivity | 0.85 |
-| Max Call Duration | 60 minutes |
+| Max Call Duration | **5 minutes** (agent keeps flow short; voicemail → immediate hangup — see agent prompt) |
 | Agent Starts Speaking | Yes (agent initiates) |
 
 ---

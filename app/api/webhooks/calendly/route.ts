@@ -2,6 +2,29 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const RETELL_API_URL = 'https://api.retellai.com/v2/create-phone-call';
 
+/** Fetch full invitee (name, email, questions_and_answers) from Calendly API when payload only has invitee.uri */
+async function fetchInviteeFromUri(inviteeUri: string): Promise<Record<string, unknown> | null> {
+  const token = process.env.CALENDLY_API_TOKEN;
+  if (!token) {
+    console.warn('[Calendly] CALENDLY_API_TOKEN not set — cannot fetch invitee details from URI. Add token in Vercel env.');
+    return null;
+  }
+  try {
+    const res = await fetch(inviteeUri, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!res.ok) {
+      console.error('[Calendly] Fetch invitee failed:', res.status, await res.text());
+      return null;
+    }
+    const data = (await res.json()) as { resource?: Record<string, unknown> };
+    return data.resource ?? null;
+  } catch (e) {
+    console.error('[Calendly] Fetch invitee error:', e);
+    return null;
+  }
+}
+
 export async function POST(request: NextRequest) {
   console.log('=== CALENDLY WEBHOOK RECEIVED ===');
 
@@ -11,20 +34,63 @@ export async function POST(request: NextRequest) {
     console.log('Calendly payload keys:', Object.keys(body.payload || {}));
 
     const event = body.event;
-    const payload = body.payload;
+    const payload = body.payload as Record<string, unknown> | undefined;
 
     if (event !== 'invitee.created') {
       console.log('Ignoring event:', event);
       return NextResponse.json({ received: true, action: 'ignored' });
     }
 
-    const invitee = payload;
+    if (!payload) {
+      console.error('[Calendly] No payload');
+      return NextResponse.json({ received: true, action: 'skipped', reason: 'No payload' });
+    }
+
+    // Calendly often sends payload.invitee.uri only; we must GET that URI to get name, email, questions_and_answers
+    const inviteeUri = typeof (payload.invitee as Record<string, unknown>)?.uri === 'string'
+      ? (payload.invitee as { uri: string }).uri
+      : null;
+    const eventUri = typeof (payload.event as Record<string, unknown>)?.uri === 'string'
+      ? (payload.event as { uri: string }).uri
+      : null;
+
+    let invitee: Record<string, unknown>;
+    if (inviteeUri) {
+      const fetched = await fetchInviteeFromUri(inviteeUri);
+      if (!fetched) {
+        console.error('[Calendly] Could not fetch invitee from URI:', inviteeUri);
+        return NextResponse.json({
+          received: true,
+          action: 'skipped',
+          reason: 'Could not fetch invitee details from Calendly API. Add CALENDLY_API_TOKEN in Vercel.',
+        });
+      }
+      invitee = fetched;
+      console.log('[Calendly] Fetched invitee from API. Keys:', Object.keys(invitee));
+    } else {
+      // Legacy or inline payload: assume payload is the invitee object
+      invitee = payload;
+    }
+
     const name = String(invitee.name || invitee.invitee_name || '').trim();
     const email = String(invitee.email || invitee.invitee_email || '').trim();
     const phone = extractPhone(invitee);
-    const eventName = String(invitee.event_type?.name || invitee.scheduled_event?.name || 'Book to YouTube Consultation').trim();
 
-    console.log('Calendly invitee:', { name, email, phone: phone || 'NOT FOUND', eventName });
+    // Event type name: from fetched event if we have eventUri, else from invitee
+    let eventName = String(invitee.event_type?.name || (invitee.scheduled_event as Record<string, unknown>)?.name || 'Book to YouTube Consultation').trim();
+    if (eventUri && process.env.CALENDLY_API_TOKEN) {
+      try {
+        const eventRes = await fetch(eventUri, { headers: { Authorization: `Bearer ${process.env.CALENDLY_API_TOKEN}` } });
+        if (eventRes.ok) {
+          const eventData = (await eventRes.json()) as { resource?: { name?: string } };
+          if (eventData.resource?.name) eventName = eventData.resource.name;
+        }
+      } catch {
+        // ignore
+      }
+    }
+
+    console.log('Calendly invitee:', { name, email, phone: phone ? '***' : 'NOT FOUND', eventName });
 
     if (invitee.questions_and_answers) {
       console.log('Calendly Q&A:', JSON.stringify(invitee.questions_and_answers));
@@ -34,12 +100,12 @@ export async function POST(request: NextRequest) {
       console.log('WARNING: No phone number found. Available fields:', JSON.stringify({
         phone_number: invitee.phone_number,
         text_reminder_number: invitee.text_reminder_number,
-        questions_count: invitee.questions_and_answers?.length || 0,
+        questions_count: (invitee.questions_and_answers as unknown[])?.length ?? 0,
       }));
       return NextResponse.json({
         received: true,
         action: 'skipped',
-        reason: 'No phone number provided in Calendly booking',
+        reason: 'No phone number provided in Calendly booking. Add a Phone Number question to your Calendly event type.',
       });
     }
 

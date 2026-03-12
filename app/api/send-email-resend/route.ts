@@ -3,6 +3,7 @@ import nodemailer from 'nodemailer';
 import { join } from 'path';
 import { readFile } from 'fs/promises';
 import { CONTACT_EMAIL } from '../../config/constants';
+import { checkIpRateLimit, getClientIp } from '../../lib/rate-limit-ip';
 
 function getTransporter() {
   const host = process.env.SMTP_HOST || 'mail.duckbookwriters.com';
@@ -22,6 +23,16 @@ function getTransporter() {
 
 export async function POST(request: NextRequest) {
   try {
+    // Max 3 form submissions per IP per 24h
+    const ip = getClientIp(request);
+    const { allowed, remaining } = checkIpRateLimit(ip);
+    if (!allowed) {
+      return NextResponse.json(
+        { success: false, error: 'Submission limit reached. You can only submit this form 3 times from this network per day.' },
+        { status: 429 }
+      );
+    }
+
     const body = await request.json();
     const { 
       from_name, 

@@ -50,8 +50,8 @@ const Footer: React.FC = () => {
         ).join(' ');
       };
 
-      // Form fillup email via Resend (notification to team)
-      await fetch('/api/send-email-resend', {
+      // Form fillup — max 3 submissions per IP per day
+      const emailRes = await fetch('/api/send-email-resend', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -62,6 +62,13 @@ const Footer: React.FC = () => {
           budget: formData.budget || 'No budget specified',
         }),
       });
+      if (emailRes.status === 429) {
+        const data = await emailRes.json().catch(() => ({}));
+        throw new Error((data as { error?: string }).error || 'Submission limit reached. You can submit up to 3 times per day from this network.');
+      }
+      if (!emailRes.ok) {
+        throw new Error('Could not submit form. Please try again later.');
+      }
 
       // Trigger Retell AI outbound call
       if (formData.contact) {
