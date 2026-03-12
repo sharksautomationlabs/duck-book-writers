@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ChevronRight, Phone, Mail, MapPin } from 'lucide-react';
 import React, { useState } from 'react';
 import emailjs from '@emailjs/browser';
+import { CONTACT_EMAIL } from '../config/constants';
 
 // Define interfaces for the data structures
 interface ContactInfo {
@@ -64,7 +65,7 @@ const Footer: React.FC = () => {
         serviceId,
         templateId,
         {
-          to_email: 'contact@duckbookwriters.com',
+          to_email: CONTACT_EMAIL,
           from_name: formData.name,
           from_email: formData.email,
           contact_number: formData.contact || 'Not provided',
@@ -120,7 +121,7 @@ const Footer: React.FC = () => {
 
   const contactInfo: ContactInfo[] = [
     { icon: Phone, text: "+1 (346) 463-7721" },
-    { icon: Mail, text: "contact@duckbookwriters.com" },
+    { icon: Mail, text: CONTACT_EMAIL },
   ];
 
   const socialLinks: SocialLink[] = [
@@ -163,7 +164,7 @@ const Footer: React.FC = () => {
                             {item.text}
                           </a>
                         ) : index === 1 ? (
-                          <a href="mailto:contact@duckbookwriters.com" className="font-['Poppins'] text-sm sm:text-base text-gray-600 hover:text-yellow-500 transition-colors duration-200 text-center lg:text-left">
+                          <a href={`mailto:${CONTACT_EMAIL}`} className="font-['Poppins'] text-sm sm:text-base text-gray-600 hover:text-yellow-500 transition-colors duration-200 text-center lg:text-left">
                             {item.text}
                           </a>
                         ) : (

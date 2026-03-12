@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { CONTACT_EMAIL, CALENDLY_LINK } from '../../config/constants';
 
 const BASE_URL = 'https://www.duckbookwriters.com';
 const YOUTUBE_BANNER_IMG = `${BASE_URL}/images/signature-1.png`;
@@ -35,7 +36,6 @@ export async function POST(request: NextRequest) {
 
     const resend = new Resend(apiKey);
 
-    const calendlyLink = 'https://calendly.com/contact-duckbookwriters/30min';
     const firstName = (client_name || 'there').split(' ')[0];
 
     const summaryRows = [
@@ -89,7 +89,7 @@ export async function POST(request: NextRequest) {
           </p>
 
           <div style="text-align: center; margin: 25px 0 30px;">
-            <a href="${calendlyLink}" style="display: inline-block; background: #c8a415; color: #ffffff; font-weight: 700; text-decoration: none; padding: 14px 40px; border-radius: 6px; font-size: 15px; letter-spacing: 0.3px;">Book Your Strategy Session</a>
+            <a href="${CALENDLY_LINK}" style="display: inline-block; background: #c8a415; color: #ffffff; font-weight: 700; text-decoration: none; padding: 14px 40px; border-radius: 6px; font-size: 15px; letter-spacing: 0.3px;">Book Your Strategy Session</a>
           </div>
 
           <p style="font-size: 15px; color: #333; line-height: 1.7; margin: 0 0 8px;">

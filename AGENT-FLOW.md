@@ -373,7 +373,7 @@ call_source      → "calendly"
 | `RETELL_FROM_NUMBER` | Outbound caller ID | `+14693170603` |
 | `RETELL_AGENT_ID` | Default agent ID | `agent_cbb84cd302ededccb48504d3c9` |
 | `RESEND_API_KEY` | Email sending (Resend) | `re_GqwaZXM...` |
-| *(contact email)* | Hardcoded in components | `contact@duckbookwriters.com` |
+| *(contact email)* | Configured in `app/config/constants.ts` | `contact@duckbookwriters.com` |
 
 ---
 

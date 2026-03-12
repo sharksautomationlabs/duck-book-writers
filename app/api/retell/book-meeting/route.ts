@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { CONTACT_EMAIL, CONTACT_PHONE, CALENDLY_LINK } from '../../config/constants';
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,8 +16,6 @@ export async function POST(request: NextRequest) {
     if (!attendee_email) {
       return NextResponse.json({ result: 'Error: No email address provided for meeting booking.' });
     }
-
-    const calendlyLink = 'https://calendly.com/contact-duckbookwriters/30min';
 
     const apiKey = process.env.RESEND_API_KEY;
     if (!apiKey) {
@@ -49,7 +48,7 @@ export async function POST(request: NextRequest) {
 
           <div style="text-align: center; margin: 0 0 25px;">
             <p style="font-size: 15px; color: #555; margin: 0 0 15px;">Please click the button below to confirm and book your 30-minute consultation:</p>
-            <a href="${calendlyLink}" style="display: inline-block; background: #FFD700; color: #1A1A1A; font-weight: 700; text-decoration: none; padding: 16px 40px; border-radius: 30px; font-size: 16px;">Book Your Meeting Now</a>
+            <a href="${CALENDLY_LINK}" style="display: inline-block; background: #FFD700; color: #1A1A1A; font-weight: 700; text-decoration: none; padding: 16px 40px; border-radius: 30px; font-size: 16px;">Book Your Meeting Now</a>
           </div>
 
           <div style="background: #F0F7FF; border: 1px solid #B8D4F0; border-radius: 8px; padding: 20px; margin: 0 0 25px;">
@@ -72,7 +71,7 @@ export async function POST(request: NextRequest) {
 
         <div style="background: #F8F9FA; padding: 20px 30px; text-align: center; border-radius: 0 0 8px 8px; border-top: 1px solid #eee;">
           <p style="margin: 0; color: #999; font-size: 12px;">A Project of ECOMMERCE SHARKS LLC | © 2025 Duck Book Writers. All Rights Reserved.</p>
-          <p style="margin: 5px 0 0; color: #999; font-size: 11px;">contact@duckbookwriters.com | +1 (346) 463-7721</p>
+          <p style="margin: 5px 0 0; color: #999; font-size: 11px;">${CONTACT_EMAIL} | ${CONTACT_PHONE}</p>
         </div>
       </div>
     `;

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import CalendlyWidget from './CalendlyWidget';
+import { CONTACT_EMAIL } from '../config/constants';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -49,9 +50,9 @@ const Header = () => {
                 <Image src="/images/phone-icon.svg" alt="Phone" width={16} height={16} className="filter brightness-0 invert" />
                 <span>+1 (346) 463-7721</span>
               </a>
-              <a href="mailto:contact@duckbookwriters.com" className={`flex items-center gap-2 text-sm ${isHomePage ? 'text-white hover:text-yellow-300 drop-shadow-lg' : 'text-white hover:text-yellow-300'} transition-colors duration-200`}>
+              <a href={`mailto:${CONTACT_EMAIL}`} className={`flex items-center gap-2 text-sm ${isHomePage ? 'text-white hover:text-yellow-300 drop-shadow-lg' : 'text-white hover:text-yellow-300'} transition-colors duration-200`}>
                 <Image src="/images/email-icon.svg" alt="Email" width={22} height={16} className="filter brightness-0 invert" />
-                <span>contact@duckbookwriters.com</span>
+                <span>{CONTACT_EMAIL}</span>
               </a>
             </div>
 
@@ -109,9 +110,9 @@ const Header = () => {
                   <Image src="/images/phone-icon.svg" alt="Phone" width={16} height={16} />
                   <span>+1 (346) 463-7721</span>
                 </a>
-                <a href="mailto:contact@duckbookwriters.com" className="flex items-center justify-center gap-2 text-sm text-black hover:text-yellow-500 transition-colors duration-200">
+                <a href={`mailto:${CONTACT_EMAIL}`} className="flex items-center justify-center gap-2 text-sm text-black hover:text-yellow-500 transition-colors duration-200">
                   <Image src="/images/email-icon.svg" alt="Email" width={22} height={16} />
-                  <span>contact@duckbookwriters.com</span>
+                  <span>{CONTACT_EMAIL}</span>
                 </a>
               </div>
 
