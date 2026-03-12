@@ -1,9 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 import { join } from 'path';
 import { readFile } from 'fs/promises';
+import { CONTACT_EMAIL } from '../../config/constants';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getTransporter() {
+  const host = process.env.SMTP_HOST || 'mail.duckbookwriters.com';
+  const port = Number(process.env.SMTP_PORT) || 465;
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASS;
+
+  return nodemailer.createTransport({
+    host,
+    port,
+    secure: true,
+    auth: { user, pass },
+    tls: { rejectUnauthorized: false },
+    connectionTimeout: 10000,
+  });
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -103,20 +118,18 @@ export async function POST(request: NextRequest) {
       `;
     }
 
-    if (!process.env.RESEND_API_KEY) {
+    if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+      console.error('[send-email-resend] Missing SMTP_USER or SMTP_PASS - add to env');
       return NextResponse.json({ success: false, error: 'Email service not configured.' }, { status: 500 });
     }
 
-    // Send email using Resend (form fillup notification to team)
-    const { data, error } = await resend.emails.send({
-      from: 'Duck Book Writers <onboarding@resend.dev>',
-      to: ['duckbookwriters@gmail.com'],
-      subject: subject,
-      html: `
+    const transporter = getTransporter();
+
+    const htmlWrapper = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
           <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 10px 10px 0 0; text-align: center;">
             <h1 style="margin: 0; font-size: 28px;">📚 Duck Book Writers</h1>
-            <p style="margin: 10px 0 0 0; opacity: 0.9;">Event Registration Notification</p>
+            <p style="margin: 10px 0 0 0; opacity: 0.9;">Website Form Submission</p>
           </div>
           
           <div style="background: #f8f9fa; padding: 30px; border-radius: 0 0 10px 10px;">
@@ -138,23 +151,26 @@ export async function POST(request: NextRequest) {
             </div>
           </div>
         </div>
-      `,
-      attachments: attachments
+      `;
+
+    const info = await transporter.sendMail({
+      from: `"Duck Book Writers Website" <${CONTACT_EMAIL}>`,
+      to: CONTACT_EMAIL,
+      subject,
+      html: htmlWrapper,
+      attachments,
     });
 
-    if (error) {
-      console.error('Resend error:', error);
-      return NextResponse.json({ 
-        success: false, 
-        error: `Failed to send email: ${error.message}` 
-      }, { status: 500 });
-    }
+    console.log('[send-email-resend] Notification email sent to team', {
+      to: CONTACT_EMAIL,
+      messageId: info.messageId,
+      response: info.response,
+    });
 
-    console.log('Email sent successfully via Resend:', data);
     return NextResponse.json({ 
       success: true, 
-      message: 'Email sent successfully via Resend',
-      messageId: data?.id
+      message: 'Email sent successfully to team via SMTP',
+      messageId: info.messageId
     });
 
   } catch (error: any) {

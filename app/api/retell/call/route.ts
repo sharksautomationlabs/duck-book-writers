@@ -7,6 +7,12 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { to_number, customer_name, customer_email, service, budget, source } = body;
 
+    // Ensure real form data is passed as strings to Retell (agent uses these, not variable names)
+    const clientName = typeof customer_name === 'string' ? customer_name.trim() : '';
+    const clientEmail = typeof customer_email === 'string' ? customer_email.trim() : '';
+    const projectService = typeof service === 'string' ? service.trim() : '';
+    const budgetStr = typeof budget === 'string' ? budget.trim() : '';
+
     const apiKey = process.env.RETELL_API_KEY;
     const fromNumber = process.env.RETELL_FROM_NUMBER;
     const agentId = process.env.RETELL_AGENT_ID || 'agent_cbb84cd302ededccb48504d3c9';
@@ -40,11 +46,11 @@ export async function POST(request: NextRequest) {
       override_agent_id: agentId,
       override_agent_version: 4,
       retell_llm_dynamic_variables: {
-        client_name: customer_name || 'Valued Customer',
-        client_email: customer_email || '',
+        client_name: clientName || 'Valued Customer',
+        client_email: clientEmail || '',
         client_phone: formattedNumber,
-        project_service: service || 'General Inquiry',
-        budget: budget || 'Not specified',
+        project_service: projectService || 'General Inquiry',
+        budget: budgetStr || 'Not specified',
         call_source: 'contact_form',
       },
       metadata: {
@@ -76,7 +82,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log('Retell call created:', data.call_id);
+    console.log('Retell call created:', data.call_id, '| client_name:', clientName || '(fallback)', '| client_email:', clientEmail ? '***' : '(empty)');
     return NextResponse.json({
       success: true,
       call_id: data.call_id,

@@ -25,10 +25,15 @@ function getTransporter() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+    console.log('[send-email] Incoming request body keys:', Object.keys(body || {}));
 
     const args = body.args || body;
+    console.log('[send-email] Using args keys:', Object.keys(args || {}));
+
     const {
       to,
+      email,
+      client_email,
       subject,
       client_name,
       project_service,
@@ -40,12 +45,43 @@ export async function POST(request: NextRequest) {
       previous_experience,
     } = args;
 
-    if (!to) {
+    // Log raw values (masked) so we can see what Retell actually sent on real calls
+    const rawTo = typeof to === 'string' ? to : String(to ?? '');
+    const rawEmail = typeof email === 'string' ? email : String(email ?? '');
+    const rawClientEmail = typeof client_email === 'string' ? client_email : String(client_email ?? '');
+    console.log('[send-email] Raw params from Retell:', {
+      to: rawTo ? `${rawTo.slice(0, 3)}***${rawTo.includes('@') ? rawTo.split('@')[1] : ''}` : '(empty)',
+      email: rawEmail ? `${rawEmail.slice(0, 3)}***` : '(empty)',
+      client_email: rawClientEmail ? `${rawClientEmail.slice(0, 3)}***` : '(empty)',
+    });
+    if (rawTo.includes('{{') || rawTo.includes('}}') || rawEmail.includes('{{') || rawClientEmail.includes('{{')) {
+      console.error('[send-email] Placeholder detected. Retell sent literal {{variable}} instead of real email. Raw to:', rawTo);
+    }
+
+    const resolvedTo = (to || email || client_email) ? String(to || email || client_email).trim() : '';
+
+    if (!resolvedTo) {
+      console.error('[send-email] No email address provided in args. Expected one of: to, email, client_email.');
       return NextResponse.json({ result: 'Error: No email address provided.' });
     }
 
+    // Reject placeholders / invalid values so we know why real call fails
+    const isPlaceholder =
+      resolvedTo.includes('{{') ||
+      resolvedTo.includes('}}') ||
+      resolvedTo === 'confirmed_email' ||
+      resolvedTo === 'client_email' ||
+      resolvedTo === '{{client_email}}';
+    const looksLikeEmail = resolvedTo.includes('@') && resolvedTo.includes('.') && resolvedTo.length > 5;
+    if (isPlaceholder || !looksLikeEmail) {
+      console.error('[send-email] Invalid "to" value (placeholder or not an email). Value received:', resolvedTo);
+      return NextResponse.json({
+        result: `Error: The "to" field must be the actual client email address (e.g. john@gmail.com), not a placeholder like {{client_email}} or "confirmed_email". Received: ${resolvedTo.slice(0, 50)}`,
+      }, { status: 200 });
+    }
+
     if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-      console.error('Missing SMTP_USER or SMTP_PASS - add to Vercel Environment Variables');
+      console.error('[send-email] Missing SMTP_USER or SMTP_PASS - add to Vercel Environment Variables');
       return NextResponse.json({
         result: 'Error: Email service not configured. Add SMTP_USER and SMTP_PASS to Vercel Environment Variables.',
       }, { status: 200 });
@@ -137,16 +173,27 @@ export async function POST(request: NextRequest) {
     `;
 
     const transporter = getTransporter();
+    console.log('[send-email] Transporter created. Sending email...', {
+      to: resolvedTo,
+      from: CONTACT_EMAIL,
+      hasSubject: !!subject,
+      hasProjectService: !!project_service,
+    });
+
     const info = await transporter.sendMail({
       from: `"Aly Reed - Duck Book Writers" <${CONTACT_EMAIL}>`,
-      to: to,
+      to: resolvedTo,
       subject: subject || `${firstName}, An Exciting Opportunity – Transform Your Book into YouTube Content`,
       html: htmlEmail,
     });
 
-    console.log('Confirmation email sent to', to, '- Message ID:', info.messageId);
+    console.log('[send-email] Confirmation email SENT', {
+      to: resolvedTo,
+      messageId: info.messageId,
+      response: info.response,
+    });
     return NextResponse.json({
-      result: `Confirmation email has been successfully sent to ${to}. The email includes the Book to YouTube pitch, their project details, a Calendly booking link, and contact info for Aly Reed.`,
+      result: `Confirmation email has been successfully sent to ${resolvedTo}. The email includes the Book to YouTube pitch, their project details, a Calendly booking link, and contact info for Aly Reed.`,
     });
   } catch (error: unknown) {
     const err = error instanceof Error ? error : new Error('Unknown error');

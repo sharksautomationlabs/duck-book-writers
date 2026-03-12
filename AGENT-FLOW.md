@@ -55,7 +55,7 @@ DuckBook Writers uses a **Retell AI voice agent (Olivia)** to automatically call
    │                                  │
    │  📧 send_confirmation_email      │
    │     POST /api/retell/send-email  │
-   │     → Sends via Resend           │
+   │     → Sends via SMTP             │
    │                                  │
    │  📅 schedule_meeting             │
    │     POST /api/retell/book-meeting│
@@ -306,7 +306,9 @@ call_source      → "calendly"
 - "Book Your Meeting Now" button → Calendly link
 - Contact info: +1 (346) 463-7721 / contact@duckbookwriters.com
 
-**Sent via:** Resend API (`from: Duck Book Writers <onboarding@resend.dev>`)
+**Sent via:** SMTP (`from: contact@duckbookwriters.com`)
+
+**Agent Prompt:** See `AGENT-PROMPT.md` for exact instructions to add to the Retell agent prompt (when to send, what to say, which params to use).
 
 ---
 
@@ -372,7 +374,7 @@ call_source      → "calendly"
 | `RETELL_API_KEY` | Retell AI authentication | `key_4ac1e2d...` |
 | `RETELL_FROM_NUMBER` | Outbound caller ID | `+14693170603` |
 | `RETELL_AGENT_ID` | Default agent ID | `agent_cbb84cd302ededccb48504d3c9` |
-| `RESEND_API_KEY` | Email sending (Resend) | `re_GqwaZXM...` |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` | Agent confirmation email (SMTP) | — |
 | *(contact email)* | Configured in `app/config/constants.ts` | `contact@duckbookwriters.com` |
 
 ---

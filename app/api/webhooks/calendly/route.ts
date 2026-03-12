@@ -19,10 +19,10 @@ export async function POST(request: NextRequest) {
     }
 
     const invitee = payload;
-    const name = invitee.name || invitee.invitee_name || '';
-    const email = invitee.email || invitee.invitee_email || '';
+    const name = String(invitee.name || invitee.invitee_name || '').trim();
+    const email = String(invitee.email || invitee.invitee_email || '').trim();
     const phone = extractPhone(invitee);
-    const eventName = invitee.event_type?.name || invitee.scheduled_event?.name || 'Book to YouTube Consultation';
+    const eventName = String(invitee.event_type?.name || invitee.scheduled_event?.name || 'Book to YouTube Consultation').trim();
 
     console.log('Calendly invitee:', { name, email, phone: phone || 'NOT FOUND', eventName });
 
@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
         client_name: name || 'Valued Customer',
         client_email: email || '',
         client_phone: formattedNumber,
-        project_service: eventName,
+        project_service: eventName || 'Book to YouTube Consultation',
         budget: 'Not specified',
         call_source: 'calendly',
       },
