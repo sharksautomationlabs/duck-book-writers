@@ -64,7 +64,7 @@ const Footer: React.FC = () => {
         serviceId,
         templateId,
         {
-          to_email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'contact@duckbookwriters.com',
+          to_email: 'contact@duckbookwriters.com',
           from_name: formData.name,
           from_email: formData.email,
           contact_number: formData.contact || 'Not provided',
