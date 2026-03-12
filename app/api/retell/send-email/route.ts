@@ -1,10 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 import { CONTACT_EMAIL, CALENDLY_LINK } from '../../../config/constants';
 
 const BASE_URL = 'https://www.duckbookwriters.com';
 const YOUTUBE_BANNER_IMG = `${BASE_URL}/images/signature-1.png`;
 const DUCK_LOGO_IMG = `${BASE_URL}/images/signature-2.png`;
+
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST,
+  port: Number(process.env.SMTP_PORT) || 465,
+  secure: true,
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+  },
+});
 
 export async function POST(request: NextRequest) {
   try {
@@ -28,13 +38,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ result: 'Error: No email address provided.' });
     }
 
-    const apiKey = process.env.RESEND_API_KEY;
-    if (!apiKey) {
-      console.error('Missing RESEND_API_KEY');
+    if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+      console.error('Missing SMTP_USER or SMTP_PASS');
       return NextResponse.json({ result: 'Error: Email service not configured.' });
     }
-
-    const resend = new Resend(apiKey);
 
     const firstName = (client_name || 'there').split(' ')[0];
 
@@ -127,21 +134,14 @@ export async function POST(request: NextRequest) {
       </div>
     `;
 
-    const { data, error } = await resend.emails.send({
-      from: 'Aly Reed - Duck Book Writers <onboarding@resend.dev>',
-      to: [to],
+    const info = await transporter.sendMail({
+      from: `"Aly Reed - Duck Book Writers" <${CONTACT_EMAIL}>`,
+      to: to,
       subject: subject || `${firstName}, An Exciting Opportunity – Transform Your Book into YouTube Content`,
       html: htmlEmail,
     });
 
-    if (error) {
-      console.error('Resend error in Retell webhook:', error);
-      return NextResponse.json({
-        result: `Failed to send email: ${error.message}`,
-      });
-    }
-
-    console.log('Confirmation email sent to', to, '- ID:', data?.id);
+    console.log('Confirmation email sent to', to, '- Message ID:', info.messageId);
     return NextResponse.json({
       result: `Confirmation email has been successfully sent to ${to}. The email includes the Book to YouTube pitch, their project details, a Calendly booking link, and contact info for Aly Reed.`,
     });

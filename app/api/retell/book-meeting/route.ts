@@ -1,6 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 import { CONTACT_EMAIL, CONTACT_PHONE, CALENDLY_LINK } from '../../../config/constants';
+
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST,
+  port: Number(process.env.SMTP_PORT) || 465,
+  secure: true,
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+  },
+});
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,13 +27,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ result: 'Error: No email address provided for meeting booking.' });
     }
 
-    const apiKey = process.env.RESEND_API_KEY;
-    if (!apiKey) {
-      console.error('Missing RESEND_API_KEY');
+    if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+      console.error('Missing SMTP_USER or SMTP_PASS');
       return NextResponse.json({ result: 'Error: Email service not configured.' });
     }
-
-    const resend = new Resend(apiKey);
 
     const htmlEmail = `
       <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 0; background: #ffffff;">
@@ -76,21 +83,14 @@ export async function POST(request: NextRequest) {
       </div>
     `;
 
-    const { data, error } = await resend.emails.send({
-      from: 'Duck Book Writers <onboarding@resend.dev>',
-      to: [attendee_email],
+    const info = await transporter.sendMail({
+      from: `"Duck Book Writers" <${CONTACT_EMAIL}>`,
+      to: attendee_email,
       subject: 'Book Your Consultation Meeting - Duck Book Writers',
       html: htmlEmail,
     });
 
-    if (error) {
-      console.error('Resend error in meeting webhook:', error);
-      return NextResponse.json({
-        result: `Failed to send meeting invitation: ${error.message}`,
-      });
-    }
-
-    console.log('Meeting invitation sent to', attendee_email, '- ID:', data?.id);
+    console.log('Meeting invitation sent to', attendee_email, '- Message ID:', info.messageId);
     return NextResponse.json({
       result: `Meeting invitation email has been sent to ${attendee_email}. The email includes a Calendly link where they can book a 30-minute consultation at their preferred time${preferred_time ? ` (suggested: ${preferred_time})` : ''}. The client should check their inbox to confirm the booking.`,
     });
