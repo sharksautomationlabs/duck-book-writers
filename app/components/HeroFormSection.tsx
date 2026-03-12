@@ -56,6 +56,26 @@ const HeroFormSection = () => {
       };
 
       await emailjs.send(serviceId, templateId, templateParams, publicKey);
+
+      // Trigger Retell AI outbound call
+      if (formData.contact) {
+        try {
+          await fetch('/api/retell/call', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              to_number: formData.contact,
+              customer_name: formData.name,
+              customer_email: formData.email,
+              service: formData.project,
+              budget: formData.budget,
+              source: 'Hero Contact Form',
+            }),
+          });
+        } catch (callError) {
+          console.error('Retell call trigger failed:', callError);
+        }
+      }
       
       setSubmitStatus('success');
       setFormData({
