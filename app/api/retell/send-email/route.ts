@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import { CONTACT_EMAIL, CALENDLY_LINK } from '../../../config/constants';
 
+// Allow up to 25s so Retell webhook (often 15s timeout) gets a response; Vercel may cap at 10s on Hobby
+export const maxDuration = 25;
+
 const BASE_URL = 'https://www.duckbookwriters.com';
 const YOUTUBE_BANNER_IMG = `${BASE_URL}/images/signature-1.png`;
 const DUCK_LOGO_IMG = `${BASE_URL}/images/signature-2.png`;
@@ -11,14 +14,18 @@ function getTransporter() {
   const port = Number(process.env.SMTP_PORT) || 465;
   const user = process.env.SMTP_USER;
   const pass = process.env.SMTP_PASS;
+  const secure = port === 465;
 
+  // Vercel → mail server can be slow; use long timeouts. If 465 times out, try SMTP_PORT=587 (STARTTLS).
   return nodemailer.createTransport({
     host,
     port,
-    secure: true,
+    secure,
     auth: { user, pass },
     tls: { rejectUnauthorized: false },
-    connectionTimeout: 10000,
+    connectionTimeout: 22000,
+    greetingTimeout: 12000,
+    socketTimeout: 22000,
   });
 }
 
@@ -199,9 +206,10 @@ export async function POST(request: NextRequest) {
     const err = error instanceof Error ? error : new Error('Unknown error');
     const message = err.message;
     const stack = err instanceof Error ? err.stack : '';
-    console.error('Send email webhook error:', message, stack);
+    console.error('[send-email] Send email webhook error:', message, stack);
+    // Return 200 so Retell doesn't retry as "connection failed"; agent can tell user to check inbox
     return NextResponse.json(
-      { result: `Error sending email: ${message}` },
+      { result: `Error sending email: ${message}. Ask the client to check their inbox and spam in a few minutes; our team will follow up if needed.` },
       { status: 200 }
     );
   }
