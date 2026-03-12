@@ -3,7 +3,7 @@ import { Resend } from 'resend';
 import { join } from 'path';
 import { readFile } from 'fs/promises';
 
-const resend = new Resend('re_EnhMu1K4_JYv5WYWgYGRBk2mhuJSvCtVg');
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: NextRequest) {
   try {
@@ -103,9 +103,11 @@ export async function POST(request: NextRequest) {
       `;
     }
 
-    // API key is configured directly in the code
+    if (!process.env.RESEND_API_KEY) {
+      return NextResponse.json({ success: false, error: 'Email service not configured.' }, { status: 500 });
+    }
 
-    // Send email using Resend
+    // Send email using Resend (form fillup notification to team)
     const { data, error } = await resend.emails.send({
       from: 'Duck Book Writers <onboarding@resend.dev>',
       to: ['duckbookwriters@gmail.com'],

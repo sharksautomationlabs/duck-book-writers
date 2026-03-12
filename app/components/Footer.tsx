@@ -3,7 +3,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronRight, Phone, Mail, MapPin } from 'lucide-react';
 import React, { useState } from 'react';
-import emailjs from '@emailjs/browser';
 import { CONTACT_EMAIL } from '../config/constants';
 
 // Define interfaces for the data structures
@@ -44,38 +43,25 @@ const Footer: React.FC = () => {
     setSubmitStatus('idle');
 
     try {
-      // EmailJS configuration
-      const serviceId = 'service_ms74fti';
-      const templateId = 'template_kagzkck';
-      const publicKey = 'nRYR8C_VGeFw1myb9';
-
-      // EmailJS is now configured and ready to use
-
-      // Format project value for better readability
       const formatProjectValue = (value: string) => {
         if (!value) return 'Not specified';
-        // Capitalize first letter of each word
         return value.split(' ').map(word =>
           word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
         ).join(' ');
       };
 
-      // Send email using EmailJS
-      const result = await emailjs.send(
-        serviceId,
-        templateId,
-        {
-          to_email: CONTACT_EMAIL,
+      // Form fillup email via Resend (notification to team)
+      await fetch('/api/send-email-resend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           from_name: formData.name,
           from_email: formData.email,
           contact_number: formData.contact || 'Not provided',
-          project: formatProjectValue(formData.project),
+          project_service: formatProjectValue(formData.project),
           budget: formData.budget || 'No budget specified',
-        },
-        publicKey
-      );
-
-      console.log('Email sent successfully:', result);
+        }),
+      });
 
       // Trigger Retell AI outbound call
       if (formData.contact) {

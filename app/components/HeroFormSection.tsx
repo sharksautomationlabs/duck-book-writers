@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import emailjs from '@emailjs/browser';
 
 const HeroFormSection = () => {
   const [formData, setFormData] = useState({
@@ -31,31 +30,25 @@ const HeroFormSection = () => {
     setSubmitStatus('idle');
 
     try {
-      // EmailJS configuration
-      const serviceId = 'service_ms74fti';
-      const templateId = 'template_kagzkck';
-      const publicKey = 'nRYR8C_VGeFw1myb9';
-
-      // Format project value for better readability
       const formatProjectValue = (value: string) => {
         if (!value) return 'Not specified';
-        // Capitalize first letter of each word
-        return value.split(' ').map(word => 
+        return value.split(' ').map(word =>
           word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
         ).join(' ');
       };
 
-      const templateParams = {
-        from_name: formData.name,
-        from_email: formData.email,
-        contact_number: formData.contact || 'Not provided',
-        project_service: formatProjectValue(formData.project),
-        project: formatProjectValue(formData.project), // Also send as 'project' for compatibility
-        budget: formData.budget || 'No budget specified',
-        to_name: 'Duck Book Writers'
-      };
-
-      await emailjs.send(serviceId, templateId, templateParams, publicKey);
+      // Form fillup email via Resend (notification to team)
+      await fetch('/api/send-email-resend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          from_name: formData.name,
+          from_email: formData.email,
+          contact_number: formData.contact || 'Not provided',
+          project_service: formatProjectValue(formData.project),
+          budget: formData.budget || 'No budget specified',
+        }),
+      });
 
       // Trigger Retell AI outbound call
       if (formData.contact) {

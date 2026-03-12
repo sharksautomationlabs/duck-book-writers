@@ -86,7 +86,7 @@ DuckBook Writers uses a **Retell AI voice agent (Olivia)** to automatically call
 
 **What happens on submit:**
 
-1. Email sent to DuckBook Writers via **EmailJS** (service_ms74fti / template_kagzkck)
+1. Email sent to DuckBook Writers via **Resend** (`/api/send-email-resend` → duckbookwriters@gmail.com)
 2. If phone number provided → **POST /api/retell/call** is triggered
 3. Retell AI creates an outbound call to the client's phone
 4. Agent receives `call_source: "contact_form"`
@@ -426,7 +426,7 @@ app/
 CLIENT FILLS FORM ON WEBSITE          CLIENT BOOKS ON CALENDLY
          │                                      │
          ▼                                      ▼
-   EmailJS sends email               Calendly fires webhook
+   Resend sends form email           Calendly fires webhook
    to DuckBook Writers                (invitee.created)
          │                                      │
          ▼                                      ▼
