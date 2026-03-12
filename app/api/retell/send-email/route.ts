@@ -109,20 +109,14 @@ export async function POST(request: NextRequest) {
         </div>
 
         <div style="padding: 0 30px 30px; background: #ffffff;">
-          <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
-            <tr>
-              <td style="vertical-align: top; padding-right: 20px; width: 90px;">
-                <img src="${DUCK_LOGO_IMG}" alt="Duck Book Writers" style="width: 80px; height: auto; border-radius: 50%;" />
-              </td>
-              <td style="vertical-align: top;">
-                <p style="margin: 0 0 2px; font-size: 16px; font-weight: 700; color: #1a1a1a;">Aly Reed</p>
-                <p style="margin: 0 0 10px; font-size: 13px; color: #c8a415; font-weight: 600;">YouTube Strategist</p>
-                <p style="margin: 0 0 3px; font-size: 12px; color: #666;">&#9742; (346) 463-7684 &nbsp;|&nbsp; &#9993; aly.reed@duckbookwriters.com</p>
-                <p style="margin: 0 0 3px; font-size: 12px; color: #666;">&#9679; <a href="https://www.duckbookwriters.com" style="color: #666; text-decoration: none;">www.duckbookwriters.com</a></p>
-                <p style="margin: 0; font-size: 12px; color: #666;">&#128205; 22023 Rustic Canyon Ln, Richmond TX - 77469, United States.</p>
-              </td>
-            </tr>
-          </table>
+          <p style="margin: 0 0 2px; font-size: 16px; font-weight: 700; color: #1a1a1a;">Aly Reed</p>
+          <p style="margin: 0 0 12px; font-size: 13px; color: #c8a415; font-weight: 600;">YouTube Strategist</p>
+          <div style="margin: 0 0 12px;">
+            <img src="${DUCK_LOGO_IMG}" alt="Duck Book Writers" style="width: 80px; height: auto; display: block;" />
+          </div>
+          <p style="margin: 0 0 3px; font-size: 12px; color: #666;">&#9742; (346) 463-7684 &nbsp;|&nbsp; &#9993; aly.reed@duckbookwriters.com</p>
+          <p style="margin: 0 0 3px; font-size: 12px; color: #666;">&#9679; <a href="https://www.duckbookwriters.com" style="color: #666; text-decoration: none;">www.duckbookwriters.com</a></p>
+          <p style="margin: 0; font-size: 12px; color: #666;">&#128205; 22023 Rustic Canyon Ln, Richmond TX - 77469, United States.</p>
         </div>
 
         <div style="background: #f5f5f5; padding: 18px 30px; border-top: 1px solid #e0e0e0;">
