@@ -3,13 +3,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import Testimonials from '../components/Testimonials';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   PlayCircle, ArrowRight, 
   MonitorPlay, Sparkles,
-  Menu, Search, Mic, Bell, Share2, MoreVertical, ChevronLeft, ChevronRight, X
+  Menu, Search, Mic, Bell, Share2, MoreVertical, ChevronLeft, ChevronRight, X, Star, ChevronDown, CheckCircle2, XCircle
 } from 'lucide-react';
 
 // --- THE "BAAP LEVEL" VIDEO SERVICES SECTION ---
@@ -26,9 +25,9 @@ const VideoConversionServices = () => {
       <div className="max-w-7xl mx-auto relative z-10">
         
         {/* Modern Title */}
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="text-center mb-12 sm:mb-16 md:mb-24 lg:mb-40 relative"
         > 
@@ -47,7 +46,7 @@ const VideoConversionServices = () => {
           <motion.div 
             initial={{ opacity: 0, x: -50, rotateY: 15 }}
             whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
-      viewport={{ once: true }}
+            viewport={{ once: true }}
             transition={{ duration: 0.8, type: "spring" }}
             className="group relative order-2 lg:order-1"
           >
@@ -82,7 +81,7 @@ const VideoConversionServices = () => {
           </motion.div>
 
           {/* --- CENTER CARD: THE STAGE (Highlight) --- */}
-      <motion.div
+          <motion.div
             initial={{ opacity: 0, y: 100, scale: 0.9 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true }}
@@ -112,7 +111,7 @@ const VideoConversionServices = () => {
                 <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
                 
                 {/* Content */}
-      <div className="relative z-10">
+                <div className="relative z-10">
                    <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-[10px] sm:text-xs font-bold mb-4 sm:mb-5 md:mb-6">
                     <Sparkles className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#FFBE02]" /> MOST POPULAR
                   </div>
@@ -174,7 +173,6 @@ const VideoConversionServices = () => {
   );
 };
 
-
 // --- STREAMLINED PROCESS SECTION ---
 const StreamlinedProcessSection = () => {
   const [activeProcessTab, setActiveProcessTab] = useState(0);
@@ -226,7 +224,7 @@ const StreamlinedProcessSection = () => {
             fill 
             className="object-contain" 
             style={{ objectPosition: 'right bottom' }} 
-            priority 
+            sizes="(max-width: 1024px) 100vw, 70vw"
           />
         </motion.div>
       </AnimatePresence>
@@ -493,7 +491,7 @@ const YouTubeTVSection = () => {
         <div className="relative w-full max-w-[1200px] mx-auto perspective-[1000px]">
           {/* TV Frame */}
           <div className="relative w-full aspect-[16/9] z-20 pointer-events-none">
-            <Image src="/book-to-video/fourth_S_TV.png" alt="TV Frame" fill className="object-contain scale-105" priority />
+            <Image src="/book-to-video/fourth_S_TV.png" alt="TV Frame" fill className="object-contain scale-105" sizes="(max-width: 1200px) 100vw, 1100px" />
           </div>
 
           {/* Internal Screen */}
@@ -532,8 +530,8 @@ const YouTubeTVSection = () => {
               <div className="flex items-center gap-1 sm:gap-2">
                 <button className="p-1.5 sm:p-2 hover:bg-gray-100 rounded-full hidden sm:block"><Bell className="w-5 h-5 text-gray-900" /></button>
                 <div className="ml-1 sm:ml-2 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#FFBE02] text-black flex items-center justify-center text-xs sm:text-sm font-bold cursor-pointer">D</div>
-      </div>
-    </div>
+              </div>
+            </div>
 
             {/* Content Area */}
             <div className="w-full h-[calc(100%-56px)] overflow-hidden bg-white relative">
@@ -542,7 +540,7 @@ const YouTubeTVSection = () => {
                 <div className="w-full h-full flex flex-col lg:flex-row p-3 sm:p-4 md:p-5 lg:p-6 gap-4 sm:gap-5 md:gap-6 overflow-y-auto">
                   <div className="w-full lg:w-[70%]">
                     <div className="w-full aspect-video bg-black rounded-lg sm:rounded-xl overflow-hidden shadow-sm mb-3 sm:mb-4">
-                      <iframe width="100%" height="100%" src={currentVideo.src} title="Player" allow="autoplay; encrypted-media" className="border-0"></iframe>
+                      <iframe width="100%" height="100%" src={currentVideo.src} title="Player" allow="autoplay; encrypted-media" loading="lazy" className="border-0"></iframe>
                     </div>
                     <h1 className="text-base sm:text-lg md:text-[20px] font-bold text-zinc-900 mb-2 sm:mb-3 leading-6 sm:leading-7 font-serif">
                       {currentVideo.title}
@@ -640,6 +638,7 @@ const YouTubeTVSection = () => {
                           src={shortsList[currentShortIndex].src} 
                           title="Shorts" 
                           allow="autoplay; encrypted-media" 
+                          loading="lazy"
                           className="border-0 object-cover"
                         ></iframe>
                         <div className="absolute right-2 sm:right-3 bottom-20 sm:bottom-24 md:bottom-20 flex flex-col items-center gap-2 sm:gap-3 md:gap-5 lg:gap-6 z-40">
@@ -712,9 +711,9 @@ const YouTubeTVSection = () => {
                               <h4 className="text-base font-bold text-zinc-900 group-hover:text-[#FFBE02] transition-colors duration-300 line-clamp-1 font-['Poppins']">
                                 {thumbnail.title}
                               </h4>
-    </div>
-  </motion.div>
-);
+                            </div>
+                          </motion.div>
+                        );
                       })}
                     </div>
                   </div>
@@ -757,7 +756,7 @@ const YouTubeTVSection = () => {
                                     alt={thumbnailList[activeThumbnailIndex].title}
                                     fill
                                     className="object-contain"
-                                    priority
+                                    sizes="(max-width: 900px) 100vw, 900px"
                                   />
                                 </div>
                               </motion.div>
@@ -798,163 +797,510 @@ const YouTubeTVSection = () => {
   );
 };
 
+// --- 5. WHY YOUTUBE SECTION ---
+const WhyYouTubeSection = () => {
+  return (
+    <section className="py-16 sm:py-20 bg-[#efefef] relative z-10">
+      <div className="max-w-[1240px] mx-auto px-4 sm:px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.15fr] gap-7 lg:gap-10 items-start">
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="relative h-full"
+          >
+            <div className="relative w-full max-w-[500px] mx-auto lg:mx-0 rounded-[2rem] overflow-hidden shadow-[0_18px_45px_-25px_rgba(0,0,0,0.45)] min-h-[460px] sm:min-h-[520px] lg:min-h-[650px]">
+              <Image src="/youtube-page/why_youtube.png" alt="Why Youtube" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 500px" />
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="flex flex-col justify-center h-full"
+          >
+            <div className="relative inline-flex items-center mb-6 mt-4 pl-2">
+              {/* Red Button Box */}
+              <div className="bg-[#FF0000] text-white pl-8 sm:pl-10 pr-16 sm:pr-20 py-3.5 sm:py-4.5 rounded-[1.25rem] sm:rounded-[1.5rem] text-[1.6rem] sm:text-[2rem] font-black tracking-tight leading-none shadow-[0_10px_25px_rgba(255,0,0,0.35)]">
+                Why Youtube ?
+              </div>
+
+              {/* Overlapping 3D YouTube Icon (No Background) */}
+              <div className="absolute right-0 top-0 w-0 h-0 z-10">
+                <div className="relative w-[88px] h-[88px] sm:w-[112px] sm:h-[112px] left-[-220%] sm:left-[-240%] lg:left-[-260%] -top-4 sm:-top-5">
+                  <Image
+                    src="/youtube-page/youtube.png"
+                    alt="YouTube 3D Icon"
+                    fill
+                    className="object-contain drop-shadow-[0_18px_20px_rgba(0,0,0,0.3)] rotate-[14deg] hover:scale-110 transition-transform duration-300"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <h2 className="text-[3.05rem] sm:text-[3.4rem] font-black text-black leading-[0.95] tracking-[-0.02em]">
+              How It Works
+            </h2>
+            <h3 className="text-[2.2rem] sm:text-[2.6rem] font-medium text-zinc-900 leading-[1.02] tracking-[-0.02em] mb-6 sm:mb-7">
+              The 7-Days Roadmap
+            </h3>
+
+            <div className="space-y-4">
+              <div className="bg-[#f4f4f4] border border-[#e6e6e6] rounded-[1.9rem] px-6 sm:px-7 py-5 sm:py-6 shadow-[0_8px_20px_-18px_rgba(0,0,0,0.35)]">
+                <p className="text-[1.08rem] sm:text-[1.24rem] leading-tight text-zinc-900">
+                  <span className="font-extrabold">Phase 1 - </span>
+                  <span className="font-medium">Cinematic Transformation</span>
+                </p>
+                <p className="mt-1.5 text-[0.96rem] sm:text-[1rem] leading-[1.15] text-zinc-700">
+                  We adapt your manuscript into a high-retention, animated Youtube series. We build the visuals that stop the scroll.
+                </p>
+              </div>
+
+              <div className="bg-[#f4f4f4] border border-[#e6e6e6] rounded-[1.9rem] px-6 sm:px-7 py-5 sm:py-6 shadow-[0_8px_20px_-18px_rgba(0,0,0,0.35)]">
+                <p className="text-[1.08rem] sm:text-[1.24rem] leading-tight text-zinc-900">
+                  <span className="font-extrabold">Phase 2 - </span>
+                  <span className="font-medium">Global Distribution</span>
+                </p>
+                <p className="mt-1.5 text-[0.96rem] sm:text-[1rem] leading-[1.15] text-zinc-700">
+                  We launch your book across 200+ global retailers. You keep 100% of your rights and every cent of your royalties.
+                </p>
+              </div>
+
+              <div className="bg-[#f4f4f4] border border-[#e6e6e6] rounded-[1.9rem] px-6 sm:px-7 py-5 sm:py-6 shadow-[0_8px_20px_-18px_rgba(0,0,0,0.35)]">
+                <p className="text-[1.08rem] sm:text-[1.24rem] leading-tight text-zinc-900">
+                  <span className="font-extrabold">Phase 3 - </span>
+                  <span className="font-medium">The Viral Funnel</span>
+                </p>
+                <p className="mt-1.5 text-[0.96rem] sm:text-[1rem] leading-[1.15] text-zinc-700">
+                  Your Youtube series acts as a 24/7 sales machine, funneling viewers directly from your episodes to your checkout page.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// --- 6. SLIDING TESTIMONIALS SECTION ---
+const SlidingTestimonials = () => {
+  const reviewsRow1 = [
+    { name: "Sarah Jenkins", role: "Fiction Author", text: "My book sales exploded after the cinematic trailer went live on YouTube!" },
+    { name: "Michael T.", role: "Bestseller", text: "The cash cow strategy worked flawlessly. Passive income is real." },
+    { name: "Emily Rose", role: "Indie Publisher", text: "Unbelievable quality. The 2D animation brought my characters to life." },
+    { name: "David Clarke", role: "Author", text: "They handled everything from script to upload. Absolute lifesavers!" },
+    { name: "Anita S.", role: "Writer", text: "Best marketing investment I have ever made for my series." },
+  ];
+
+  const reviewsRow2 = [
+    { name: "John Doe", role: "Fantasy Writer", text: "They turned my 300-page book into a viral 15-minute masterpiece." },
+    { name: "Elena G.", role: "Non-Fiction", text: "The team is incredibly talented. My audience engagement is up 400%." },
+    { name: "Robert Fox", role: "Historian", text: "Highly professional and the video quality is just out of this world." },
+    { name: "Linda M.", role: "Romance Author", text: "I was skeptical at first, but the results speak for themselves." },
+    { name: "Chris P.", role: "Author", text: "If you want your book noticed in 2024, you need their services." },
+  ];
+
+  const TestimonialCard = ({ item }: { item: any }) => (
+    <div className="w-[320px] md:w-[380px] bg-white border border-gray-100 rounded-3xl p-6 shadow-sm flex flex-col gap-4 flex-shrink-0">
+      <div className="flex text-[#FFBE02]">
+        {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
+      </div>
+      <p className="text-gray-700 italic flex-1 text-sm md:text-base leading-relaxed">&quot;{item.text}&quot;</p>
+      <div className="flex items-center gap-3 mt-2">
+        <div className="w-10 h-10 bg-gradient-to-tr from-gray-200 to-gray-300 rounded-full flex items-center justify-center text-gray-600 font-bold">
+          {item.name[0]}
+        </div>
+        <div>
+          <h5 className="font-bold text-gray-900 text-sm">{item.name}</h5>
+          <p className="text-xs text-gray-500">{item.role}</p>
+        </div>
+      </div>
+    </div>
+  );
+
+  const MarqueeRow = ({ items, direction = 1, speed = 40 }: { items: any[], direction?: number, speed?: number }) => (
+    <div className="flex overflow-hidden w-full mb-6 relative">
+      <motion.div
+        className="flex gap-6 w-max"
+        animate={{ x: direction === 1 ? ["0%", "-50%"] : ["-50%", "0%"] }}
+        transition={{ repeat: Infinity, ease: "linear", duration: speed }}
+      >
+        {[...items, ...items, ...items].map((item, i) => (
+          <TestimonialCard key={i} item={item} />
+        ))}
+      </motion.div>
+    </div>
+  );
+
+  return (
+    <section className="py-20 bg-[#fefdfb] overflow-hidden relative">
+      <div className="max-w-7xl mx-auto px-4 text-center mb-12">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 font-serif tracking-tight">
+          Join <span className="text-[#FFBE02]">Authors</span>
+        </h2>
+        <p className="text-gray-500 mt-2 text-lg italic">Who have achieved massive success.</p>
+      </div>
+
+      <div className="relative w-full flex flex-col items-center rotate-[-1deg] scale-105">
+        <MarqueeRow items={reviewsRow1} direction={1} speed={45} />
+        <MarqueeRow items={reviewsRow2} direction={-1} speed={50} />
+        <MarqueeRow items={reviewsRow1} direction={1} speed={40} />
+
+        <div className="absolute top-0 bottom-0 left-0 w-16 md:w-32 bg-gradient-to-r from-[#fefdfb] to-transparent z-10 pointer-events-none" />
+        <div className="absolute top-0 bottom-0 right-0 w-16 md:w-32 bg-gradient-to-l from-[#fefdfb] to-transparent z-10 pointer-events-none" />
+      </div>
+    </section>
+  );
+};
+
+// --- 7. RIGHT FIT SECTION ---
+const RightFitSection = () => {
+  const forYouList = [
+    "You believe your book deserves global reach.",
+    "You want expert editing, design, and translation.",
+    "You prefer a dedicated team over DIY management.",
+    "You value quality across every detail and format.",
+    "You want full ownership and creative control.",
+    "You are ready to invest in long-term visibility and impact."
+  ];
+
+  const notForYouList = [
+    "You are looking for a quick or low-cost solution.",
+    "Your project skips professional editing, design, or polish.",
+    "Your book is limited to only one format or market.",
+    "You want to manage everything yourself.",
+    "You aren't focused on visibility, reach, or legacy."
+  ];
+
+  return (
+    <section className="py-20 sm:py-24 bg-[#efefef] font-sans">
+      <div className="max-w-[1140px] mx-auto px-4 sm:px-6">
+
+        {/* Header Section */}
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-[2.4rem] sm:text-[4.5rem] md:text-[5.5rem] leading-none tracking-tight mb-2 sm:mb-4">
+            <span className="font-bold text-[#EAB308]">Right</span>{" "}
+            <span className="font-normal text-[#1F1F1F]">Fit</span>
+          </h2>
+          <p className="text-[1.15rem] sm:text-[2.2rem] text-[#333333] font-light tracking-wide">
+            Is This the for You?
+          </p>
+        </div>
+
+        {/* Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-9">
+
+          {/* LEFT CARD: This is for you */}
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.55, ease: "easeOut" }}
+            whileHover={{ y: -8, scale: 1.01 }}
+            className="relative overflow-hidden bg-[#fbf9ee] rounded-[2rem] sm:rounded-[2.1rem] p-9 sm:p-11 md:p-12 shadow-[0_18px_36px_-24px_rgba(0,0,0,0.45)] border border-black/[0.04] h-full"
+          >
+            <div className="absolute -top-12 -right-12 w-44 h-44 rounded-full bg-[#e4b006]/10 blur-3xl pointer-events-none" />
+            <h3 className="text-[2rem] sm:text-[2.25rem] font-bold text-[#e4b006] mb-6 sm:mb-7 tracking-tight leading-tight">
+              This is for you if:
+            </h3>
+            <ul className="flex flex-col gap-3.5 sm:gap-4">
+              {forYouList.map((text, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <span className="text-[#222222] text-[1.2rem] leading-[1.2] mt-0.5 font-semibold">•</span>
+                  <span className="text-[1.05rem] sm:text-[1.34rem] leading-[1.45] text-[#222222] font-normal">
+                    {text}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          {/* RIGHT CARD: This isn't for you */}
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.55, delay: 0.08, ease: "easeOut" }}
+            whileHover={{ y: -8, scale: 1.01 }}
+            className="relative overflow-hidden bg-[#fbf9ee] rounded-[2rem] sm:rounded-[2.1rem] p-9 sm:p-11 md:p-12 shadow-[0_18px_36px_-24px_rgba(0,0,0,0.45)] border border-black/[0.04] h-full"
+          >
+            <div className="absolute -bottom-14 -left-12 w-44 h-44 rounded-full bg-[#e4b006]/10 blur-3xl pointer-events-none" />
+            <h3 className="text-[2rem] sm:text-[2.25rem] font-bold italic text-[#e4b006] mb-6 sm:mb-7 tracking-tight leading-tight">
+              This isn't for you if:
+            </h3>
+            <ul className="flex flex-col gap-3.5 sm:gap-4">
+              {notForYouList.map((text, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <span className="text-[#222222] text-[1.2rem] leading-[1.2] mt-0.5 font-semibold italic">•</span>
+                  <span className="text-[1.05rem] sm:text-[1.34rem] leading-[1.45] text-[#222222] italic font-normal">
+                    {text}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// --- 9. FAQS SECTION ---
+const FAQSection = () => {
+  const [openIdx, setOpenIdx] = useState<number | null>(0);
+
+  const faqs = [
+    { q: "How long does the entire video creation process take?", a: "Depending on the complexity (2D animation vs standard editing), it generally takes between 2 to 4 weeks from script approval to final delivery." },
+    { q: "Do I need to have my own script ready?", a: "Not at all! Our professional scriptwriters will analyze your book and craft a highly engaging script designed for YouTube audience retention." },
+    { q: "Do you guarantee a certain amount of views?", a: "While we use battle-tested strategies to maximize algorithmic reach, YouTube is an organic platform, so we cannot promise exact view counts. We do guarantee premium, highly engaging production." },
+    { q: "Who owns the rights to the finalized video?", a: "You do! Once the project is complete and paid in full, you retain 100% of the commercial rights to the video to use anywhere you like." }
+  ];
+
+  return (
+    <section className="py-24 bg-[#fafaf9]">
+      <div className="max-w-4xl mx-auto px-4">
+        <h2 className="text-3xl md:text-5xl font-bold text-center mb-12 font-serif text-gray-900">
+          Frequently Asked <span className="text-[#FFBE02]">Questions</span>
+        </h2>
+
+        <div className="space-y-4">
+          {faqs.map((faq, i) => (
+            <div key={i} className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm transition-all hover:shadow-md">
+              <button
+                onClick={() => setOpenIdx(openIdx === i ? null : i)}
+                className="w-full text-left px-6 py-5 flex items-center justify-between focus:outline-none"
+              >
+                <span className="font-bold text-lg text-gray-800">{faq.q}</span>
+                <ChevronDown className={`w-5 h-5 text-gray-500 transition-transform duration-300 ${openIdx === i ? 'rotate-180' : ''}`} />
+              </button>
+              <AnimatePresence>
+                {openIdx === i && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-6 pb-6 text-gray-600 leading-relaxed border-t border-gray-100 pt-4">
+                      {faq.a}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
 export default function BookToVideoPage() {
   return (
-    <div className="w-full bg-[#fafaf9] font-sans selection:bg-yellow-200 selection:text-yellow-900 overflow-x-hidden">
+    <div className="w-full bg-[#fafaf9] font-sans selection:bg-red-200 selection:text-red-900 overflow-x-hidden">
       <Header />
       
-      {/* 1. HERO BANNER SECTION */}
-      <section className="relative w-full min-h-[85vh] sm:min-h-[90vh] lg:min-h-[100vh] flex items-center justify-center overflow-hidden" style={{ background: 'linear-gradient(to bottom, #FBFBFD, #FAF6E3)' }}>
+      {/* 1. HERO BANNER SECTION (EXACT REPLICA WITH SMOKY BLUR EFFECT) */}
+      <section className="relative w-full bg-white pt-24 sm:pt-32 pb-10 flex flex-col items-center justify-start overflow-hidden font-sans">
         
-        {/* RIGHT SIDE IMAGE - Desktop Only */}
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="hidden lg:flex absolute right-0 top-0 bottom-0 w-auto max-w-md xl:max-w-lg h-full pointer-events-none pr-8 xl:pr-16 items-center justify-end"
-        >
-          <div className="relative w-full h-full flex items-center justify-end">
-            <Image
-              src="/book-to-video/movie_frim.png"
-              alt="Action Scene"
-              width={500}
-              height={500}
-              className="w-full h-full object-contain object-right"
-              priority
-            />
-        </div>
-        </motion.div>
-
-        {/* CENTER CONTENT */}
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
-          <div className="flex flex-col items-center text-center max-w-3xl lg:max-w-4xl mx-auto py-10 sm:py-14 md:py-18 lg:py-24">
-            
-            {/* YouTube Icon */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="mb-4 sm:mb-5 md:mb-6 lg:mb-8 flex justify-center"
-            >
-              <Image
-                src="/book-to-video/youtube_short_icon.png"
-                alt="YouTube Shorts"
-                width={160}
-                height={160}
-                className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-36 lg:h-36 xl:w-44 xl:h-44 object-contain"
-                priority
-              />
-          </motion.div>
+        {/* Text Content Area */}
+        <div className="text-center max-w-5xl mx-auto px-4 relative z-20 flex flex-col items-center">
           
-            {/* Title */}
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-zinc-900 mb-3 sm:mb-4 md:mb-5 lg:mb-6 font-['Poppins'] leading-[1.15] sm:leading-[1.2] md:leading-tight px-3 sm:px-4"
-            >
-              Transform Your Book into Visual Storytelling
-            </motion.h1>
+          {/* Main Headline */}
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-[38px] sm:text-[48px] md:text-[60px] lg:text-[76px] leading-[1.1] text-[#111] mb-3 sm:mb-4 tracking-tight"
+          >
+            <span className="font-normal text-black">Turn your Book into a </span>
+            <span className="font-black text-[#FF0000] tracking-tighter">YouTube</span>
+          </motion.h1>
+          
+          {/* Subheadline */}
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-base sm:text-lg md:text-[22px] text-gray-800 mb-8 max-w-3xl mx-auto font-medium"
+          >
+            For ambitious authors with a manuscript or a published book who are tired of being
+          </motion.p>
+          
+          {/* Replica CTA Button */}
+          <motion.a 
+            href="#contact"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="group flex items-center bg-[#FF0000] rounded-full p-1.5 pr-8 shadow-[0_8px_30px_rgba(255,0,0,0.25)] hover:shadow-[0_12px_40px_rgba(255,0,0,0.35)] hover:-translate-y-1 transition-all duration-300 active:scale-95 cursor-pointer"
+          >
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full flex items-center justify-center mr-3 sm:mr-4 shadow-md group-hover:scale-105 transition-transform duration-300">
+              <Image 
+                src="/youtube-page/YT-icon.png" 
+                alt="YT Icon" 
+                width={24} 
+                height={24} 
+                className="w-5 h-5 sm:w-6 sm:h-6 object-contain" 
+              />
+            </div>
+            <span className="text-white font-bold text-base sm:text-lg tracking-wide">Start Your Journey</span>
+          </motion.a>
+        </div>
 
-            {/* Description */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-sm sm:text-base md:text-lg lg:text-xl text-zinc-700 mb-5 sm:mb-6 md:mb-7 lg:mb-8 font-['Poppins'] leading-[1.6] sm:leading-[1.65] md:leading-[1.7] lg:leading-relaxed max-w-[95%] sm:max-w-xl lg:max-w-2xl px-3 sm:px-4 mx-auto"
-            >
-              Harness the power of video to bring your stories to life on YouTube, Shorts, and beyond.
-            </motion.p>
+        {/* Main Image with Edge Smoky Blurs */}
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="relative w-full max-w-[1600px] mx-auto mt-12 sm:mt-16 px-4 sm:px-0"
+        >
+          {/* Left Elite Smoky / Fade Blur Overlay */}
+          <div className="absolute top-0 bottom-0 left-0 w-[15%] md:w-[20%] lg:w-[25%] bg-gradient-to-r from-white via-white/80 to-transparent z-10 pointer-events-none backdrop-blur-[2px] [mask-image:linear-gradient(to_right,black,transparent)]" />
+          
+          {/* Right Elite Smoky / Fade Blur Overlay */}
+          <div className="absolute top-0 bottom-0 right-0 w-[15%] md:w-[20%] lg:w-[25%] bg-gradient-to-l from-white via-white/80 to-transparent z-10 pointer-events-none backdrop-blur-[2px] [mask-image:linear-gradient(to_left,black,transparent)]" />
 
-            {/* Button */}
-            <motion.a
-              href="#contact"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="inline-flex items-center justify-center gap-2 sm:gap-3 bg-[#FFBE02] hover:bg-[#e6aa02] text-black text-sm sm:text-base md:text-lg font-bold py-3 px-6 sm:py-4 sm:px-8 md:py-5 md:px-12 rounded-full shadow-2xl shadow-yellow-500/30 transition-all hover:-translate-y-1 hover:scale-105 font-['Poppins'] tracking-wide whitespace-nowrap"
-            >
-              Start Your Journey
-              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex-shrink-0" />
-            </motion.a>
+          {/* Wrapper for the combined Book + TV + Trust Badge image */}
+          <div className="relative w-full aspect-[4/3] sm:aspect-[16/9] md:aspect-[2.2/1] lg:aspect-[2.5/1]">
+             <Image 
+               src="/youtube-page/banner_img.png" 
+               alt="Books to YouTube Video Conversion Banner" 
+               fill 
+               className="object-contain object-top" 
+               priority 
+             />
           </div>
+        </motion.div>
+      </section>
+
+      {/* 2. TOP CALENDLY & LEFT BOX SECTION */}
+      <section id="calendly" className="py-16 sm:py-24 bg-[#fafaf9] relative z-20">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-[42%_58%] gap-8 lg:gap-12 items-stretch">
+
+          {/* LEFT BOX: Stats Card */}
+          <div className="bg-white rounded-[2.5rem] shadow-[0_12px_40px_rgba(0,0,0,0.06)] border border-black/[0.03] p-7 sm:p-14 flex flex-col justify-center gap-10 sm:gap-16 h-full">
+
+            {/* Stat 1: Books Published */}
+            <div className="flex items-center gap-6 sm:gap-8">
+              <div className="relative w-[70px] h-[70px] sm:w-[85px] sm:h-[85px] flex-shrink-0">
+                <Image
+                  src="/youtube-page/Book-Icon.png"
+                  alt="Book Published"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              <div className="flex flex-col justify-center">
+                <h4 className="text-[32px] sm:text-[52px] font-light leading-none tracking-tight text-[#111111]">
+                  10,124+
+                </h4>
+                <p className="text-[17px] sm:text-[20px] font-normal text-[#333333] mt-1.5 sm:mt-2">
+                  Book Published
+                </p>
+              </div>
+            </div>
+
+            {/* Stat 2: Book Video */}
+            <div className="flex items-center gap-6 sm:gap-8">
+              <div className="relative w-[70px] h-[70px] sm:w-[85px] sm:h-[85px] flex-shrink-0">
+                <Image
+                  src="/youtube-page/YT-Big-icon.png"
+                  alt="Book Video"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              <div className="flex flex-col justify-center">
+                <h4 className="text-[32px] sm:text-[52px] font-light leading-none tracking-tight text-[#111111]">
+                  1,200+
+                </h4>
+                <p className="text-[17px] sm:text-[20px] font-normal text-[#333333] mt-1.5 sm:mt-2">
+                  Book Video
+                </p>
+              </div>
+            </div>
+
+            {/* Stat 3: Happy Authors */}
+            <div className="flex items-center gap-6 sm:gap-8">
+              <div className="relative w-[70px] h-[70px] sm:w-[85px] sm:h-[85px] flex-shrink-0">
+                <Image
+                  src="/youtube-page/Smile_emoji_icon.png"
+                  alt="Happy Authors"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              <div className="flex flex-col justify-center">
+                <h4 className="text-[32px] sm:text-[52px] font-light leading-none tracking-tight text-[#111111]">
+                  95%
+                </h4>
+                <p className="text-[17px] sm:text-[20px] font-normal text-[#333333] mt-1.5 sm:mt-2">
+                  Happy Authors
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+          {/* RIGHT BOX: Calendly Widget */}
+          <div className="bg-white rounded-[2.5rem] shadow-[0_12px_40px_rgba(0,0,0,0.06)] border border-black/[0.03] overflow-hidden min-h-[650px] lg:min-h-[700px] w-full h-full relative">
+            <iframe
+              src="https://calendly.com/contact-duckbookwriters/30min?hide_event_type_details=1&hide_gdpr_banner=1"
+              width="100%"
+              height="100%"
+              frameBorder="0"
+              loading="lazy"
+              className="absolute inset-0 w-full h-full"
+              title="Book Meeting"
+            ></iframe>
+          </div>
+
         </div>
       </section>
 
-      {/* 2. SERVICES SECTION (BAAP LEVEL DESIGN) */}
-      <VideoConversionServices />
-
-      {/* 3. STREAMLINED PROCESS SECTION */}
-      <StreamlinedProcessSection />
-
-      {/* 4. VIDEOS WE CREATED - YOUTUBE TV SECTION */}
+      {/* 3. VIDEOS WE CREATED - YOUTUBE TV SECTION */}
       <YouTubeTVSection />
 
-      {/* 5. VISUALIZE YOUR BOOK CTA SECTION */}
-      <section className="relative w-full bg-white overflow-hidden pt-4 sm:pt-6 md:pt-8 lg:pt-10 xl:pt-12">
-        {/* Top Image - Full Section Cover - Pixel Perfect Responsive */}
-        <div className="relative w-full min-h-[280px] sm:min-h-[380px] md:min-h-[480px] lg:min-h-[580px] xl:min-h-[680px] 2xl:min-h-[780px]">
-          <Image 
-            src="/book-to-video/CTA_img.png" 
-            alt="Visualize Your Book" 
-            fill 
-            className="object-contain object-center" 
-            priority 
-            sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 100vw, (max-width: 1280px) 100vw, 100vw"
-          />
-        </div>
-        
-        {/* Yellow Background with Text - Overlapping 10% of image - Responsive */}
-        <div className="relative w-full bg-[#FFBE02] py-6 sm:py-8 md:py-10 lg:py-12 xl:py-14 -mt-[26%] sm:-mt-[9%] md:-mt-[10%] lg:-mt-[10%] z-10">
-          <div className="max-w-7xl mx-auto px-4 sm:px-5 md:px-6 lg:px-8 xl:px-10 text-center">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white font-serif leading-tight sm:leading-tight md:leading-tight lg:leading-tight px-2 sm:px-3 md:px-4">
-              Visualize Your Book!
-            </h2>
+      {/* 4. SERVICES SECTION (BAAP LEVEL DESIGN) */}
+      <VideoConversionServices />
+
+      {/* 5. WHY YOUTUBE SECTION */}
+      <WhyYouTubeSection />
+
+      {/* 6. SLIDING TESTIMONIALS */}
+      <SlidingTestimonials />
+
+      {/* 7. RIGHT FIT SECTION */}
+      <RightFitSection />
+
+      {/* 8. CENTER CALENDLY DUBARA */}
+      <section className="py-20 bg-[#fafaf9]">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="bg-white rounded-[2.5rem] shadow-2xl border border-gray-100 overflow-hidden h-[650px]">
+            <iframe
+              src="https://calendly.com/contact-duckbookwriters/30min?hide_event_type_details=1&hide_gdpr_banner=1"
+              width="100%"
+              height="100%"
+              frameBorder="0"
+              loading="lazy"
+              className="w-full h-full"
+              title="Book Meeting"
+            ></iframe>
           </div>
         </div>
       </section>
 
-      {/* 6. TESTIMONIALS */}
-      <Testimonials />
+      {/* 9. FAQs SECTION */}
+      <FAQSection />
 
-      {/* 7. FINAL CTA */}
-      <section id="contact" className="py-24 px-4 bg-[#fafaf9]">
-        <div className="max-w-6xl mx-auto bg-zinc-900 rounded-[3rem] relative overflow-hidden border-2 border-zinc-800 shadow-2xl">
-          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10"></div>
-          <motion.div 
-            animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
-            transition={{ duration: 20, repeat: Infinity }}
-            className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-[#FFBE02]/20 rounded-full blur-[100px]" 
-          />
-          <motion.div 
-            animate={{ scale: [1, 1.5, 1], rotate: [0, -45, 0] }}
-            transition={{ duration: 15, repeat: Infinity }}
-            className="absolute -bottom-40 -left-40 w-[600px] h-[600px] bg-amber-600/10 rounded-full blur-[100px]" 
-          />
-
-          <div className="relative z-10 py-20 px-8 md:px-20 text-center">
-            <h2 className="text-4xl md:text-7xl font-bold text-white mb-8 tracking-tight font-serif">
-              Ready to go <br/> <span className="text-[#FFBE02]">Viral?</span>
-            </h2>
-            <p className="text-zinc-300 text-xl mb-12 max-w-2xl mx-auto font-sans">
-              Join the authors who are turning pages into views. High-quality production, zero headaches.
-            </p>
-            
-            <a 
-              href="#contact"
-              className="group flex items-center justify-between w-[300px] md:w-[340px] h-[64px] bg-[#FFBE02] text-black font-bold rounded-full text-xl shadow-lg overflow-hidden relative p-2 mx-auto transition-all hover:shadow-xl hover:shadow-yellow-500/30 hover:bg-[#e6aa02]" 
-            >
-              <span className="relative z-10 pl-6 whitespace-nowrap font-sans">Get Your Free Quote</span>
-              <span className="bg-black text-[#FFBE02] rounded-full w-[48px] h-[48px] flex items-center justify-center relative z-10 flex-shrink-0">
-                <ArrowRight className="w-6 h-6" />
-              </span>
-              <div className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/20 rounded-full transform scale-0 group-hover:scale-[30] transition-transform duration-[800ms] ease-in-out origin-center"></div>
-            </a>
-          </div>
-        </div>
+      {/* 10. FOOTER / CONTACT US */}
+      <section className="bg-white border-t border-gray-100">
+        <Footer />
       </section>
-
-      <Footer />
     </div>
   );
 }

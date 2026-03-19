@@ -26,7 +26,8 @@ async function fetchInviteeFromUri(inviteeUri: string): Promise<Record<string, u
 }
 
 export async function POST(request: NextRequest) {
-  console.log('=== CALENDLY WEBHOOK RECEIVED ===');
+  const hasToken = !!process.env.CALENDLY_API_TOKEN;
+  console.log('=== CALENDLY WEBHOOK RECEIVED ===', 'CALENDLY_API_TOKEN set:', hasToken);
 
   try {
     const body = await request.json();
