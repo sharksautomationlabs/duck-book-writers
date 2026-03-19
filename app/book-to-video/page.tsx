@@ -57,7 +57,7 @@ const VideoConversionServices = () => {
               className="hidden md:block absolute -top-32 md:-top-40 -left-12 md:-left-20 z-0 w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 blur-[2px] group-hover:blur-0"
             >
               <Image 
-                src="/book-to-video/youtube_main.png" 
+                src="/youtube-page/youtube.png" 
                 alt="YouTube" 
                 width={400} 
                 height={400} 
@@ -94,7 +94,7 @@ const VideoConversionServices = () => {
             {/* WALKING PERSON - Responsive Sizing */}
             <div className="absolute -top-[130px] sm:-top-[160px] md:-top-[190px] lg:-top-[210px] left-1/2 -translate-x-1/2 w-[180px] h-[260px] sm:w-[220px] sm:h-[320px] md:w-[250px] md:h-[360px] lg:w-[280px] lg:h-[400px] z-30 pointer-events-none">
                <Image 
-                src="/book-to-video/person.gif" 
+                src="/youtube-page/YT-Big-icon.png" 
                 alt="Walking Person" 
                 width={400} 
                 height={600} 
@@ -144,7 +144,7 @@ const VideoConversionServices = () => {
               className="hidden md:block absolute -top-32 md:-top-40 -right-12 md:-right-20 z-0 w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 blur-[2px] group-hover:blur-0"
             >
               <Image 
-                src="/book-to-video/action_seen.png" 
+                src="/youtube-page/Book-Icon.png" 
                 alt="Clapperboard" 
                 width={400} 
                 height={400} 
@@ -219,7 +219,7 @@ const StreamlinedProcessSection = () => {
           transition={{ duration: 0.5, ease: "easeInOut" }}
         >
           <Image 
-            src="/book-to-video/lights.png" 
+            src="/youtube-page/Banner_img.png" 
             alt={processSteps[activeProcessTab].heading} 
             fill 
             className="object-contain" 
@@ -439,10 +439,10 @@ const YouTubeTVSection = () => {
       {/* Shades Image as Shadow - Covering Full Section */}
       <div className="absolute bottom-0 left-0 right-0 w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[350px] xl:h-[400px] z-10 pointer-events-none">
         <Image 
-          src="/book-to-video/shades.png" 
+          src="/youtube-page/Banner_img.png" 
           alt="Shades Shadow" 
           fill 
-          className="object-cover object-center opacity-60" 
+          className="object-cover object-center opacity-12" 
         />
       </div>
       
@@ -491,7 +491,7 @@ const YouTubeTVSection = () => {
         <div className="relative w-full max-w-[1200px] mx-auto perspective-[1000px]">
           {/* TV Frame */}
           <div className="relative w-full aspect-[16/9] z-20 pointer-events-none">
-            <Image src="/book-to-video/fourth_S_TV.png" alt="TV Frame" fill className="object-contain scale-105" sizes="(max-width: 1200px) 100vw, 1100px" />
+            <Image src="/youtube-page/Banner_img.png" alt="TV Frame" fill className="object-contain scale-105" sizes="(max-width: 1200px) 100vw, 1100px" />
           </div>
 
           {/* Internal Screen */}
@@ -828,7 +828,7 @@ const WhyYouTubeSection = () => {
 
               {/* Overlapping 3D YouTube Icon (No Background) */}
               <div className="absolute right-0 top-0 w-0 h-0 z-10">
-                <div className="relative w-[86px] h-[86px] sm:w-[106px] sm:h-[106px] lg:w-[116px] lg:h-[116px] left-[-235%] sm:left-[-245%] lg:left-[-260%] -top-5 sm:-top-6 lg:-top-7">
+                <div className="relative w-[86px] h-[86px] sm:w-[106px] sm:h-[106px] lg:w-[116px] lg:h-[116px] left-[-260%] -top-5 sm:-top-6 lg:-top-7">
                   <Image
                     src="/youtube-page/youtube.png"
                     alt="YouTube 3D Icon"
@@ -1140,7 +1140,7 @@ export default function BookToVideoPage() {
           >
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full flex items-center justify-center mr-3 sm:mr-4 shadow-md group-hover:scale-105 transition-transform duration-300">
               <Image 
-                src="/youtube-page/YT-icon.png" 
+                src="/youtube-page/YT-Icon.png" 
                 alt="YT Icon" 
                 width={24} 
                 height={24} 
@@ -1167,7 +1167,7 @@ export default function BookToVideoPage() {
           {/* Wrapper for the combined Book + TV + Trust Badge image */}
           <div className="relative w-full aspect-[4/3] sm:aspect-[16/9] md:aspect-[2.2/1] lg:aspect-[2.5/1]">
              <Image 
-               src="/youtube-page/banner_img.png" 
+               src="/youtube-page/Banner_img.png" 
                alt="Books to YouTube Video Conversion Banner" 
                fill 
                className="object-contain object-top" 
