@@ -78,7 +78,9 @@ export async function POST(request: NextRequest) {
     const phone = extractPhone(invitee);
 
     // Event type name: from fetched event if we have eventUri, else from invitee
-    let eventName = String(invitee.event_type?.name || (invitee.scheduled_event as Record<string, unknown>)?.name || 'Book to YouTube Consultation').trim();
+    const eventTypeName = (invitee.event_type as Record<string, unknown> | undefined)?.name;
+    const scheduledEventName = (invitee.scheduled_event as Record<string, unknown> | undefined)?.name;
+    let eventName = String(eventTypeName || scheduledEventName || 'Book to YouTube Consultation').trim();
     if (eventUri && process.env.CALENDLY_API_TOKEN) {
       try {
         const eventRes = await fetch(eventUri, { headers: { Authorization: `Bearer ${process.env.CALENDLY_API_TOKEN}` } });

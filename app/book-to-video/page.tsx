@@ -1028,7 +1028,7 @@ const RightFitSection = () => {
           >
             <div className="absolute -bottom-14 -left-12 w-44 h-44 rounded-full bg-[#e4b006]/10 blur-3xl pointer-events-none" />
             <h3 className="text-[2rem] sm:text-[2.25rem] font-bold italic text-[#e4b006] mb-6 sm:mb-7 tracking-tight leading-tight">
-              This isn't for you if:
+              This isn&apos;t for you if:
             </h3>
             <ul className="flex flex-col gap-3.5 sm:gap-4">
               {notForYouList.map((text, i) => (

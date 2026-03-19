@@ -3,7 +3,7 @@ import { Resend } from 'resend';
 import { join } from 'path';
 import { readFile } from 'fs/promises';
 import { CONTACT_EMAIL } from '../../config/constants';
-import { checkIpRateLimit, getClientIp } from '../../lib/rate-limit-ip';
+import { checkIpRateLimit, getClientIp } from '../../../lib/rate-limit-ip';
 
 export async function POST(request: NextRequest) {
   try {
