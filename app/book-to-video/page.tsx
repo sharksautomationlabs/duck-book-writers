@@ -57,7 +57,7 @@ const VideoConversionServices = () => {
               className="hidden md:block absolute -top-32 md:-top-40 -left-12 md:-left-20 z-0 w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 blur-[2px] group-hover:blur-0"
             >
               <Image 
-                src="/youtube-page/youtube.png" 
+                src="/book-to-video/youtube_main.png" 
                 alt="YouTube" 
                 width={400} 
                 height={400} 
@@ -94,7 +94,7 @@ const VideoConversionServices = () => {
             {/* WALKING PERSON - Responsive Sizing */}
             <div className="absolute -top-[130px] sm:-top-[160px] md:-top-[190px] lg:-top-[210px] left-1/2 -translate-x-1/2 w-[180px] h-[260px] sm:w-[220px] sm:h-[320px] md:w-[250px] md:h-[360px] lg:w-[280px] lg:h-[400px] z-30 pointer-events-none">
                <Image 
-                src="/youtube-page/YT-Big-icon.png" 
+                src="/book-to-video/person.gif" 
                 alt="Walking Person" 
                 width={400} 
                 height={600} 
@@ -144,7 +144,7 @@ const VideoConversionServices = () => {
               className="hidden md:block absolute -top-32 md:-top-40 -right-12 md:-right-20 z-0 w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 blur-[2px] group-hover:blur-0"
             >
               <Image 
-                src="/youtube-page/Book-Icon.png" 
+                src="/book-to-video/action_seen.png" 
                 alt="Clapperboard" 
                 width={400} 
                 height={400} 
@@ -219,7 +219,7 @@ const StreamlinedProcessSection = () => {
           transition={{ duration: 0.5, ease: "easeInOut" }}
         >
           <Image 
-            src="/youtube-page/Banner_img.png" 
+            src="/book-to-video/lights.png" 
             alt={processSteps[activeProcessTab].heading} 
             fill 
             className="object-contain" 
@@ -439,10 +439,10 @@ const YouTubeTVSection = () => {
       {/* Shades Image as Shadow - Covering Full Section */}
       <div className="absolute bottom-0 left-0 right-0 w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[350px] xl:h-[400px] z-10 pointer-events-none">
         <Image 
-          src="/youtube-page/Banner_img.png" 
+          src="/book-to-video/shades.png" 
           alt="Shades Shadow" 
           fill 
-          className="object-cover object-center opacity-12" 
+          className="object-cover object-center opacity-60" 
         />
       </div>
       
@@ -491,7 +491,7 @@ const YouTubeTVSection = () => {
         <div className="relative w-full max-w-[1200px] mx-auto perspective-[1000px]">
           {/* TV Frame */}
           <div className="relative w-full aspect-[16/9] z-20 pointer-events-none">
-            <Image src="/youtube-page/Banner_img.png" alt="TV Frame" fill className="object-contain scale-105" sizes="(max-width: 1200px) 100vw, 1100px" />
+            <Image src="/book-to-video/fourth_S_TV.png" alt="TV Frame" fill className="object-contain scale-105" sizes="(max-width: 1200px) 100vw, 1100px" />
           </div>
 
           {/* Internal Screen */}
