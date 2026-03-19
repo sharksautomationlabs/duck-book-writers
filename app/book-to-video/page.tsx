@@ -828,12 +828,12 @@ const WhyYouTubeSection = () => {
 
               {/* Overlapping 3D YouTube Icon (No Background) */}
               <div className="absolute right-0 top-0 w-0 h-0 z-10">
-                <div className="relative w-[88px] h-[88px] sm:w-[112px] sm:h-[112px] left-[-220%] sm:left-[-240%] lg:left-[-260%] -top-4 sm:-top-5">
+                <div className="relative w-[86px] h-[86px] sm:w-[106px] sm:h-[106px] lg:w-[116px] lg:h-[116px] left-[-235%] sm:left-[-245%] lg:left-[-260%] -top-5 sm:-top-6 lg:-top-7">
                   <Image
                     src="/youtube-page/youtube.png"
                     alt="YouTube 3D Icon"
                     fill
-                    className="object-contain drop-shadow-[0_18px_20px_rgba(0,0,0,0.3)] rotate-[14deg] hover:scale-110 transition-transform duration-300"
+                    className="object-contain drop-shadow-[0_16px_18px_rgba(0,0,0,0.28)] rotate-[12deg] hover:scale-105 transition-transform duration-300"
                   />
                 </div>
               </div>
