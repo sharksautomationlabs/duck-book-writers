@@ -1,25 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 import { join } from 'path';
 import { readFile } from 'fs/promises';
 import { CONTACT_EMAIL } from '../../config/constants';
 import { checkIpRateLimit, getClientIp } from '../../lib/rate-limit-ip';
-
-function getTransporter() {
-  const host = process.env.SMTP_HOST || 'mail.duckbookwriters.com';
-  const port = Number(process.env.SMTP_PORT) || 465;
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASS;
-
-  return nodemailer.createTransport({
-    host,
-    port,
-    secure: true,
-    auth: { user, pass },
-    tls: { rejectUnauthorized: false },
-    connectionTimeout: 10000,
-  });
-}
 
 export async function POST(request: NextRequest) {
   try {
@@ -129,12 +113,13 @@ export async function POST(request: NextRequest) {
       `;
     }
 
-    if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-      console.error('[send-email-resend] Missing SMTP_USER or SMTP_PASS - add to env');
+    const resendApiKey = process.env.RESEND_API_KEY;
+    if (!resendApiKey) {
+      console.error('[send-email-resend] Missing RESEND_API_KEY - add to env');
       return NextResponse.json({ success: false, error: 'Email service not configured.' }, { status: 500 });
     }
-
-    const transporter = getTransporter();
+    const resend = new Resend(resendApiKey);
+    const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
 
     const htmlWrapper = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
@@ -164,31 +149,41 @@ export async function POST(request: NextRequest) {
         </div>
       `;
 
-    const info = await transporter.sendMail({
-      from: `"Duck Book Writers Website" <${CONTACT_EMAIL}>`,
+    const resendAttachments = attachments.map((att: { filename: string; content: Buffer }) => ({
+      filename: att.filename,
+      content: att.content.toString('base64'),
+    }));
+
+    const { data, error } = await resend.emails.send({
+      from: fromEmail,
       to: CONTACT_EMAIL,
       subject,
       html: htmlWrapper,
-      attachments,
+      attachments: resendAttachments,
+      replyTo: from_email || email || CONTACT_EMAIL,
     });
+    if (error) {
+      throw new Error(error.message || 'Failed to send via Resend');
+    }
 
     console.log('[send-email-resend] Notification email sent to team', {
       to: CONTACT_EMAIL,
-      messageId: info.messageId,
-      response: info.response,
+      messageId: data?.id,
+      provider: 'resend',
     });
 
     return NextResponse.json({ 
       success: true, 
-      message: 'Email sent successfully to team via SMTP',
-      messageId: info.messageId
+      message: 'Email sent successfully to team via Resend',
+      messageId: data?.id
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
     console.error('Email sending error:', error);
     return NextResponse.json({ 
       success: false, 
-      error: `Failed to send email: ${error?.message || 'Unknown error'}` 
+      error: `Failed to send email: ${message}` 
     }, { status: 500 });
   }
 }
