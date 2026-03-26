@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import CalendlyWidget from './CalendlyWidget';
-import { CONTACT_EMAIL } from '../config/constants';
+import { CALENDLY_LINK } from '../config/constants';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -44,23 +44,8 @@ const Header = () => {
 
           {/* Desktop Navigation - Hidden on mobile */}
           <div className={`hidden lg:flex flex-grow flex-col items-center mx-32 ${isHomePage ? 'bg-black/20 backdrop-blur-md border border-black/30 rounded-2xl px-8 py-4 shadow-lg' : 'bg-black/80 backdrop-blur-md border border-black/50 rounded-2xl px-8 py-4 shadow-lg'}`}>
-            {/* Top Row: Contact Info */}
-            <div className="flex items-center gap-24 mb-2">
-              <a href="tel:+13464637721" className={`flex items-center gap-2 text-sm ${isHomePage ? 'text-white hover:text-yellow-300 drop-shadow-lg' : 'text-white hover:text-yellow-300'} transition-colors duration-200`}>
-                <Image src="/images/phone-icon.svg" alt="Phone" width={16} height={16} className="filter brightness-0 invert" />
-                <span>+1 (346) 463-7721</span>
-              </a>
-              <a href={`mailto:${CONTACT_EMAIL}`} className={`flex items-center gap-2 text-sm ${isHomePage ? 'text-white hover:text-yellow-300 drop-shadow-lg' : 'text-white hover:text-yellow-300'} transition-colors duration-200`}>
-                <Image src="/images/email-icon.svg" alt="Email" width={22} height={16} className="filter brightness-0 invert" />
-                <span>{CONTACT_EMAIL}</span>
-              </a>
-            </div>
-
-            {/* Separator Line */}
-            <div className={`w-full max-w-lg border-t ${isHomePage ? 'border-white/50' : 'border-white/30'}`}></div>
-
-            {/* Bottom Row: Navigation Links */}
-            <nav className="mt-2 w-full">
+            {/* Navigation Links */}
+            <nav className="w-full">
               <ul className="flex items-center justify-center space-x-6 flex-nowrap">
                 {navLinks.map((link) => (
                   <li key={link.href} className="flex-shrink-0">
@@ -76,7 +61,7 @@ const Header = () => {
           {/* Desktop Contact Button - Hidden on mobile */}
           <div className="hidden lg:flex flex-shrink-0">
             <CalendlyWidget 
-              url="https://calendly.com/contact-duckbookwriters/30min"
+              url={CALENDLY_LINK}
               text="Contact"
               size="md"
               className="font-medium"
@@ -86,7 +71,7 @@ const Header = () => {
           {/* Mobile Menu Button */}
           <div className="lg:hidden flex items-center gap-4">
             <CalendlyWidget 
-              url="https://calendly.com/contact-duckbookwriters/30min"
+              url={CALENDLY_LINK}
               text="Contact"
               size="sm"
               className="font-medium"
@@ -104,18 +89,6 @@ const Header = () => {
         {isMobileMenuOpen && (
           <div className="lg:hidden absolute top-full left-0 right-0 bg-white/60 backdrop-blur-md border border-white/20 shadow-xl z-50">
             <div className="px-4 py-6 space-y-4 pt-8 text-center">
-              {/* Mobile Contact Info */}
-              <div className="space-y-3 pb-4 border-b border-black/20">
-                <a href="tel:+13464637721" className="flex items-center justify-center gap-2 text-sm text-black hover:text-yellow-500 transition-colors duration-200">
-                  <Image src="/images/phone-icon.svg" alt="Phone" width={16} height={16} />
-                  <span>+1 (346) 463-7721</span>
-                </a>
-                <a href={`mailto:${CONTACT_EMAIL}`} className="flex items-center justify-center gap-2 text-sm text-black hover:text-yellow-500 transition-colors duration-200">
-                  <Image src="/images/email-icon.svg" alt="Email" width={22} height={16} />
-                  <span>{CONTACT_EMAIL}</span>
-                </a>
-              </div>
-
               {/* Mobile Navigation Links */}
               <nav>
                 <ul className="space-y-3">

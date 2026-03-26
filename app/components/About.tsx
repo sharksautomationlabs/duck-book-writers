@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useRef } from 'react';
 import CalendlyWidget from './CalendlyWidget';
+import { CALENDLY_LINK } from '../config/constants';
 
 const About = () => {
   const sectionRef = useRef(null);
@@ -307,7 +308,7 @@ const About = () => {
               className="mx-auto lg:mx-0"
             >
               <CalendlyWidget 
-                url="https://calendly.com/contact-duckbookwriters/30min"
+                url={CALENDLY_LINK}
                 text="Learn More"
                 size="md"
                 className="!bg-black hover:!bg-black text-white font-['Poppins'] font-semibold rounded-[50px] transition-all duration-200 w-[140px] sm:w-[166px] h-[36px] sm:h-[42px] hover-lift smooth-transition"

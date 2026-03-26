@@ -1,81 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import CalendlyInlineEmbed from './CalendlyInlineEmbed';
 
 const CalendlySection = () => {
-  const [isCalendlyLoaded, setIsCalendlyLoaded] = useState(false);
-
-  useEffect(() => {
-    let resizeHandler: (() => void) | null = null;
-    const initCalendlyWidget = () => {
-      const widgetElement = document.getElementById('calendly-inline-embed');
-      if ((window as any).Calendly && widgetElement && !widgetElement.hasChildNodes()) {
-        try {
-          (window as any).Calendly.initInlineWidget({
-            url: 'https://calendly.com/contact-duckbookwriters/30min',
-            parentElement: widgetElement,
-            prefill: {},
-            utm: {}
-          });
-
-          // Ensure the injected iframe fills the wrapper and doesn't produce an inner scrollbar.
-          setTimeout(() => {
-            const iframe = widgetElement.querySelector('iframe') as HTMLIFrameElement | null;
-            const setHeights = () => {
-              let h = 1250;
-              const w = window.innerWidth;
-              if (w < 640) h = 900;
-              else if (w < 1024) h = 1100;
-              else h = 1250;
-              widgetElement.style.height = `${h}px`;
-              if (iframe) {
-                iframe.style.height = '100%';
-                iframe.style.minHeight = `${h}px`;
-                iframe.style.width = '100%';
-                iframe.style.border = '0';
-                iframe.style.overflow = 'hidden';
-              }
-            };
-            setHeights();
-            resizeHandler = () => setHeights();
-            window.addEventListener('resize', resizeHandler);
-          }, 300);
-        } catch (error) {
-          console.error('Error initializing Calendly widget:', error);
-        }
-      }
-    };
-
-    // Check if Calendly is already loaded (from layout.tsx script)
-    if ((window as any).Calendly) {
-      setIsCalendlyLoaded(true);
-      // Small delay to ensure DOM is ready
-      setTimeout(initCalendlyWidget, 200);
-      return;
-    }
-
-    // Wait for script from layout.tsx to load
-    const checkCalendly = setInterval(() => {
-      if ((window as any).Calendly) {
-        setIsCalendlyLoaded(true);
-        clearInterval(checkCalendly);
-        setTimeout(initCalendlyWidget, 200);
-      }
-    }, 100);
-
-    // Cleanup interval after 10 seconds if Calendly doesn't load
-    const timeout = setTimeout(() => {
-      clearInterval(checkCalendly);
-    }, 10000);
-
-    return () => {
-      clearInterval(checkCalendly);
-      clearTimeout(timeout);
-      if (resizeHandler) window.removeEventListener('resize', resizeHandler);
-    };
-  }, []);
-
   return (
     <section className="py-20 sm:py-24 lg:py-28 bg-gradient-to-br from-[#FDFDFD] via-[#F8F9FA] to-[#F5F6FF] relative overflow-hidden">
       {/* Background decoration */}
@@ -86,14 +14,14 @@ const CalendlySection = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <motion.div 
+        <motion.div
           className="text-center mb-12 sm:mb-16"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
+          transition={{ duration: 0.4, ease: 'easeOut' }}
         >
-          <motion.h2 
+          <motion.h2
             className="font-['Poppins'] font-bold text-3xl sm:text-4xl lg:text-5xl text-[#1A1A1A] mb-4 sm:mb-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -102,8 +30,8 @@ const CalendlySection = () => {
           >
             Schedule a <span className="text-yellow-500">30 Minute Meeting</span>
           </motion.h2>
-          
-          <motion.p 
+
+          <motion.p
             className="font-['Poppins'] text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -112,8 +40,8 @@ const CalendlySection = () => {
           >
             30 Minute Meeting - Duck Book Writers
           </motion.p>
-          
-          <motion.p 
+
+          <motion.p
             className="font-['Poppins'] text-sm sm:text-base text-gray-500 max-w-2xl mx-auto mt-2"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -124,20 +52,14 @@ const CalendlySection = () => {
           </motion.p>
         </motion.div>
 
-       {/* Calendly Inline Widget */}
-        <motion.div 
-          className="bg-white rounded-[20px] sm:rounded-[30px] shadow-xl p-2 sm:p-6 lg:p-8 overflow-hidden" // Changed overflow-visible to overflow-hidden
+        <motion.div
+          className="bg-white rounded-[20px] sm:rounded-[30px] shadow-xl p-2 sm:p-6 lg:p-8 overflow-hidden"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <div 
-            id="calendly-inline-embed" 
-            // Yahan maine height values badha di hain (1100px - 1250px)
-            className="w-full min-h-[1000px] sm:min-h-[1100px] lg:min-h-[1250px] h-auto overflow-hidden"
-            style={{ minWidth: '320px' }}
-          />
+          <CalendlyInlineEmbed containerId="calendly-inline-embed" />
         </motion.div>
       </div>
     </section>
@@ -145,4 +67,3 @@ const CalendlySection = () => {
 };
 
 export default CalendlySection;
-

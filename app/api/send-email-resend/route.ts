@@ -120,6 +120,8 @@ export async function POST(request: NextRequest) {
     }
     const resend = new Resend(resendApiKey);
     const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
+    /** Until your domain is verified in Resend, free/test keys only allow sending TO your Resend login email — set RESEND_NOTIFICATION_TO to that address for local dev. */
+    const notifyTo = (process.env.RESEND_NOTIFICATION_TO || '').trim() || CONTACT_EMAIL;
 
     const htmlWrapper = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
@@ -156,7 +158,7 @@ export async function POST(request: NextRequest) {
 
     const { data, error } = await resend.emails.send({
       from: fromEmail,
-      to: CONTACT_EMAIL,
+      to: notifyTo,
       subject,
       html: htmlWrapper,
       attachments: resendAttachments,
@@ -167,7 +169,7 @@ export async function POST(request: NextRequest) {
     }
 
     console.log('[send-email-resend] Notification email sent to team', {
-      to: CONTACT_EMAIL,
+      to: notifyTo,
       messageId: data?.id,
       provider: 'resend',
     });

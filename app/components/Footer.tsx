@@ -28,6 +28,8 @@ const Footer: React.FC = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [successHint, setSuccessHint] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -41,6 +43,8 @@ const Footer: React.FC = () => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus('idle');
+    setSuccessHint(null);
+    setErrorMessage(null);
 
     try {
       const formatProjectValue = (value: string) => {
@@ -50,47 +54,73 @@ const Footer: React.FC = () => {
         ).join(' ');
       };
 
-      // Form fillup — max 3 submissions per IP per day
-      const emailRes = await fetch('/api/send-email-resend', {
+      const payload = {
+        from_name: formData.name,
+        from_email: formData.email,
+        contact_number: formData.contact || 'Not provided',
+        project_service: formatProjectValue(formData.project),
+        budget: formData.budget || 'No budget specified',
+      };
+
+      // Email + Retell call in parallel: call must not be blocked if Resend fails (missing key, domain, etc.)
+      const emailPromise = fetch('/api/send-email-resend', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          from_name: formData.name,
-          from_email: formData.email,
-          contact_number: formData.contact || 'Not provided',
-          project_service: formatProjectValue(formData.project),
-          budget: formData.budget || 'No budget specified',
-        }),
+        body: JSON.stringify(payload),
       });
+
+      const callPromise =
+        formData.contact?.trim()
+          ? fetch('/api/retell/call', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                to_number: formData.contact,
+                customer_name: formData.name,
+                customer_email: formData.email,
+                service: formData.project,
+                budget: formData.budget,
+                source: 'Footer Contact Form',
+              }),
+            }).catch((err) => {
+              console.error('Retell call trigger failed:', err);
+              return null;
+            })
+          : Promise.resolve(null);
+
+      const [emailRes, callRes] = await Promise.all([emailPromise, callPromise]);
+
+      let callOk = false;
+      if (callRes) {
+        callOk = callRes.ok;
+        if (!callOk) {
+          const callData = await callRes.json().catch(() => ({}));
+          console.error('[Footer] Retell API response:', callRes.status, callData);
+        }
+      }
+
       if (emailRes.status === 429) {
         const data = await emailRes.json().catch(() => ({}));
         throw new Error((data as { error?: string }).error || 'Submission limit reached. You can submit up to 3 times per day from this network.');
       }
+
       if (!emailRes.ok) {
-        throw new Error('Could not submit form. Please try again later.');
-      }
-
-      // Trigger Retell AI outbound call
-      if (formData.contact) {
-        try {
-          await fetch('/api/retell/call', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              to_number: formData.contact,
-              customer_name: formData.name,
-              customer_email: formData.email,
-              service: formData.project,
-              budget: formData.budget,
-              source: 'Footer Contact Form',
-            }),
-          });
-        } catch (callError) {
-          console.error('Retell call trigger failed:', callError);
+        const data = await emailRes.json().catch(() => ({}));
+        const serverMsg = (data as { error?: string }).error || 'Could not submit form. Please try again later.';
+        if (callOk && formData.contact?.trim()) {
+          setSubmitStatus('success');
+          setSuccessHint(
+            'We are calling you now. Note: the team email notification could not be sent — please save this screen or email us directly if you need a written copy.'
+          );
+        } else {
+          throw new Error(serverMsg);
         }
+      } else {
+        if (formData.contact?.trim() && !callOk) {
+          setSuccessHint('Your message was sent. If you do not receive a call shortly, please check your number or call us directly.');
+        }
+        setSubmitStatus('success');
       }
-
-      setSubmitStatus('success');
 
       // Reset form after successful submission
       setTimeout(() => {
@@ -102,11 +132,13 @@ const Footer: React.FC = () => {
           budget: ''
         });
         setSubmitStatus('idle');
+        setSuccessHint(null);
       }, 3000);
 
     } catch (error) {
       console.error('Error sending email:', error);
       setSubmitStatus('error');
+      setErrorMessage(error instanceof Error ? error.message : 'Something went wrong. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -331,14 +363,21 @@ const Footer: React.FC = () => {
 
                     {/* Status Messages */}
                     {submitStatus === 'success' && (
-                      <div className="p-2 bg-green-100 border border-green-400 text-green-700 rounded-[8px] font-['Poppins'] text-xs">
-                        Thank you! Your message has been sent. We&apos;ll get back to you soon.
+                      <div className="space-y-2">
+                        <div className="p-2 bg-green-100 border border-green-400 text-green-700 rounded-[8px] font-['Poppins'] text-xs">
+                          Thank you! Your message has been sent. We&apos;ll get back to you soon.
+                        </div>
+                        {successHint && (
+                          <div className="p-2 bg-amber-50 border border-amber-200 text-amber-900 rounded-[8px] font-['Poppins'] text-xs">
+                            {successHint}
+                          </div>
+                        )}
                       </div>
                     )}
 
                     {submitStatus === 'error' && (
                       <div className="p-2 bg-red-100 border border-red-400 text-red-700 rounded-[8px] font-['Poppins'] text-xs">
-                        There was an error sending your message. Please try again.
+                        {errorMessage || 'There was an error sending your message. Please try again.'}
                       </div>
                     )}
                   </form>

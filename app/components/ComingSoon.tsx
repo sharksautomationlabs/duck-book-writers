@@ -5,6 +5,7 @@ import Countdown from 'react-countdown';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import CalendlyWidget from './CalendlyWidget';
+import { CALENDLY_LINK } from '../config/constants';
 
 // Animated Countdown Component
 const AnimatedCountdown = ({ value, label }: { value: number; label: string }) => {
@@ -314,7 +315,7 @@ const ComingSoon = () => {
               transition={{ duration: 0.3, delay: 0.15 }}
             >
               <CalendlyWidget 
-                url="https://calendly.com/contact-duckbookwriters/30min"
+                url={CALENDLY_LINK}
                 text="Pre Order Now"
                 size="sm"
                 className="bg-[#ffbe02] hover:bg-yellow-500 text-black font-['Poppins'] font-semibold px-4 sm:px-6 py-1 sm:py-2 rounded-full text-xs sm:text-sm w-[120px] sm:w-[140px] lg:w-[160px] hover-lift smooth-transition"

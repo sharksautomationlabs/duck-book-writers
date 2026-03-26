@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import CalendlyWidget from './CalendlyWidget';
+import { CALENDLY_LINK } from '../config/constants';
 
 // Book data structure
 interface BookCover {
@@ -275,7 +276,7 @@ const Hero = () => {
           whileTap={{ scale: 0.95 }}
         >
           <CalendlyWidget 
-            url="https://calendly.com/contact-duckbookwriters/30min"
+            url={CALENDLY_LINK}
             text="Publish My Book"
             size="md"
             className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold"

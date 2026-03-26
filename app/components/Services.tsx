@@ -14,6 +14,7 @@ import {
   Clock
 } from 'lucide-react';
 import CalendlyWidget from './CalendlyWidget';
+import { CALENDLY_LINK } from '../config/constants';
 
 const Services = () => {
 
@@ -311,7 +312,7 @@ const Services = () => {
                       whileTap={{ scale: 0.98 }}
                     >
                       <CalendlyWidget 
-                        url="https://calendly.com/contact-duckbookwriters/30min"
+                        url={CALENDLY_LINK}
                         text="Learn More"
                         size="md"
                         fullWidth={true}
@@ -652,7 +653,7 @@ const Services = () => {
               whileTap={{ scale: 0.95 }}
             >
               <CalendlyWidget 
-                url="https://calendly.com/contact-duckbookwriters/30min"
+                url={CALENDLY_LINK}
                 text="Get Started Today"
                 size="lg"
                 className="bg-[#FFBE02] hover:bg-[#e6aa02] text-[#040404] font-['Poppins'] font-semibold px-8 py-2 rounded-[50px] text-[18px] transition-all duration-300 hover-lift smooth-transition flex items-center justify-center gap-3 mx-auto group/btn"
