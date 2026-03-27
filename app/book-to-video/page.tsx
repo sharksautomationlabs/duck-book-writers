@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import dynamic from 'next/dynamic';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import CalendlyInlineWidget from '../components/CalendlyInlineWidget';
@@ -12,11 +11,6 @@ import {
   MonitorPlay, Sparkles,
   Menu, Search, Mic, Bell, Share2, MoreVertical, ChevronLeft, ChevronRight, X, Star, ChevronDown, CheckCircle2, XCircle
 } from 'lucide-react';
-
-const BookToVideoHeroFloatingBooks = dynamic(
-  () => import('./BookToVideoHeroFloatingBooks'),
-  { ssr: false, loading: () => null }
-);
 
 // --- VIDEO CONVERSION SERVICES: swap order on timer; center = purple + hero image; sides = glass + image behind ---
 type ServiceId = 'cash' | 'anim' | 'face';
@@ -1331,10 +1325,9 @@ export default function BookToVideoPage() {
               src="/youtube-page/Banner_img.png"
               alt="Books to YouTube Video Conversion Banner"
               fill
-              className="object-contain object-top z-0"
+              className="object-contain object-top"
               priority
             />
-            <BookToVideoHeroFloatingBooks />
           </div>
         </div>
       </section>
