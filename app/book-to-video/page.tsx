@@ -314,6 +314,17 @@ const StreamlinedProcessSection = () => {
 // --- YOUTUBE TV SECTION ---
 const ytThumbnail = (id: string) => `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
 
+type CurrentLongVideo = {
+  id: string;
+  title: string;
+  channel: string;
+  subscribers: string;
+  views: string;
+  date: string;
+  src: string;
+  desc: string;
+};
+
 /** Long tab: real YouTube embeds (titles + thumbs from each video) */
 const LONG_FORM_PLAYLIST = [
   {
@@ -432,7 +443,7 @@ const SHORTS_PLAYLIST = [
 const YouTubeTVSection = () => {
   const [activeVideoTab, setActiveVideoTab] = useState<'long' | 'short' | 'thumbnail'>('long');
   const [autoTabRotate, setAutoTabRotate] = useState(true);
-  const [currentVideo, setCurrentVideo] = useState(() => {
+  const [currentVideo, setCurrentVideo] = useState<CurrentLongVideo>(() => {
     const v = LONG_FORM_PLAYLIST[0];
     return {
       id: v.id,
