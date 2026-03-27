@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
+import dynamic from 'next/dynamic';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import CalendlyInlineWidget from '../components/CalendlyInlineWidget';
@@ -11,6 +12,11 @@ import {
   MonitorPlay, Sparkles,
   Menu, Search, Mic, Bell, Share2, MoreVertical, ChevronLeft, ChevronRight, X, Star, ChevronDown, CheckCircle2, XCircle
 } from 'lucide-react';
+
+const BookToVideoHeroFloatingBooks = dynamic(
+  () => import('./BookToVideoHeroFloatingBooks'),
+  { ssr: false, loading: () => null }
+);
 
 // --- VIDEO CONVERSION SERVICES: swap order on timer; center = purple + hero image; sides = glass + image behind ---
 type ServiceId = 'cash' | 'anim' | 'face';
@@ -1258,44 +1264,6 @@ const FAQSection = () => {
     </section>
   );
 };
-
-const heroBookEase = [0.16, 1, 0.3, 1] as const;
-
-/** Slides in over hero banner: left book from right → left; right book from left → right (LED stays on base art). */
-function BookToVideoHeroFloatingBooks() {
-  return (
-    <>
-      <motion.div
-        className="pointer-events-none absolute z-[12] left-[3%] sm:left-[5%] md:left-[6%] bottom-[8%] sm:bottom-[10%] md:bottom-[11%] h-[32%] sm:h-[35%] md:h-[38%] max-h-[200px] sm:max-h-[248px] md:max-h-[292px] w-auto max-w-[22vw] sm:max-w-[18%] md:max-w-[16%]"
-        initial={{ x: 'min(13vw, 5.5rem)', opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 1, delay: 0.2, ease: heroBookEase }}
-      >
-        <Image
-          src="/youtube-page/book-1.png"
-          alt=""
-          width={320}
-          height={460}
-          className="h-full w-auto object-contain drop-shadow-[0_16px_32px_rgba(0,0,0,0.3)] scale-[1.04]"
-        />
-      </motion.div>
-      <motion.div
-        className="pointer-events-none absolute z-[12] right-[3%] sm:right-[5%] md:right-[6%] bottom-[8%] sm:bottom-[10%] md:bottom-[11%] h-[32%] sm:h-[35%] md:h-[38%] max-h-[200px] sm:max-h-[248px] md:max-h-[292px] w-auto max-w-[22vw] sm:max-w-[18%] md:max-w-[16%]"
-        initial={{ x: 'calc(-1 * min(13vw, 5.5rem))', opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 1, delay: 0.32, ease: heroBookEase }}
-      >
-        <Image
-          src="/youtube-page/book-2.png"
-          alt=""
-          width={320}
-          height={460}
-          className="h-full w-auto object-contain drop-shadow-[0_16px_32px_rgba(0,0,0,0.3)] scale-[1.04]"
-        />
-      </motion.div>
-    </>
-  );
-}
 
 export default function BookToVideoPage() {
   return (
