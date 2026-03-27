@@ -31,7 +31,7 @@ const SERVICE_COPY: Record<
   cash: {
     title: 'Cash Cow Video',
     desc: "High-retention storytelling. We engineer scripts and visuals specifically to trigger YouTube's algorithm, turning your book's concepts into viral assets.",
-    heroSrc: '/book-to-video/youtube_main.svg',
+    heroSrc: '/book-to-video/Youtube_main.png',
     isGif: false,
     Icon: PlayCircle,
     centerBadge: 'PREMIUM PICK',
@@ -57,8 +57,8 @@ const SERVICE_COPY: Record<
 function ServiceCard({ id, placement }: { id: ServiceId; placement: SlotPlacement }) {
   const s = SERVICE_COPY[id];
   const Icon = s.Icon;
-  const isSvgHero = s.heroSrc.endsWith('.svg');
-  const centerHeroClassName = isSvgHero
+  const compactCashHero = id === 'cash';
+  const centerHeroClassName = compactCashHero
     ? 'h-[76px] w-auto sm:h-[88px] md:h-[96px] lg:h-[104px] object-contain object-bottom drop-shadow-[0_8px_18px_rgba(0,0,0,0.28)]'
     : `h-[130px] w-auto object-contain object-bottom drop-shadow-[0_12px_28px_rgba(0,0,0,0.35)] sm:h-[160px] md:h-[180px] lg:h-[200px] ${
         s.isGif ? 'scale-100 sm:scale-105' : 'scale-95 sm:scale-100'
@@ -69,27 +69,15 @@ function ServiceCard({ id, placement }: { id: ServiceId; placement: SlotPlacemen
       <div className="relative w-full z-20 -mb-4 sm:-mb-6 md:-mb-8 lg:-mb-12">
         {/* Hero asset: sibling of card so card can use overflow-hidden (no gray corner leaks) */}
         <div className="pointer-events-none absolute left-1/2 top-0 z-40 flex w-[min(88vw,260px)] sm:w-[280px] md:w-[300px] lg:w-[320px] -translate-x-1/2 -translate-y-1/2 justify-center px-2">
-          {isSvgHero ? (
-            <img
-              src={s.heroSrc}
-              alt=""
-              width={400}
-              height={600}
-              className={centerHeroClassName}
-              fetchPriority="high"
-              decoding="async"
-            />
-          ) : (
-            <Image
-              src={s.heroSrc}
-              alt=""
-              width={400}
-              height={600}
-              className={centerHeroClassName}
-              unoptimized={s.isGif}
-              priority
-            />
-          )}
+          <Image
+            src={s.heroSrc}
+            alt=""
+            width={400}
+            height={600}
+            className={centerHeroClassName}
+            unoptimized={s.isGif}
+            priority
+          />
         </div>
 
         <div className="relative overflow-hidden rounded-2xl sm:rounded-[2.5rem] lg:rounded-[3rem] bg-gradient-to-br from-[#8B2DF0] via-[#D925C8] to-[#FF5E00] text-center shadow-xl ring-1 ring-white/25 min-h-[200px] sm:min-h-[220px]">
@@ -124,33 +112,21 @@ function ServiceCard({ id, placement }: { id: ServiceId; placement: SlotPlacemen
       <motion.div
         animate={{ y: isLeft ? [-10, 10, -10] : [10, -10, 10], rotate: isLeft ? [0, -3, 0] : [0, 3, 0] }}
         transition={{ duration: isLeft ? 6 : 7, repeat: Infinity, ease: 'easeInOut', delay: isLeft ? 0 : 0.35 }}
-        className={`pointer-events-none hidden md:block absolute z-[8] ${isSvgHero ? 'w-32 h-32 md:w-40 md:h-40 lg:w-44 lg:h-44' : 'w-44 h-44 md:w-56 md:h-56 lg:w-64 lg:h-64'} opacity-80 group-hover:opacity-95 transition-opacity ${
+        className={`pointer-events-none hidden md:block absolute z-[8] ${compactCashHero ? 'w-32 h-32 md:w-40 md:h-40 lg:w-44 lg:h-44' : 'w-44 h-44 md:w-56 md:h-56 lg:w-64 lg:h-64'} opacity-80 group-hover:opacity-95 transition-opacity ${
           isLeft
             ? '-left-4 md:-left-12 lg:-left-16 -top-28 md:-top-36 lg:-top-40'
             : '-right-4 md:-right-12 lg:-right-16 -top-28 md:-top-36 lg:-top-40'
         }`}
         style={{ transform: 'translateZ(0)' }}
       >
-        {isSvgHero ? (
-          <img
-            src={s.heroSrc}
-            alt=""
-            width={400}
-            height={400}
-            className="object-contain w-full h-full max-h-[85%] drop-shadow-xl"
-            loading="lazy"
-            decoding="async"
-          />
-        ) : (
-          <Image
-            src={s.heroSrc}
-            alt=""
-            width={400}
-            height={400}
-            className={`object-contain w-full h-full drop-shadow-xl ${s.isGif ? 'scale-90' : ''}`}
-            unoptimized={s.isGif}
-          />
-        )}
+        <Image
+          src={s.heroSrc}
+          alt=""
+          width={400}
+          height={400}
+          className={`object-contain w-full h-full drop-shadow-xl ${compactCashHero ? 'max-h-[85%]' : ''} ${s.isGif ? 'scale-90' : ''}`}
+          unoptimized={s.isGif}
+        />
       </motion.div>
       <div className="relative z-10 bg-white/90 backdrop-blur-xl rounded-2xl sm:rounded-[2rem] lg:rounded-[2.5rem] p-6 sm:p-7 md:p-8 pt-10 sm:pt-11 md:pt-12 border border-white/60 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)]">
         <div className="absolute top-0 right-0 p-4 sm:p-6 md:p-8 opacity-10">
