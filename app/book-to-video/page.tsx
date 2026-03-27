@@ -59,7 +59,7 @@ function ServiceCard({ id, placement }: { id: ServiceId; placement: SlotPlacemen
   const Icon = s.Icon;
   const compactCashHero = id === 'cash';
   const centerHeroClassName = compactCashHero
-    ? 'h-[76px] w-auto sm:h-[88px] md:h-[96px] lg:h-[104px] object-contain object-bottom drop-shadow-[0_8px_18px_rgba(0,0,0,0.28)]'
+    ? 'h-[100px] w-auto sm:h-[118px] md:h-[132px] lg:h-[148px] object-contain object-bottom drop-shadow-[0_8px_18px_rgba(0,0,0,0.28)]'
     : `h-[130px] w-auto object-contain object-bottom drop-shadow-[0_12px_28px_rgba(0,0,0,0.35)] sm:h-[160px] md:h-[180px] lg:h-[200px] ${
         s.isGif ? 'scale-100 sm:scale-105' : 'scale-95 sm:scale-100'
       }`;
@@ -107,17 +107,19 @@ function ServiceCard({ id, placement }: { id: ServiceId; placement: SlotPlacemen
   }
 
   const isLeft = placement === 'left';
-  const isLeftCashFloating = compactCashHero && isLeft;
-  const sideFloatLarge = !compactCashHero || isLeftCashFloating;
-  const sideTopClass = isLeftCashFloating
-    ? '-top-24 md:-top-32 lg:-top-36'
-    : '-top-28 md:-top-36 lg:-top-40';
+  const isSideCash = compactCashHero;
+  const sideFloatLarge = !compactCashHero || isSideCash;
+  /* Less negative top = sits lower — overlap card top like Face clapperboard; YouTube PNG has headroom so anchor with flex + object-bottom */
+  const sideTopClass = isSideCash ? '-top-12 md:-top-18 lg:-top-22' : '-top-28 md:-top-36 lg:-top-40';
+  const sideFloatMotion = isSideCash
+    ? { y: isLeft ? [-4, 4, -4] : [4, -4, 4], rotate: isLeft ? [0, -1.5, 0] : [0, 1.5, 0] }
+    : { y: isLeft ? [-10, 10, -10] : [10, -10, 10], rotate: isLeft ? [0, -3, 0] : [0, 3, 0] };
   return (
     <div className="group relative w-full z-10">
       <motion.div
-        animate={{ y: isLeft ? [-10, 10, -10] : [10, -10, 10], rotate: isLeft ? [0, -3, 0] : [0, 3, 0] }}
+        animate={sideFloatMotion}
         transition={{ duration: isLeft ? 6 : 7, repeat: Infinity, ease: 'easeInOut', delay: isLeft ? 0 : 0.35 }}
-        className={`pointer-events-none hidden md:block absolute z-[8] ${
+        className={`pointer-events-none hidden md:flex absolute z-[8] items-end justify-center ${
           sideFloatLarge ? 'w-44 h-44 md:w-56 md:h-56 lg:w-64 lg:h-64' : 'w-32 h-32 md:w-40 md:h-40 lg:w-44 lg:h-44'
         } opacity-80 group-hover:opacity-95 transition-opacity ${
           isLeft
@@ -131,7 +133,7 @@ function ServiceCard({ id, placement }: { id: ServiceId; placement: SlotPlacemen
           alt=""
           width={400}
           height={400}
-          className={`object-contain w-full h-full drop-shadow-xl ${compactCashHero && !isLeftCashFloating ? 'max-h-[85%]' : ''} ${s.isGif ? 'scale-90' : ''}`}
+          className={`max-h-full w-auto object-contain object-bottom drop-shadow-xl ${isSideCash ? 'max-w-[95%]' : 'h-full w-full'} ${s.isGif ? 'scale-90' : ''}`}
           unoptimized={s.isGif}
         />
       </motion.div>
