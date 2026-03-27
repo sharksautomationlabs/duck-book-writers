@@ -59,7 +59,7 @@ function ServiceCard({ id, placement }: { id: ServiceId; placement: SlotPlacemen
   const Icon = s.Icon;
   const compactCashHero = id === 'cash';
   const centerHeroClassName = compactCashHero
-    ? 'h-[100px] w-auto sm:h-[118px] md:h-[132px] lg:h-[148px] object-contain object-bottom drop-shadow-[0_8px_18px_rgba(0,0,0,0.28)]'
+    ? 'h-[110px] w-auto sm:h-[126px] md:h-[142px] lg:h-[162px] object-contain object-bottom drop-shadow-[0_8px_18px_rgba(0,0,0,0.28)]'
     : `h-[130px] w-auto object-contain object-bottom drop-shadow-[0_12px_28px_rgba(0,0,0,0.35)] sm:h-[160px] md:h-[180px] lg:h-[200px] ${
         s.isGif ? 'scale-100 sm:scale-105' : 'scale-95 sm:scale-100'
       }`;
@@ -109,8 +109,8 @@ function ServiceCard({ id, placement }: { id: ServiceId; placement: SlotPlacemen
   const isLeft = placement === 'left';
   const isSideCash = compactCashHero;
   const sideFloatLarge = !compactCashHero || isSideCash;
-  /* Less negative top = sits lower — overlap card top like Face clapperboard; YouTube PNG has headroom so anchor with flex + object-bottom */
-  const sideTopClass = isSideCash ? '-top-12 md:-top-18 lg:-top-22' : '-top-28 md:-top-36 lg:-top-40';
+  /* Cash: between last “grounded” (-12/-18/-22) and Face-style (-28/-36/-40) so it sits ~half as low as before */
+  const sideTopClass = isSideCash ? '-top-20 md:-top-28 lg:-top-32' : '-top-28 md:-top-36 lg:-top-40';
   const sideFloatMotion = isSideCash
     ? { y: isLeft ? [-4, 4, -4] : [4, -4, 4], rotate: isLeft ? [0, -1.5, 0] : [0, 1.5, 0] }
     : { y: isLeft ? [-10, 10, -10] : [10, -10, 10], rotate: isLeft ? [0, -3, 0] : [0, 3, 0] };
