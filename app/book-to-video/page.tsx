@@ -31,7 +31,7 @@ const SERVICE_COPY: Record<
   cash: {
     title: 'Cash Cow Video',
     desc: "High-retention storytelling. We engineer scripts and visuals specifically to trigger YouTube's algorithm, turning your book's concepts into viral assets.",
-    heroSrc: '/book-to-video/Youtube_main.png',
+    heroSrc: '/book-to-video/youtube-cash-cow-logo.png',
     isGif: false,
     Icon: PlayCircle,
     centerBadge: 'PREMIUM PICK',
