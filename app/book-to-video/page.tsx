@@ -107,15 +107,22 @@ function ServiceCard({ id, placement }: { id: ServiceId; placement: SlotPlacemen
   }
 
   const isLeft = placement === 'left';
+  const isLeftCashFloating = compactCashHero && isLeft;
+  const sideFloatLarge = !compactCashHero || isLeftCashFloating;
+  const sideTopClass = isLeftCashFloating
+    ? '-top-24 md:-top-32 lg:-top-36'
+    : '-top-28 md:-top-36 lg:-top-40';
   return (
     <div className="group relative w-full z-10">
       <motion.div
         animate={{ y: isLeft ? [-10, 10, -10] : [10, -10, 10], rotate: isLeft ? [0, -3, 0] : [0, 3, 0] }}
         transition={{ duration: isLeft ? 6 : 7, repeat: Infinity, ease: 'easeInOut', delay: isLeft ? 0 : 0.35 }}
-        className={`pointer-events-none hidden md:block absolute z-[8] ${compactCashHero ? 'w-32 h-32 md:w-40 md:h-40 lg:w-44 lg:h-44' : 'w-44 h-44 md:w-56 md:h-56 lg:w-64 lg:h-64'} opacity-80 group-hover:opacity-95 transition-opacity ${
+        className={`pointer-events-none hidden md:block absolute z-[8] ${
+          sideFloatLarge ? 'w-44 h-44 md:w-56 md:h-56 lg:w-64 lg:h-64' : 'w-32 h-32 md:w-40 md:h-40 lg:w-44 lg:h-44'
+        } opacity-80 group-hover:opacity-95 transition-opacity ${
           isLeft
-            ? '-left-4 md:-left-12 lg:-left-16 -top-28 md:-top-36 lg:-top-40'
-            : '-right-4 md:-right-12 lg:-right-16 -top-28 md:-top-36 lg:-top-40'
+            ? `-left-4 md:-left-12 lg:-left-16 ${sideTopClass}`
+            : `-right-4 md:-right-12 lg:-right-16 ${sideTopClass}`
         }`}
         style={{ transform: 'translateZ(0)' }}
       >
@@ -124,7 +131,7 @@ function ServiceCard({ id, placement }: { id: ServiceId; placement: SlotPlacemen
           alt=""
           width={400}
           height={400}
-          className={`object-contain w-full h-full drop-shadow-xl ${compactCashHero ? 'max-h-[85%]' : ''} ${s.isGif ? 'scale-90' : ''}`}
+          className={`object-contain w-full h-full drop-shadow-xl ${compactCashHero && !isLeftCashFloating ? 'max-h-[85%]' : ''} ${s.isGif ? 'scale-90' : ''}`}
           unoptimized={s.isGif}
         />
       </motion.div>
