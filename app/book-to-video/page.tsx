@@ -31,7 +31,7 @@ const SERVICE_COPY: Record<
   cash: {
     title: 'Cash Cow Video',
     desc: "High-retention storytelling. We engineer scripts and visuals specifically to trigger YouTube's algorithm, turning your book's concepts into viral assets.",
-    heroSrc: '/book-to-video/youtube_main.png',
+    heroSrc: '/book-to-video/youtube_main.svg',
     isGif: false,
     Icon: PlayCircle,
     centerBadge: 'PREMIUM PICK',
@@ -121,7 +121,7 @@ function ServiceCard({ id, placement }: { id: ServiceId; placement: SlotPlacemen
           width={400}
           height={400}
           className={`object-contain w-full h-full drop-shadow-xl ${s.isGif ? 'scale-90' : ''}`}
-          unoptimized={s.isGif}
+          unoptimized={s.isGif || s.heroSrc.endsWith('.svg')}
         />
       </motion.div>
       <div className="relative z-10 bg-white/90 backdrop-blur-xl rounded-2xl sm:rounded-[2rem] lg:rounded-[2.5rem] p-6 sm:p-7 md:p-8 pt-10 sm:pt-11 md:pt-12 border border-white/60 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)]">
