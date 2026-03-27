@@ -3,30 +3,164 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import CalendlyInlineEmbed from '../components/CalendlyInlineEmbed';
-import BookingSection from './BookingSection';
+import CalendlyInlineWidget from '../components/CalendlyInlineWidget';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
-import {
-  PlayCircle, ArrowRight,
+import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
+import { 
+  PlayCircle, ArrowRight, 
   MonitorPlay, Sparkles,
   Menu, Search, Mic, Bell, Share2, MoreVertical, ChevronLeft, ChevronRight, X, Star, ChevronDown, CheckCircle2, XCircle
 } from 'lucide-react';
 
-// --- THE "BAAP LEVEL" VIDEO SERVICES SECTION ---
-const VideoConversionServices = () => {
-  return (
-    <section className="py-16 sm:py-20 md:py-24 lg:py-32 px-4 sm:px-6 lg:px-8 bg-[#fafaf9] overflow-visible relative">
+// --- VIDEO CONVERSION SERVICES: swap order on timer; center = purple + hero image; sides = glass + image behind ---
+type ServiceId = 'cash' | 'anim' | 'face';
+type SlotPlacement = 'left' | 'center' | 'right';
 
-      {/* Dynamic Background Elements */}
+const SERVICE_SLOT_ORDER: ServiceId[][] = [
+  ['cash', 'anim', 'face'],
+  ['anim', 'face', 'cash'],
+  ['face', 'cash', 'anim'],
+];
+
+const layoutSpring = { type: 'spring' as const, stiffness: 320, damping: 34, mass: 0.9 };
+
+const SERVICE_COPY: Record<
+  ServiceId,
+  { title: string; desc: string; heroSrc: string; isGif: boolean; Icon: typeof PlayCircle; centerBadge: string }
+> = {
+  cash: {
+    title: 'Cash Cow Video',
+    desc: "High-retention storytelling. We engineer scripts and visuals specifically to trigger YouTube's algorithm, turning your book's concepts into viral assets.",
+    heroSrc: '/book-to-video/youtube_main.png',
+    isGif: false,
+    Icon: PlayCircle,
+    centerBadge: 'PREMIUM PICK',
+  },
+  anim: {
+    title: '2D Animation',
+    desc: 'Bring characters to life. We animate key scenes and abstract concepts into stunning 2D visuals that mesmerize viewers.',
+    heroSrc: '/book-to-video/person.gif',
+    isGif: true,
+    Icon: Sparkles,
+    centerBadge: 'MOST POPULAR',
+  },
+  face: {
+    title: 'Face Content',
+    desc: 'Personal connection. Use AI avatars or your own footage combined with professional editing to build a personal brand around your book.',
+    heroSrc: '/book-to-video/action_seen.png',
+    isGif: false,
+    Icon: MonitorPlay,
+    centerBadge: 'FEATURED',
+  },
+};
+
+function ServiceCard({ id, placement }: { id: ServiceId; placement: SlotPlacement }) {
+  const s = SERVICE_COPY[id];
+  const Icon = s.Icon;
+
+  if (placement === 'center') {
+    return (
+      <div className="relative w-full z-20 -mb-4 sm:-mb-6 md:-mb-8 lg:-mb-12">
+        {/* Hero asset: sibling of card so card can use overflow-hidden (no gray corner leaks) */}
+        <div className="pointer-events-none absolute left-1/2 top-0 z-40 flex w-[min(88vw,260px)] sm:w-[280px] md:w-[300px] lg:w-[320px] -translate-x-1/2 -translate-y-1/2 justify-center px-2">
+          <Image
+            src={s.heroSrc}
+            alt=""
+            width={400}
+            height={600}
+            className={`h-[130px] w-auto object-contain object-bottom drop-shadow-[0_12px_28px_rgba(0,0,0,0.35)] sm:h-[160px] md:h-[180px] lg:h-[200px] ${
+              s.isGif ? 'scale-100 sm:scale-105' : 'scale-95 sm:scale-100'
+            }`}
+            unoptimized={s.isGif}
+            priority
+          />
+        </div>
+
+        <div className="relative overflow-hidden rounded-2xl sm:rounded-[2.5rem] lg:rounded-[3rem] bg-gradient-to-br from-[#8B2DF0] via-[#D925C8] to-[#FF5E00] text-center shadow-xl ring-1 ring-white/25 min-h-[200px] sm:min-h-[220px]">
+          <div className="pointer-events-none absolute inset-0 z-[1] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay" />
+
+          <div
+            className="pointer-events-none absolute left-1/2 top-0 z-[2] h-[100px] w-[180px] sm:h-[120px] sm:w-[220px] md:h-[140px] md:w-[260px] -translate-x-1/2 translate-y-0 bg-gradient-to-b from-white/25 to-transparent blur-2xl sm:blur-3xl"
+            aria-hidden
+          />
+
+          <div className="relative z-30 px-5 sm:px-8 md:px-10 pt-[5.5rem] sm:pt-[6.5rem] md:pt-28 lg:pt-32 pb-9 sm:pb-12 md:pb-14 lg:pb-16">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-[10px] sm:text-xs font-bold mb-4 sm:mb-5 md:mb-6">
+              <Sparkles className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#FFBE02]" /> {s.centerBadge}
+            </div>
+            <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4 md:mb-6 drop-shadow-lg">
+              {s.title}
+            </h3>
+            <p className="text-sm sm:text-base md:text-lg text-white/90 font-medium leading-relaxed max-w-[280px] sm:max-w-xs mx-auto">
+              {s.desc}
+            </p>
+          </div>
+
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[5] h-16 rounded-b-2xl sm:rounded-b-[2.5rem] lg:rounded-b-[3rem] bg-gradient-to-t from-black/25 to-transparent sm:h-24 md:h-28 lg:h-32" />
+        </div>
+      </div>
+    );
+  }
+
+  const isLeft = placement === 'left';
+  return (
+    <div className="group relative w-full z-10">
+      <motion.div
+        animate={{ y: isLeft ? [-10, 10, -10] : [10, -10, 10], rotate: isLeft ? [0, -3, 0] : [0, 3, 0] }}
+        transition={{ duration: isLeft ? 6 : 7, repeat: Infinity, ease: 'easeInOut', delay: isLeft ? 0 : 0.35 }}
+        className={`pointer-events-none hidden md:block absolute z-[8] w-44 h-44 md:w-56 md:h-56 lg:w-64 lg:h-64 opacity-80 group-hover:opacity-95 transition-opacity ${
+          isLeft
+            ? '-left-4 md:-left-12 lg:-left-16 -top-28 md:-top-36 lg:-top-40'
+            : '-right-4 md:-right-12 lg:-right-16 -top-28 md:-top-36 lg:-top-40'
+        }`}
+        style={{ transform: 'translateZ(0)' }}
+      >
+        <Image
+          src={s.heroSrc}
+          alt=""
+          width={400}
+          height={400}
+          className={`object-contain w-full h-full drop-shadow-xl ${s.isGif ? 'scale-90' : ''}`}
+          unoptimized={s.isGif}
+        />
+      </motion.div>
+      <div className="relative z-10 bg-white/90 backdrop-blur-xl rounded-2xl sm:rounded-[2rem] lg:rounded-[2.5rem] p-6 sm:p-7 md:p-8 pt-10 sm:pt-11 md:pt-12 border border-white/60 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)]">
+        <div className="absolute top-0 right-0 p-4 sm:p-6 md:p-8 opacity-10">
+          <Icon className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 text-[#FFBE02]" />
+        </div>
+        <h3 className="text-2xl sm:text-2xl md:text-3xl font-bold text-zinc-900 mb-3 sm:mb-4 group-hover:text-[#FFBE02] transition-colors">
+          {s.title}
+        </h3>
+        <div className="w-10 sm:w-12 h-1 bg-[#FFBE02] mb-4 sm:mb-5 md:mb-6 rounded-full" />
+        <p className="text-sm sm:text-base text-zinc-600 leading-relaxed font-medium">{s.desc}</p>
+      </div>
+    </div>
+  );
+}
+
+const VideoConversionServices = () => {
+  const [step, setStep] = useState(0);
+
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setStep((v) => (v + 1) % 3);
+    }, 5500);
+    return () => window.clearInterval(id);
+  }, []);
+
+  const row = SERVICE_SLOT_ORDER[step];
+
+  const placementAt = (index: number): SlotPlacement =>
+    index === 0 ? 'left' : index === 1 ? 'center' : 'right';
+
+  return (
+    <section className="py-16 sm:py-20 md:py-24 lg:py-32 px-4 sm:px-6 lg:px-8 bg-[#fafaf9] overflow-x-hidden overflow-y-visible relative">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-0 w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] lg:w-[500px] lg:h-[500px] bg-[#FFBE02]/5 rounded-full blur-[80px] sm:blur-[100px]" />
         <div className="absolute bottom-0 right-0 w-[350px] h-[350px] sm:w-[500px] sm:h-[500px] lg:w-[600px] lg:h-[600px] bg-purple-500/5 rounded-full blur-[100px] sm:blur-[120px]" />
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
-
-        {/* Modern Title */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -36,140 +170,25 @@ const VideoConversionServices = () => {
           <span className="inline-block py-1.5 px-3 sm:px-4 rounded-full bg-[#FFBE02]/10 text-[#FFBE02] text-[10px] sm:text-xs font-bold tracking-widest uppercase mb-3 sm:mb-4 border border-[#FFBE02]/20">
             Premium Production
           </span>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-zinc-900 font-serif tracking-tight leading-[1.1] sm:leading-tight px-2">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-zinc-900 tracking-tight leading-[1.1] sm:leading-tight px-2">
             Our Video Conversion <br className="hidden sm:block" /> Services
           </h2>
         </motion.div>
 
-        {/* ULTRA GRID LAYOUT */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12 md:gap-14 lg:gap-8 items-end relative perspective-1000">
-
-          {/* --- LEFT CARD: CASH COW (Floating Parallax) --- */}
-          <motion.div
-            initial={{ opacity: 0, x: -50, rotateY: 15 }}
-            whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, type: "spring" }}
-            className="group relative order-2 lg:order-1"
-          >
-            {/* 3D Background Asset - Floats Behind - Hidden on Mobile */}
-            <motion.div
-              animate={{ y: [-15, 15, -15], rotate: [0, -5, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              className="hidden md:block absolute -top-32 md:-top-40 -left-12 md:-left-20 z-0 w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 blur-[2px] group-hover:blur-0"
-            >
-              <Image
-                src="/book-to-video/youtube_main.png"
-                alt="YouTube"
-                width={400}
-                height={400}
-                className="object-contain w-full h-full drop-shadow-2xl"
-              />
-            </motion.div>
-
-            {/* Glass Card */}
-            <div className="relative z-10 bg-white/80 backdrop-blur-xl rounded-2xl sm:rounded-[2rem] lg:rounded-[2.5rem] p-6 sm:p-7 md:p-8 pt-10 sm:pt-11 md:pt-12 border border-white/50 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] group-hover:shadow-[0_30px_60px_-15px_rgba(255,190,2,0.3)] transition-all duration-500 hover:-translate-y-2 sm:hover:-translate-y-4">
-              <div className="absolute top-0 right-0 p-4 sm:p-6 md:p-8 opacity-10 group-hover:opacity-20 transition-opacity">
-                <PlayCircle className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 text-[#FFBE02]" />
-              </div>
-              <h3 className="text-2xl sm:text-2xl md:text-3xl font-bold text-zinc-900 mb-3 sm:mb-4 font-serif group-hover:text-[#FFBE02] transition-colors">
-                Cash Cow Video
-              </h3>
-              <div className="w-10 sm:w-12 h-1 bg-[#FFBE02] mb-4 sm:mb-5 md:mb-6 rounded-full group-hover:w-20 sm:group-hover:w-24 transition-all duration-500"></div>
-              <p className="text-sm sm:text-base text-zinc-600 leading-relaxed font-medium">
-                High-retention storytelling. We engineer scripts and visuals specifically to trigger YouTube&apos;s algorithm, turning your book&apos;s concepts into viral assets.
-              </p>
-            </div>
-          </motion.div>
-
-          {/* --- CENTER CARD: THE STAGE (Highlight) --- */}
-          <motion.div
-            initial={{ opacity: 0, y: 100, scale: 0.9 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative z-20 order-1 lg:order-2 -mb-6 sm:-mb-8 md:-mb-10 lg:-mb-12"
-          >
-            {/* The Stage Light Effect - Responsive */}
-            <div className="absolute -top-[120px] sm:-top-[150px] md:-top-[180px] lg:-top-[200px] left-1/2 -translate-x-1/2 w-[200px] h-[300px] sm:w-[250px] sm:h-[400px] md:w-[280px] md:h-[450px] lg:w-[300px] lg:h-[500px] bg-gradient-to-b from-white/20 to-transparent transform -rotate-12 blur-2xl sm:blur-3xl pointer-events-none"></div>
-
-            {/* WALKING PERSON - Responsive Sizing */}
-            <div className="absolute -top-[130px] sm:-top-[160px] md:-top-[190px] lg:-top-[210px] left-1/2 -translate-x-1/2 w-[180px] h-[260px] sm:w-[220px] sm:h-[320px] md:w-[250px] md:h-[360px] lg:w-[280px] lg:h-[400px] z-30 pointer-events-none">
-              <Image
-                src="/book-to-video/person.gif"
-                alt="Walking Person"
-                width={400}
-                height={600}
-                className="object-contain w-full h-full drop-shadow-2xl scale-110 sm:scale-115 md:scale-120 lg:scale-125"
-                unoptimized
-              />
-            </div>
-
-            {/* The Master Card */}
-            <div className="relative rounded-2xl sm:rounded-[2.5rem] lg:rounded-[3rem] p-0.5 sm:p-1 bg-gradient-to-b from-white/40 to-white/0 shadow-xl sm:shadow-2xl">
-              <div className="rounded-2xl sm:rounded-[2.5rem] lg:rounded-[3rem] p-6 sm:p-8 md:p-10 pt-20 sm:pt-24 md:pt-28 lg:pt-32 pb-10 sm:pb-12 md:pb-14 lg:pb-16 bg-gradient-to-br from-[#8B2DF0] via-[#D925C8] to-[#FF5E00] text-center overflow-hidden relative">
-
-                {/* Noise Texture Overlay */}
-                <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
-
-                {/* Content */}
-                <div className="relative z-10">
-                  <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-[10px] sm:text-xs font-bold mb-4 sm:mb-5 md:mb-6">
-                    <Sparkles className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#FFBE02]" /> MOST POPULAR
-                  </div>
-                  <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-5 md:mb-6 font-serif drop-shadow-lg">
-                    2D Animation
-                  </h3>
-                  <p className="text-sm sm:text-base md:text-lg text-white/90 font-medium leading-relaxed max-w-[280px] sm:max-w-xs mx-auto">
-                    Bring characters to life. We animate key scenes and abstract concepts into stunning 2D visuals that mesmerize viewers.
-                  </p>
-                </div>
-
-                {/* Animated Floor Glow */}
-                <div className="absolute bottom-0 left-0 w-full h-20 sm:h-24 md:h-28 lg:h-32 bg-gradient-to-t from-black/20 to-transparent"></div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* --- RIGHT CARD: FACE CONTENT (Floating Parallax) --- */}
-          <motion.div
-            initial={{ opacity: 0, x: 50, rotateY: -15 }}
-            whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, type: "spring" }}
-            className="group relative order-3 mt-8 sm:mt-12 md:mt-16 lg:mt-0"
-          >
-            {/* 3D Background Asset - Hidden on Mobile */}
-            <motion.div
-              animate={{ y: [15, -15, 15], rotate: [0, 5, 0] }}
-              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-              className="hidden md:block absolute -top-32 md:-top-40 -right-12 md:-right-20 z-0 w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 blur-[2px] group-hover:blur-0"
-            >
-              <Image
-                src="/book-to-video/action_seen.png"
-                alt="Clapperboard"
-                width={400}
-                height={400}
-                className="object-contain w-full h-full drop-shadow-2xl"
-              />
-            </motion.div>
-
-            {/* Glass Card */}
-            <div className="relative z-10 bg-white/80 backdrop-blur-xl rounded-2xl sm:rounded-[2rem] lg:rounded-[2.5rem] p-6 sm:p-7 md:p-8 pt-10 sm:pt-11 md:pt-12 border border-white/50 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] group-hover:shadow-[0_30px_60px_-15px_rgba(255,190,2,0.3)] transition-all duration-500 hover:-translate-y-2 sm:hover:-translate-y-4">
-              <div className="absolute top-0 right-0 p-4 sm:p-6 md:p-8 opacity-10 group-hover:opacity-20 transition-opacity">
-                <MonitorPlay className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 text-[#FFBE02]" />
-              </div>
-              <h3 className="text-2xl sm:text-2xl md:text-3xl font-bold text-zinc-900 mb-3 sm:mb-4 font-serif group-hover:text-[#FFBE02] transition-colors">
-                Face Content
-              </h3>
-              <div className="w-10 sm:w-12 h-1 bg-[#FFBE02] mb-4 sm:mb-5 md:mb-6 rounded-full group-hover:w-20 sm:group-hover:w-24 transition-all duration-500"></div>
-              <p className="text-sm sm:text-base text-zinc-600 leading-relaxed font-medium">
-                Personal connection. Use AI avatars or your own footage combined with professional editing to build a personal brand around your book.
-              </p>
-            </div>
-          </motion.div>
-
-        </div>
+        <LayoutGroup id="video-services">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-10 md:gap-12 lg:gap-8 items-end relative perspective-1000">
+            {row.map((id, slotIndex) => (
+              <motion.div
+                key={id}
+                layout
+                transition={layoutSpring}
+                className={`relative min-w-0 ${placementAt(slotIndex) === 'center' ? 'z-20' : 'z-10'}`}
+              >
+                <ServiceCard id={id} placement={placementAt(slotIndex)} />
+              </motion.div>
+            ))}
+          </div>
+        </LayoutGroup>
       </div>
     </section>
   );
@@ -178,7 +197,7 @@ const VideoConversionServices = () => {
 // --- STREAMLINED PROCESS SECTION ---
 const StreamlinedProcessSection = () => {
   const [activeProcessTab, setActiveProcessTab] = useState(0);
-
+  
   const processSteps = [
     {
       id: 0,
@@ -212,20 +231,20 @@ const StreamlinedProcessSection = () => {
 
       {/* Background Image - Lights on Right Side */}
       <AnimatePresence mode="wait">
-        <motion.div
-          key={`img-${activeProcessTab}`}
-          className="absolute bottom-0 right-0 w-[55%] sm:w-[60%] md:w-[65%] lg:w-[70%] h-[500px] sm:h-[600px] md:h-[700px] lg:h-[800px] z-[5] pointer-events-none"
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -50 }}
+        <motion.div 
+          key={`img-${activeProcessTab}`} 
+          className="absolute bottom-0 right-0 w-[55%] sm:w-[60%] md:w-[65%] lg:w-[70%] h-[500px] sm:h-[600px] md:h-[700px] lg:h-[800px] z-[5] pointer-events-none" 
+          initial={{ opacity: 0, x: 50 }} 
+          animate={{ opacity: 1, x: 0 }} 
+          exit={{ opacity: 0, x: -50 }} 
           transition={{ duration: 0.5, ease: "easeInOut" }}
         >
-          <Image
-            src="/book-to-video/lights.png"
-            alt={processSteps[activeProcessTab].heading}
-            fill
-            className="object-contain"
-            style={{ objectPosition: 'right bottom' }}
+          <Image 
+            src="/book-to-video/lights.png" 
+            alt={processSteps[activeProcessTab].heading} 
+            fill 
+            className="object-contain" 
+            style={{ objectPosition: 'right bottom' }} 
             sizes="(max-width: 1024px) 100vw, 70vw"
           />
         </motion.div>
@@ -233,7 +252,7 @@ const StreamlinedProcessSection = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 relative z-10">
         <div className="mb-6 sm:mb-8 md:mb-10">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight font-serif">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight">
             Streamlined Process for Authors
           </h2>
         </div>
@@ -242,14 +261,14 @@ const StreamlinedProcessSection = () => {
         <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 md:gap-8 lg:gap-12 mb-6 sm:mb-8 md:mb-10 pb-2 relative">
           <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[30%] h-[1px] bg-gray-300"></div>
           {processSteps.map((step, idx) => (
-            <button
-              key={idx}
-              onClick={() => setActiveProcessTab(idx)}
-              className={`text-sm sm:text-base md:text-lg lg:text-xl font-semibold pb-3 px-2 transition-all duration-300 cursor-pointer relative ${activeProcessTab === idx
-                  ? "text-zinc-900"
+            <button 
+              key={idx} 
+              onClick={() => setActiveProcessTab(idx)} 
+              className={`text-sm sm:text-base md:text-lg lg:text-xl font-semibold pb-3 px-2 transition-all duration-300 cursor-pointer relative ${
+                activeProcessTab === idx 
+                  ? "text-zinc-900" 
                   : "text-gray-400 hover:text-gray-600"
-                }`}
-              style={{ fontFamily: "'Poppins', sans-serif" }}
+              }`}
             >
               {step.tabTitle}
               {activeProcessTab === idx && (
@@ -267,21 +286,21 @@ const StreamlinedProcessSection = () => {
         {/* Content */}
         <div className="relative w-full min-h-[200px] sm:min-h-[240px] md:min-h-[280px] lg:min-h-[320px] flex flex-col lg:flex-row">
           <AnimatePresence mode="wait">
-            <motion.div
-              key={`text-${activeProcessTab}`}
-              className="w-full lg:w-1/2 flex flex-col justify-center pr-0 lg:pr-16 mb-6 sm:mb-8 md:mb-10 lg:mb-0 relative z-10"
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 50 }}
+            <motion.div 
+              key={`text-${activeProcessTab}`} 
+              className="w-full lg:w-1/2 flex flex-col justify-center pr-0 lg:pr-16 mb-6 sm:mb-8 md:mb-10 lg:mb-0 relative z-10" 
+              initial={{ opacity: 0, x: -50 }} 
+              animate={{ opacity: 1, x: 0 }} 
+              exit={{ opacity: 0, x: 50 }} 
               transition={{ duration: 0.5, ease: "easeInOut" }}
             >
               <span className="inline-block bg-[#FFBE02]/10 text-[#FFBE02] px-4 sm:px-5 py-1 sm:py-1.5 rounded-full text-xs font-semibold tracking-wide mb-3 sm:mb-4 md:mb-5 w-fit border border-[#FFBE02]/20">
                 Process
               </span>
-              <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-zinc-900 leading-[1.1] mb-3 sm:mb-4 md:mb-5 font-serif">
+              <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-zinc-900 leading-[1.1] mb-3 sm:mb-4 md:mb-5">
                 {processSteps[activeProcessTab].heading}
               </h3>
-              <p className="text-gray-600 text-sm sm:text-base md:text-lg leading-relaxed font-['Poppins']">
+              <p className="text-gray-600 text-sm sm:text-base md:text-lg leading-relaxed">
                 {processSteps[activeProcessTab].desc}
               </p>
             </motion.div>
@@ -293,17 +312,138 @@ const StreamlinedProcessSection = () => {
 };
 
 // --- YOUTUBE TV SECTION ---
+const ytThumbnail = (id: string) => `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+
+/** Long tab: real YouTube embeds (titles + thumbs from each video) */
+const LONG_FORM_PLAYLIST = [
+  {
+    id: 'vid1',
+    videoId: 'ZaQnaF3pP4I',
+    title: 'Watch this to understand the war in Sudan | Start Here',
+    channel: 'Al Jazeera English',
+    views: '—',
+    date: '—',
+    duration: '—',
+    thumbnailUrl: ytThumbnail('ZaQnaF3pP4I'),
+    src: 'https://www.youtube.com/embed/ZaQnaF3pP4I?autoplay=1&rel=0',
+  },
+  {
+    id: 'vid2',
+    videoId: 'o9kb5caf7vw',
+    title: 'Comet Interceptor Accelerated // Artemis II SLS Rollout // Nuclear Lunar Race',
+    channel: 'Fraser Cain',
+    views: '—',
+    date: '—',
+    duration: '—',
+    thumbnailUrl: ytThumbnail('o9kb5caf7vw'),
+    src: 'https://www.youtube.com/embed/o9kb5caf7vw?autoplay=1&rel=0',
+  },
+  {
+    id: 'vid3',
+    videoId: 'ha1NneZGm7A',
+    title: 'The ENTIRE History of Human Civilizations | Ancient to Modern (4K Documentary) [Full Movie]',
+    channel: 'Beginning To Now',
+    views: '—',
+    date: '—',
+    duration: '—',
+    thumbnailUrl: ytThumbnail('ha1NneZGm7A'),
+    src: 'https://www.youtube.com/embed/ha1NneZGm7A?autoplay=1&rel=0',
+  },
+  {
+    id: 'vid4',
+    videoId: '7ChWjQ-vnEU',
+    title: 'America Renewed Chapter 1 Explained | The American Tipping Point – Must Watch!',
+    channel: 'Robert Bohannon',
+    views: '—',
+    date: '—',
+    duration: '—',
+    thumbnailUrl: ytThumbnail('7ChWjQ-vnEU'),
+    src: 'https://www.youtube.com/embed/7ChWjQ-vnEU?autoplay=1&rel=0',
+  },
+  {
+    id: 'vid5',
+    videoId: 'TgnjPudDyLk',
+    title: 'The Dog and his Bone (UK Accent) - TheFableCottage.com',
+    channel: 'The Fable Cottage',
+    views: '—',
+    date: '—',
+    duration: '—',
+    thumbnailUrl: ytThumbnail('TgnjPudDyLk'),
+    src: 'https://www.youtube.com/embed/TgnjPudDyLk?autoplay=1&rel=0',
+  },
+  {
+    id: 'vid6',
+    videoId: '6BIFnvjpquk',
+    title: 'The Chicken | 2d Animation Short Film',
+    channel: 'The Dhepaas',
+    views: '—',
+    date: '—',
+    duration: '—',
+    thumbnailUrl: ytThumbnail('6BIFnvjpquk'),
+    src: 'https://www.youtube.com/embed/6BIFnvjpquk?autoplay=1&rel=0&start=1',
+  },
+] as const;
+
+const shortEmbed = (id: string) =>
+  `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&controls=0&loop=1&playlist=${id}`;
+
+/** Shorts tab: real Short URLs */
+const SHORTS_CHANNEL_HANDLE = 'TCBaker-books';
+
+const SHORTS_PLAYLIST = [
+  {
+    id: 'short1',
+    videoId: 'wysJZvHFqxI',
+    title:
+      'White Wolf — John became a Navy SEAL | T.C. Baker #herojourney #militarymotivation',
+    channel: 'TC Baker',
+    src: shortEmbed('wysJZvHFqxI'),
+    views: '—',
+    likes: '—',
+    comments: '—',
+    color: '#35c4dd',
+  },
+  {
+    id: 'short2',
+    videoId: 'o9jx-6XvWlM',
+    title:
+      'White Wolf — The Trainee Even His Instructors Hated | T.C. Baker #herojourney #militarymotivation',
+    channel: 'TC Baker',
+    src: shortEmbed('o9jx-6XvWlM'),
+    views: '—',
+    likes: '—',
+    comments: '—',
+    color: '#ff4d00',
+  },
+  {
+    id: 'short3',
+    videoId: 'eGA2oAaswxQ',
+    title:
+      'The Real Message of White Wolf — Love Is the Strongest Force #herojourney #courage #love',
+    channel: 'TC Baker',
+    src: shortEmbed('eGA2oAaswxQ'),
+    views: '—',
+    likes: '—',
+    comments: '—',
+    color: '#8a00ff',
+  },
+] as const;
+
 const YouTubeTVSection = () => {
   const [activeVideoTab, setActiveVideoTab] = useState<'long' | 'short' | 'thumbnail'>('long');
-  const [currentVideo, setCurrentVideo] = useState({
-    id: 'vid1',
-    title: 'How to Turn Your Book into a Bestseller Video | Step by Step Guide',
-    channel: 'Duck Book Writers',
-    subscribers: '125K',
-    views: '1.2M views',
-    date: '2 days ago',
-    src: 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0&rel=0',
-    desc: 'Turn your book into a visual masterpiece. This video explains the exact process we use to convert manuscripts into high-retention video content for YouTube and Social Media.'
+  const [autoTabRotate, setAutoTabRotate] = useState(true);
+  const [currentVideo, setCurrentVideo] = useState(() => {
+    const v = LONG_FORM_PLAYLIST[0];
+    return {
+      id: v.id,
+      title: v.title,
+      channel: v.channel,
+      subscribers: '—',
+      views: v.views,
+      date: v.date,
+      src: `https://www.youtube.com/embed/${v.videoId}?autoplay=0&rel=0`,
+      desc: '',
+    };
   });
 
   const [currentShortIndex, setCurrentShortIndex] = useState(0);
@@ -318,90 +458,26 @@ const YouTubeTVSection = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const playlist = [
-    {
-      id: 'vid1',
-      title: 'How to Turn Your Book into a Bestseller Video',
-      channel: 'Duck Book Writers',
-      views: '1.2M views',
-      date: '2 days ago',
-      thumbnailColor: '#1a1a1a',
-      duration: '12:05',
-      src: 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0'
-    },
-    {
-      id: 'vid2',
-      title: '2D Animation Process Explained: From Script to Screen',
-      channel: 'Duck Book Writers',
-      views: '854K views',
-      date: '1 week ago',
-      thumbnailColor: '#35c4dd',
-      duration: '08:30',
-      src: 'https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=1&rel=0'
-    },
-    {
-      id: 'vid3',
-      title: 'Cinematic Book Trailers: The Complete Guide',
-      channel: 'Duck Book Writers',
-      views: '450K views',
-      date: '3 weeks ago',
-      thumbnailColor: '#ff4d00',
-      duration: '03:45',
-      src: 'https://www.youtube.com/embed/LXb3EKWsInQ?autoplay=1&rel=0'
-    },
-    {
-      id: 'vid4',
-      title: 'Why You Need Cash Cow Videos for Passive Income',
-      channel: 'Duck Book Writers',
-      views: '2.1M views',
-      date: '1 month ago',
-      thumbnailColor: '#2a2a2a',
-      duration: '15:20',
-      src: 'https://www.youtube.com/embed/jNQXAC9IVRw?autoplay=1&rel=0'
-    }
-  ];
+  useEffect(() => {
+    if (!autoTabRotate) return;
+    const intervalMs = 8000;
+    const timer = window.setInterval(() => {
+      setActiveVideoTab((prev) =>
+        prev === 'long' ? 'short' : prev === 'short' ? 'thumbnail' : 'long'
+      );
+    }, intervalMs);
+    return () => window.clearInterval(timer);
+  }, [autoTabRotate]);
 
-  const shortsList = [
-    {
-      id: 's1',
-      videoId: '1La4QzGeaaQ',
-      src: 'https://www.youtube.com/embed/1La4QzGeaaQ?autoplay=1&mute=1&controls=0&loop=1',
-      title: 'The Future of Book Marketing 🚀',
-      views: '1.5M',
-      likes: '50K',
-      comments: '1.2K',
-      color: '#35c4dd'
-    },
-    {
-      id: 's2',
-      videoId: 'tgbNymZ7vqY',
-      src: 'https://www.youtube.com/embed/tgbNymZ7vqY?autoplay=1&mute=1&controls=0&loop=1',
-      title: 'From Manuscript to Movie 🎬',
-      views: '800K',
-      likes: '24K',
-      comments: '500',
-      color: '#ff4d00'
-    },
-    {
-      id: 's3',
-      videoId: 'hHqW0g7v5LI',
-      src: 'https://www.youtube.com/embed/hHqW0g7v5LI?autoplay=1&mute=1&controls=0&loop=1',
-      title: 'Best Selling Author Secrets 🤫',
-      views: '2.1M',
-      likes: '120K',
-      comments: '3K',
-      color: '#8a00ff'
-    }
-  ];
+  const playlist = LONG_FORM_PLAYLIST;
 
-  const thumbnailList = [
-    { id: 1, image: '/book-to-video/YouTube Thumbnail 1.png', title: 'Cinematic Trailer' },
-    { id: 2, image: '/book-to-video/thumb-2.png', title: 'Author Interview' },
-    { id: 3, image: '/book-to-video/thumb-3.jpg', title: 'Book Launch' },
-    { id: 4, image: '/book-to-video/thumb-4.jpg', title: '2D Animation' },
-    { id: 5, image: '/book-to-video/thumb-5.jpg', title: 'Documentary Style' },
-    { id: 6, image: '/book-to-video/thumb-6.jpg', title: 'Process Reveal' }
-  ];
+  const shortsList = SHORTS_PLAYLIST;
+
+  const thumbnailList = LONG_FORM_PLAYLIST.map((v, i) => ({
+    id: i + 1,
+    image: v.thumbnailUrl,
+    title: v.title,
+  }));
 
   const handleNextShort = () => {
     setCurrentShortIndex((prev) => (prev + 1) % shortsList.length);
@@ -439,46 +515,52 @@ const YouTubeTVSection = () => {
     <section className="relative w-full bg-white pt-8 sm:pt-10 md:pt-12 lg:pt-16 py-16 sm:py-20 md:py-24 lg:py-36 overflow-hidden z-50">
       {/* Shades Image as Shadow - Covering Full Section */}
       <div className="absolute bottom-0 left-0 right-0 w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[350px] xl:h-[400px] z-10 pointer-events-none">
-        <Image
-          src="/book-to-video/shades.png"
-          alt="Shades Shadow"
-          fill
-          className="object-cover object-center opacity-60"
+        <Image 
+          src="/book-to-video/shades.png" 
+          alt="Shades Shadow" 
+          fill 
+          className="object-cover object-center opacity-60" 
         />
       </div>
-
+      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 relative z-30">
         {/* Header */}
         <div className="flex flex-col items-center justify-center mb-8 sm:mb-10 lg:mb-16 px-4">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-zinc-900 mb-6 sm:mb-8 text-center font-serif">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-zinc-900 mb-6 sm:mb-8 text-center">
             Videos We Created
           </h2>
-
+          
           <div className="flex items-center gap-6 sm:gap-8 md:gap-10 border-b border-gray-200 w-full max-w-[500px] justify-center pb-2">
-            <button
-              onClick={() => setActiveVideoTab('long')}
-              className={`pb-2 text-base sm:text-lg md:text-xl font-semibold transition-all cursor-pointer font-['Poppins'] ${activeVideoTab === 'long'
-                  ? 'text-[#FFBE02] border-b-2 border-[#FFBE02]'
+            <button 
+              type="button"
+              onClick={() => { setAutoTabRotate(false); setActiveVideoTab('long'); }} 
+              className={`pb-2 text-base sm:text-lg md:text-xl font-semibold transition-all cursor-pointer ${
+                activeVideoTab === 'long' 
+                  ? 'text-[#FFBE02] border-b-2 border-[#FFBE02]' 
                   : 'text-gray-400 hover:text-gray-600'
-                }`}
+              }`}
             >
               Long
             </button>
-            <button
-              onClick={() => setActiveVideoTab('short')}
-              className={`pb-2 text-base sm:text-lg md:text-xl font-semibold transition-all cursor-pointer font-['Poppins'] ${activeVideoTab === 'short'
-                  ? 'text-[#FFBE02] border-b-2 border-[#FFBE02]'
+            <button 
+              type="button"
+              onClick={() => { setAutoTabRotate(false); setActiveVideoTab('short'); }} 
+              className={`pb-2 text-base sm:text-lg md:text-xl font-semibold transition-all cursor-pointer ${
+                activeVideoTab === 'short' 
+                  ? 'text-[#FFBE02] border-b-2 border-[#FFBE02]' 
                   : 'text-gray-400 hover:text-gray-600'
-                }`}
+              }`}
             >
               Short
             </button>
-            <button
-              onClick={() => setActiveVideoTab('thumbnail')}
-              className={`pb-2 text-base sm:text-lg md:text-xl font-semibold transition-all cursor-pointer font-['Poppins'] ${activeVideoTab === 'thumbnail'
-                  ? 'text-[#FFBE02] border-b-2 border-[#FFBE02]'
+            <button 
+              type="button"
+              onClick={() => { setAutoTabRotate(false); setActiveVideoTab('thumbnail'); }} 
+              className={`pb-2 text-base sm:text-lg md:text-xl font-semibold transition-all cursor-pointer ${
+                activeVideoTab === 'thumbnail' 
+                  ? 'text-[#FFBE02] border-b-2 border-[#FFBE02]' 
                   : 'text-gray-400 hover:text-gray-600'
-                }`}
+              }`}
             >
               Thumbnail
             </button>
@@ -493,7 +575,7 @@ const YouTubeTVSection = () => {
           </div>
 
           {/* Internal Screen */}
-          <div
+          <div 
             className="absolute bg-white z-40 overflow-hidden rounded-t-[6px] sm:rounded-t-[8px] rounded-b-[12px] sm:rounded-b-[15px] shadow-inner"
             style={{
               top: width < 768 ? 'calc(12% - 40px)' : width < 1024 ? 'calc(13% - 60px)' : 'calc(15% - 80px)',
@@ -538,9 +620,19 @@ const YouTubeTVSection = () => {
                 <div className="w-full h-full flex flex-col lg:flex-row p-3 sm:p-4 md:p-5 lg:p-6 gap-4 sm:gap-5 md:gap-6 overflow-y-auto">
                   <div className="w-full lg:w-[70%]">
                     <div className="w-full aspect-video bg-black rounded-lg sm:rounded-xl overflow-hidden shadow-sm mb-3 sm:mb-4">
-                      <iframe width="100%" height="100%" src={currentVideo.src} title="Player" allow="autoplay; encrypted-media" loading="lazy" className="border-0"></iframe>
+                      <iframe
+                        key={`${currentVideo.id}-${currentVideo.src}`}
+                        width="100%"
+                        height="100%"
+                        src={currentVideo.src}
+                        title={currentVideo.title}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                        loading="lazy"
+                        className="border-0 w-full h-full"
+                      />
                     </div>
-                    <h1 className="text-base sm:text-lg md:text-[20px] font-bold text-zinc-900 mb-2 sm:mb-3 leading-6 sm:leading-7 font-serif">
+                    <h1 className="text-base sm:text-lg md:text-[20px] font-bold text-zinc-900 mb-2 sm:mb-3 leading-6 sm:leading-7">
                       {currentVideo.title}
                     </h1>
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-4 gap-4">
@@ -549,54 +641,72 @@ const YouTubeTVSection = () => {
                           <Image src="/images/duck-logo-final.png" alt="Avatar" fill className="object-contain p-1" />
                         </div>
                         <div className="flex flex-col mr-4">
-                          <p className="font-bold text-[16px] text-zinc-900 leading-5 font-['Poppins']">{currentVideo.channel}</p>
-                          <p className="text-[12px] text-gray-600 font-['Poppins']">{currentVideo.subscribers} subscribers</p>
+                          <p className="font-bold text-[16px] text-zinc-900 leading-5">{currentVideo.channel}</p>
+                          <p className="text-[12px] text-gray-600">{currentVideo.subscribers} subscribers</p>
                         </div>
-                        <button className="bg-[#FFBE02] hover:bg-[#e6aa02] text-black px-4 py-2 rounded-full text-[14px] font-bold transition-colors font-['Poppins']">
+                        <button className="bg-[#FFBE02] hover:bg-[#e6aa02] text-black px-4 py-2 rounded-full text-[14px] font-bold transition-colors">
                           Subscribe
                         </button>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="flex items-center bg-[#f2f2f2] rounded-full overflow-hidden h-9">
                           <button className="flex items-center gap-2 px-4 hover:bg-[#e5e5e5] border-r border-[#d9d9d9] h-full transition-colors">
-                            <span className="text-sm font-medium text-zinc-900 font-['Poppins']">12K</span>
+                            <span className="text-sm font-medium text-zinc-900">12K</span>
                           </button>
                         </div>
                         <button className="flex items-center gap-2 bg-[#f2f2f2] px-4 py-2 rounded-full hover:bg-[#e5e5e5] transition-colors h-9">
                           <Share2 className="w-4 h-4 text-zinc-900" />
-                          <span className="text-sm font-medium text-zinc-900 font-['Poppins']">Share</span>
+                          <span className="text-sm font-medium text-zinc-900">Share</span>
                         </button>
                         <button className="flex items-center justify-center bg-[#f2f2f2] w-9 h-9 rounded-full hover:bg-[#e5e5e5] transition-colors">
                           <MoreVertical className="w-4 h-4 text-zinc-900" />
                         </button>
                       </div>
                     </div>
-                    <div className="bg-[#f2f2f2] rounded-xl p-3 text-sm text-zinc-900 hover:bg-[#e5e5e5] transition-colors cursor-pointer font-['Poppins']">
+                    <div className="bg-[#f2f2f2] rounded-xl p-3 text-sm text-zinc-900 hover:bg-[#e5e5e5] transition-colors cursor-pointer">
                       <p className="font-bold mb-1">{currentVideo.views} • {currentVideo.date}</p>
                       <p className="whitespace-pre-line leading-relaxed">{currentVideo.desc}</p>
                     </div>
                   </div>
                   <div className="w-full lg:w-[30%] flex flex-col gap-3">
                     {playlist.map((video) => (
-                      <div
-                        key={video.id}
-                        onClick={() => setCurrentVideo({ ...currentVideo, ...video, desc: currentVideo.desc })}
+                      <div 
+                        key={video.id} 
+                        onClick={() =>
+                          setCurrentVideo((prev) => ({
+                            ...prev,
+                            id: video.id,
+                            title: video.title,
+                            channel: video.channel,
+                            subscribers: '—',
+                            views: video.views,
+                            date: video.date,
+                            src: video.src.replace('autoplay=1', 'autoplay=0'),
+                            desc: '',
+                          }))
+                        }
                         className="flex gap-2 cursor-pointer group"
                       >
-                        <div className="relative w-[168px] h-[94px] flex-shrink-0 rounded-xl overflow-hidden" style={{ backgroundColor: video.thumbnailColor || '#000000' }}>
-                          <div className="absolute inset-0 flex items-center justify-center text-white text-xs font-bold text-center px-2 opacity-80 group-hover:opacity-100 transition-opacity font-['Poppins']">
-                            {video.title.substring(0, 25)}...
-                          </div>
-                          <span className="absolute bottom-1 right-1 bg-black/80 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-[4px] tracking-wide">
-                            {video.duration}
-                          </span>
+                        <div className="relative w-[168px] h-[94px] flex-shrink-0 rounded-xl overflow-hidden bg-black">
+                          <Image
+                            src={video.thumbnailUrl}
+                            alt=""
+                            fill
+                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                            sizes="168px"
+                          />
+                          {video.duration !== '—' && (
+                            <span className="absolute bottom-1 right-1 z-10 bg-black/80 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-[4px] tracking-wide">
+                              {video.duration}
+                            </span>
+                          )}
                         </div>
                         <div className="flex flex-col pr-6">
-                          <h4 className="text-[14px] font-semibold text-zinc-900 line-clamp-2 leading-tight mb-1 font-['Poppins']">
+                          <h4 className="text-[14px] font-semibold text-zinc-900 line-clamp-2 leading-tight mb-1">
                             {video.title}
                           </h4>
-                          <p className="text-[12px] text-gray-600 font-['Poppins']">{video.channel}</p>
-                          <p className="text-[12px] text-gray-600 font-['Poppins']">{video.views} • {video.date}</p>
+                          <p className="text-[12px] text-gray-600">{video.channel}</p>
+                          <p className="text-[12px] text-gray-600">{video.views} • {video.date}</p>
                         </div>
                       </div>
                     ))}
@@ -607,13 +717,13 @@ const YouTubeTVSection = () => {
               {/* SHORTS TAB */}
               {activeVideoTab === 'short' && (
                 <div className="w-full h-full flex flex-col items-center justify-center bg-white relative overflow-hidden">
-                  <button
+                  <button 
                     onClick={handlePrevShort}
                     className="absolute left-2 sm:left-4 md:left-6 lg:left-8 z-50 p-1.5 sm:p-2 md:p-2.5 lg:p-3 rounded-full bg-white/90 hover:bg-white shadow-lg border border-gray-200 transition-all active:scale-95"
                   >
                     <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-gray-800" />
                   </button>
-                  <button
+                  <button 
                     onClick={handleNextShort}
                     className="absolute right-2 sm:right-4 md:right-6 lg:right-8 z-50 p-1.5 sm:p-2 md:p-2.5 lg:p-3 rounded-full bg-white/90 hover:bg-white shadow-lg border border-gray-200 transition-all active:scale-95"
                   >
@@ -622,7 +732,7 @@ const YouTubeTVSection = () => {
 
                   <div className="relative w-full h-full flex items-center justify-center py-2 sm:py-1">
                     <AnimatePresence initial={false} mode="popLayout">
-                      <motion.div
+                      <motion.div 
                         key={shortsList[currentShortIndex].id}
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
@@ -630,12 +740,12 @@ const YouTubeTVSection = () => {
                         transition={{ type: "spring", stiffness: 200, damping: 25 }}
                         className="relative z-30 w-[75%] max-w-[200px] sm:max-w-[220px] md:max-w-[240px] lg:max-w-[280px] xl:max-w-[300px] aspect-[9/16] max-h-[85%] sm:max-h-[480px] md:max-h-[540px] lg:max-h-[680px] bg-black rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl mx-auto"
                       >
-                        <iframe
-                          width="100%"
-                          height="100%"
-                          src={shortsList[currentShortIndex].src}
-                          title="Shorts"
-                          allow="autoplay; encrypted-media"
+                        <iframe 
+                          width="100%" 
+                          height="100%" 
+                          src={shortsList[currentShortIndex].src} 
+                          title={shortsList[currentShortIndex].title}
+                          allow="autoplay; encrypted-media" 
                           loading="lazy"
                           className="border-0 object-cover"
                         ></iframe>
@@ -644,23 +754,23 @@ const YouTubeTVSection = () => {
                             <div className="bg-gray-800/70 backdrop-blur-sm p-1.5 sm:p-2 md:p-3 rounded-full hover:bg-gray-700 transition-colors">
                               <PlayCircle className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-white" />
                             </div>
-                            <span className="text-white text-[9px] sm:text-xs font-bold font-['Poppins']">{shortsList[currentShortIndex].likes}</span>
+                            <span className="text-white text-[9px] sm:text-xs font-bold">{shortsList[currentShortIndex].likes}</span>
                           </div>
                           <div className="flex flex-col items-center gap-0.5 cursor-pointer group">
                             <div className="bg-gray-800/70 backdrop-blur-sm p-1.5 sm:p-2 md:p-3 rounded-full hover:bg-gray-700 transition-colors">
                               <Share2 className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-white" />
                             </div>
-                            <span className="text-white text-[9px] sm:text-xs font-bold font-['Poppins']">Share</span>
+                            <span className="text-white text-[9px] sm:text-xs font-bold">Share</span>
                           </div>
                         </div>
                         <div className="absolute bottom-0 left-0 w-full p-3 sm:p-4 pb-4 sm:pb-6 bg-gradient-to-t from-black/90 via-black/60 to-transparent z-30">
                           <div className="flex items-center gap-2 mb-2">
-                            <span className="text-white font-bold text-xs sm:text-sm font-['Poppins']">@DuckBookWriters</span>
-                            <button className="bg-white text-black text-[10px] sm:text-xs font-bold px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full hover:bg-gray-200 transition-colors font-['Poppins']">
+                            <span className="text-white font-bold text-xs sm:text-sm">@{SHORTS_CHANNEL_HANDLE}</span>
+                            <button className="bg-white text-black text-[10px] sm:text-xs font-bold px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full hover:bg-gray-200 transition-colors">
                               Subscribe
                             </button>
                           </div>
-                          <p className="text-white text-xs sm:text-sm font-medium leading-snug pr-12 sm:pr-16 line-clamp-2 font-['Poppins']">
+                          <p className="text-white text-xs sm:text-sm font-medium leading-snug pr-12 sm:pr-16 line-clamp-2">
                             {shortsList[currentShortIndex].title} #shorts #books #publishing
                           </p>
                         </div>
@@ -693,7 +803,7 @@ const YouTubeTVSection = () => {
                             className="group cursor-pointer flex flex-col gap-3"
                           >
                             <div className="relative w-full aspect-[16/9] overflow-hidden rounded-xl shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-                              <Image
+                              <Image 
                                 src={thumbnail.image}
                                 alt={thumbnail.title}
                                 fill
@@ -706,7 +816,7 @@ const YouTubeTVSection = () => {
                               </div>
                             </div>
                             <div className="flex items-start justify-between px-1">
-                              <h4 className="text-base font-bold text-zinc-900 group-hover:text-[#FFBE02] transition-colors duration-300 line-clamp-1 font-['Poppins']">
+                              <h4 className="text-base font-bold text-zinc-900 group-hover:text-[#FFBE02] transition-colors duration-300 line-clamp-1">
                                 {thumbnail.title}
                               </h4>
                             </div>
@@ -719,20 +829,20 @@ const YouTubeTVSection = () => {
                   {/* Lightbox */}
                   <AnimatePresence>
                     {isLightboxOpen && width >= 768 && (
-                      <motion.div
+                      <motion.div 
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         className="absolute inset-0 z-[100] bg-black/95 backdrop-blur-md flex flex-col items-center justify-center"
                       >
-                        <button
+                        <button 
                           onClick={() => setIsLightboxOpen(false)}
                           className="absolute top-2 sm:top-4 right-2 sm:right-4 z-[110] p-2 sm:p-2.5 md:p-3 bg-white/95 hover:bg-white rounded-full shadow-lg transition-all active:scale-95"
                         >
                           <X className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-gray-800" />
                         </button>
                         <div className="relative w-full h-full flex items-center justify-center px-2 sm:px-12">
-                          <button
+                          <button 
                             onClick={(e) => { e.stopPropagation(); handlePrevImage(); }}
                             className="absolute left-2 sm:left-4 md:left-6 z-[110] p-2 sm:p-2.5 md:p-3 rounded-full bg-white/95 hover:bg-white shadow-lg transition-all active:scale-95"
                           >
@@ -749,7 +859,7 @@ const YouTubeTVSection = () => {
                                 className="absolute inset-0 w-full h-full"
                               >
                                 <div className="relative w-full h-full rounded-xl overflow-hidden border border-white/10 bg-[#1a1a1a]">
-                                  <Image
+                                  <Image 
                                     src={thumbnailList[activeThumbnailIndex].image}
                                     alt={thumbnailList[activeThumbnailIndex].title}
                                     fill
@@ -760,7 +870,7 @@ const YouTubeTVSection = () => {
                               </motion.div>
                             </AnimatePresence>
                           </div>
-                          <button
+                          <button 
                             onClick={(e) => { e.stopPropagation(); handleNextImage(); }}
                             className="absolute right-2 sm:right-4 md:right-6 z-[110] p-2 sm:p-2.5 md:p-3 rounded-full bg-white/95 hover:bg-white shadow-lg transition-all active:scale-95"
                           >
@@ -768,16 +878,16 @@ const YouTubeTVSection = () => {
                           </button>
                         </div>
                         <div className="absolute bottom-6 w-full text-center">
-                          <motion.div
+                          <motion.div 
                             initial={{ y: 20, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             key={`info-${activeThumbnailIndex}`}
                             className="text-white"
                           >
-                            <h3 className="text-xl sm:text-2xl font-bold mb-1 tracking-wide font-serif">
+                            <h3 className="text-xl sm:text-2xl font-bold mb-1 tracking-wide">
                               {thumbnailList[activeThumbnailIndex].title}
                             </h3>
-                            <p className="text-gray-400 text-sm font-['Poppins']">
+                            <p className="text-gray-400 text-sm">
                               {activeThumbnailIndex + 1} / {thumbnailList.length}
                             </p>
                           </motion.div>
@@ -890,7 +1000,7 @@ const SlidingTestimonials = () => {
   ];
 
   const TestimonialCard = ({ item }: { item: any }) => (
-    <div className="w-[320px] md:w-[380px] bg-white border border-gray-100 rounded-3xl p-6 shadow-sm flex flex-col gap-4 flex-shrink-0">
+    <div className="w-[320px] md:w-[380px] bg-white border border-gray-100 rounded-[5px] p-6 shadow-sm flex flex-col gap-4 flex-shrink-0">
       <div className="flex text-[#FFBE02]">
         {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
       </div>
@@ -907,33 +1017,31 @@ const SlidingTestimonials = () => {
     </div>
   );
 
-  const MarqueeRow = ({ items, direction = 1, speed = 40 }: { items: any[], direction?: number, speed?: number }) => (
-    <div className="flex overflow-hidden w-full mb-6 relative">
-      <motion.div
-        className="flex gap-6 w-max"
-        animate={{ x: direction === 1 ? ["0%", "-50%"] : ["-50%", "0%"] }}
-        transition={{ repeat: Infinity, ease: "linear", duration: speed }}
+  const MarqueeRow = ({ items, direction = 1, speed = 100 }: { items: any[], direction?: number, speed?: number }) => (
+    <div className="book-video-testimonial-row flex overflow-hidden w-full mb-6 relative">
+      <div
+        className={`book-video-testimonial-track ${direction === 1 ? 'book-video-testimonial-track--ltr' : 'book-video-testimonial-track--rtl'}`}
+        style={{ animationDuration: `${speed}s` }}
       >
         {[...items, ...items, ...items].map((item, i) => (
           <TestimonialCard key={i} item={item} />
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 
   return (
     <section className="py-20 bg-[#fefdfb] overflow-hidden relative">
       <div className="max-w-7xl mx-auto px-4 text-center mb-12">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 font-serif tracking-tight">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 tracking-tight">
           Join <span className="text-[#FFBE02]">Authors</span>
         </h2>
         <p className="text-gray-500 mt-2 text-lg italic">Who have achieved massive success.</p>
       </div>
 
       <div className="relative w-full flex flex-col items-center rotate-[-1deg] scale-105">
-        <MarqueeRow items={reviewsRow1} direction={1} speed={45} />
-        <MarqueeRow items={reviewsRow2} direction={-1} speed={50} />
-        <MarqueeRow items={reviewsRow1} direction={1} speed={40} />
+        <MarqueeRow items={reviewsRow1} direction={1} speed={110} />
+        <MarqueeRow items={reviewsRow2} direction={-1} speed={120} />
 
         <div className="absolute top-0 bottom-0 left-0 w-16 md:w-32 bg-gradient-to-r from-[#fefdfb] to-transparent z-10 pointer-events-none" />
         <div className="absolute top-0 bottom-0 right-0 w-16 md:w-32 bg-gradient-to-l from-[#fefdfb] to-transparent z-10 pointer-events-none" />
@@ -962,7 +1070,7 @@ const RightFitSection = () => {
   ];
 
   return (
-    <section className="py-20 sm:py-24 bg-[#efefef] font-sans">
+    <section className="py-20 sm:py-24 bg-[#efefef]">
       <div className="max-w-[1140px] mx-auto px-4 sm:px-6">
 
         {/* Header Section */}
@@ -979,24 +1087,25 @@ const RightFitSection = () => {
         {/* Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-9">
 
-          {/* LEFT CARD: This is for you */}
+          {/* LEFT CARD: This is for you — warm gold / brand yellow */}
           <motion.div
             initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.25 }}
             transition={{ duration: 0.55, ease: "easeOut" }}
             whileHover={{ y: -8, scale: 1.01 }}
-            className="relative overflow-hidden bg-[#fbf9ee] rounded-[2rem] sm:rounded-[2.1rem] p-9 sm:p-11 md:p-12 shadow-[0_18px_36px_-24px_rgba(0,0,0,0.45)] border border-black/[0.04] h-full"
+            className="relative overflow-hidden rounded-[2rem] sm:rounded-[2.1rem] p-9 sm:p-11 md:p-12 h-full border-2 border-[#FFBE02]/35 bg-gradient-to-br from-[#fffdf7] via-[#fff8e7] to-[#FFBE02]/20 shadow-[0_22px_44px_-22px_rgba(255,190,2,0.35),0_12px_28px_-18px_rgba(0,0,0,0.08)]"
           >
-            <div className="absolute -top-12 -right-12 w-44 h-44 rounded-full bg-[#e4b006]/10 blur-3xl pointer-events-none" />
-            <h3 className="text-[2rem] sm:text-[2.25rem] font-bold text-[#e4b006] mb-6 sm:mb-7 tracking-tight leading-tight">
+            <div className="absolute -top-14 -right-14 w-52 h-52 rounded-full bg-[#FFBE02]/30 blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-10 -left-8 w-40 h-40 rounded-full bg-[#eab308]/20 blur-3xl pointer-events-none" />
+            <h3 className="text-[2rem] sm:text-[2.25rem] font-bold text-[#b45309] mb-6 sm:mb-7 tracking-tight leading-tight">
               This is for you if:
             </h3>
             <ul className="flex flex-col gap-3.5 sm:gap-4">
               {forYouList.map((text, i) => (
                 <li key={i} className="flex items-start gap-3">
-                  <span className="text-[#222222] text-[1.2rem] leading-[1.2] mt-0.5 font-semibold">•</span>
-                  <span className="text-[1.05rem] sm:text-[1.34rem] leading-[1.45] text-[#222222] font-normal">
+                  <span className="text-[#FFBE02] text-[1.2rem] leading-[1.2] mt-0.5 font-semibold">•</span>
+                  <span className="text-[1.05rem] sm:text-[1.34rem] leading-[1.45] text-[#292524] font-normal">
                     {text}
                   </span>
                 </li>
@@ -1004,29 +1113,37 @@ const RightFitSection = () => {
             </ul>
           </motion.div>
 
-          {/* RIGHT CARD: This isn't for you */}
+          {/* RIGHT CARD: same gradient treatment as Video Conversion Services center card */}
           <motion.div
             initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.25 }}
             transition={{ duration: 0.55, delay: 0.08, ease: "easeOut" }}
             whileHover={{ y: -8, scale: 1.01 }}
-            className="relative overflow-hidden bg-[#fbf9ee] rounded-[2rem] sm:rounded-[2.1rem] p-9 sm:p-11 md:p-12 shadow-[0_18px_36px_-24px_rgba(0,0,0,0.45)] border border-black/[0.04] h-full"
+            className="relative overflow-hidden rounded-[2rem] sm:rounded-[2.1rem] p-9 sm:p-11 md:p-12 h-full bg-gradient-to-br from-[#8B2DF0] via-[#D925C8] to-[#FF5E00] shadow-xl ring-1 ring-white/25"
           >
-            <div className="absolute -bottom-14 -left-12 w-44 h-44 rounded-full bg-[#e4b006]/10 blur-3xl pointer-events-none" />
-            <h3 className="text-[2rem] sm:text-[2.25rem] font-bold italic text-[#e4b006] mb-6 sm:mb-7 tracking-tight leading-tight">
-              This isn&apos;t for you if:
-            </h3>
-            <ul className="flex flex-col gap-3.5 sm:gap-4">
-              {notForYouList.map((text, i) => (
-                <li key={i} className="flex items-start gap-3">
-                  <span className="text-[#222222] text-[1.2rem] leading-[1.2] mt-0.5 font-semibold italic">•</span>
-                  <span className="text-[1.05rem] sm:text-[1.34rem] leading-[1.45] text-[#222222] italic font-normal">
-                    {text}
-                  </span>
-                </li>
-              ))}
-            </ul>
+            <div className="pointer-events-none absolute inset-0 z-[1] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay" />
+            <div
+              className="pointer-events-none absolute left-1/2 top-0 z-[2] h-[90px] w-[min(70%,220px)] sm:h-[110px] sm:w-[260px] -translate-x-1/2 bg-gradient-to-b from-white/25 to-transparent blur-2xl sm:blur-3xl"
+              aria-hidden
+            />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-20 sm:h-24 rounded-b-[2rem] sm:rounded-b-[2.1rem] bg-gradient-to-t from-black/25 to-transparent" />
+
+            <div className="relative z-10">
+              <h3 className="text-[2rem] sm:text-[2.25rem] font-bold italic text-white mb-6 sm:mb-7 tracking-tight leading-tight drop-shadow-lg">
+                This isn&apos;t for you if:
+              </h3>
+              <ul className="flex flex-col gap-3.5 sm:gap-4">
+                {notForYouList.map((text, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <span className="text-[#FFBE02] text-[1.2rem] leading-[1.2] mt-0.5 font-semibold italic">•</span>
+                    <span className="text-[1.05rem] sm:text-[1.34rem] leading-[1.45] text-white/90 italic font-medium">
+                      {text}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </motion.div>
 
         </div>
@@ -1049,7 +1166,7 @@ const FAQSection = () => {
   return (
     <section className="py-24 bg-[#fafaf9]">
       <div className="max-w-4xl mx-auto px-4">
-        <h2 className="text-3xl md:text-5xl font-bold text-center mb-12 font-serif text-gray-900">
+        <h2 className="text-3xl md:text-5xl font-bold text-center mb-12 text-gray-900">
           Frequently Asked <span className="text-[#FFBE02]">Questions</span>
         </h2>
 
@@ -1087,136 +1204,154 @@ const FAQSection = () => {
 
 export default function BookToVideoPage() {
   return (
-    <div className="w-full bg-[#fafaf9] font-sans selection:bg-red-200 selection:text-red-900 overflow-x-hidden">
+    <div className="w-full bg-[#fafaf9] selection:bg-red-200 selection:text-red-900 overflow-x-hidden">
       <Header />
-
-      {/* 1. HERO BANNER SECTION (ELITE FULL-SCREEN ANIMATION) */}
-      <section className="relative w-full h-[100dvh] min-h-[850px] bg-white pt-10 sm:pt-16 pb-6 flex flex-col items-center justify-between overflow-hidden font-sans">
-
-        {/* --- 1. TOP TEXT AREA (Slides Down & Adjusted Size) --- */}
-        <div className="relative z-50 flex flex-col items-center text-center px-4 shrink-0 mt-4 sm:mt-6">
-          <motion.h1
-            initial={{ opacity: 0, y: -40 }}
+      
+      {/* 1. HERO BANNER SECTION (EXACT REPLICA WITH SMOKY BLUR EFFECT) */}
+      <section className="relative w-full bg-white pt-6 sm:pt-8 pb-4 flex flex-col items-center justify-start overflow-hidden">
+        
+        {/* Text Content Area */}
+        <div className="text-center max-w-5xl mx-auto px-4 relative z-20 flex flex-col items-center">
+          
+          {/* Main Headline */}
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[28px] sm:text-[38px] md:text-[46px] lg:text-[58px] leading-[1.1] text-[#111] mb-3 tracking-tight"
+            transition={{ duration: 0.6 }}
+            className="text-[clamp(1rem,4vw,3.125rem)] leading-[1.08] text-[#111] mb-2 sm:mb-3 tracking-tight whitespace-nowrap"
           >
             <span className="font-normal text-black">Turn your Book into a </span>
             <span className="font-black text-[#FF0000] tracking-tighter">YouTube</span>
           </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: -30 }}
+          
+          {/* Subheadline */}
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[14px] sm:text-[16px] md:text-[18px] text-gray-600 mb-6 max-w-[600px] mx-auto font-medium leading-relaxed"
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-sm sm:text-base md:text-lg text-gray-800 mb-4 sm:mb-5 max-w-3xl mx-auto font-medium"
           >
             For ambitious authors with a manuscript or a published book who are tired of being
           </motion.p>
-
-          <motion.a
+          
+          {/* Replica CTA Button */}
+          <motion.a 
             href="#contact"
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="group flex items-center bg-[#FF0000] rounded-full p-1.5 pr-6 sm:pr-8 mb-[50px] shadow-[0_8px_25px_rgba(255,0,0,0.25)] hover:shadow-[0_12px_35px_rgba(255,0,0,0.35)] hover:-translate-y-1 transition-all duration-300 active:scale-95 cursor-pointer"
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="group flex items-center bg-[#FF0000] rounded-full p-1 pr-5 sm:pr-6 shadow-[0_6px_22px_rgba(255,0,0,0.22)] hover:shadow-[0_10px_32px_rgba(255,0,0,0.32)] hover:-translate-y-1 transition-all duration-300 active:scale-95 cursor-pointer"
           >
-            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full flex items-center justify-center mr-3 sm:mr-4 shadow-md group-hover:scale-105 transition-transform duration-300">
-              <Image
-                src="/youtube-page/YT-Icon.png"
-                alt="YT Icon"
-                width={20}
-                height={20}
-                className="w-4 h-4 sm:w-5 sm:h-5 object-contain"
+            <div className="w-9 h-9 sm:w-10 sm:h-10 bg-white rounded-full flex items-center justify-center mr-2 sm:mr-3 shadow-md group-hover:scale-105 transition-transform duration-300">
+              <Image 
+                src="/youtube-page/YT-Icon.png" 
+                alt="YT Icon" 
+                width={20} 
+                height={20} 
+                className="w-4 h-4 sm:w-[18px] sm:h-[18px] object-contain" 
               />
             </div>
-            <span className="text-white font-bold text-sm sm:text-[15px] tracking-wide uppercase">Start Your Journey</span>
+            <span className="text-white font-bold text-sm sm:text-base tracking-wide">Start Your Journey</span>
           </motion.a>
         </div>
 
-        {/* --- 2. THE STAGE: TV & BOOKS ANIMATION (With Proper Spacing) --- */}
-        <div className="relative w-full flex-1 max-w-[1800px] mx-auto flex items-center justify-center mt-14 sm:mt-20 mb-10 sm:mb-16 pointer-events-none">
+        {/* Main Image with Edge Smoky Blurs */}
+        <div className="relative w-full max-w-[1600px] mx-auto mt-4 sm:mt-6 px-4 sm:px-0">
+          {/* Left Elite Smoky / Fade Blur Overlay */}
+          <div className="absolute top-0 bottom-0 left-0 w-[15%] md:w-[20%] lg:w-[25%] bg-gradient-to-r from-white via-white/80 to-transparent z-10 pointer-events-none backdrop-blur-[2px] [mask-image:linear-gradient(to_right,black,transparent)]" />
+          
+          {/* Right Elite Smoky / Fade Blur Overlay */}
+          <div className="absolute top-0 bottom-0 right-0 w-[15%] md:w-[20%] lg:w-[25%] bg-gradient-to-l from-white via-white/80 to-transparent z-10 pointer-events-none backdrop-blur-[2px] [mask-image:linear-gradient(to_left,black,transparent)]" />
 
-          {/* Cinematic Black Smoky Edges */}
-          <div className="absolute inset-0 z-50 pointer-events-none">
-            <div className="absolute top-0 bottom-0 left-0 w-[10%] md:w-[15%] bg-gradient-to-r from-white via-white/80 to-transparent" />
-            <div className="absolute top-0 bottom-0 right-0 w-[10%] md:w-[15%] bg-gradient-to-l from-white via-white/80 to-transparent" />
-          </div>
-
-          {/* Soft Shadow behind the TV & Books */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[40%] bg-black/10 blur-[60px] z-0" />
-
-          {/* The 8 Books Sliding Out (compact, slight overlap, fully visible) */}
-          {[
-            // Left side (inner to outer)
-            { src: "/youtube-page/book-4.png", x: "-205%", y: "-50%", scale: 0.96, z: 16, delay: 0.62 },
-            { src: "/youtube-page/book-3.png", x: "-255%", y: "-50%", scale: 0.92, z: 14, delay: 0.72 },
-            { src: "/youtube-page/book-2.png", x: "-305%", y: "-50%", scale: 0.96, z: 12, delay: 0.82 },
-            { src: "/youtube-page/book-1.png", x: "-355%", y: "-50%", scale: 0.92, z: 10, delay: 0.92 },
-
-            // Right side (inner to outer)
-            { src: "/youtube-page/book-5.png", x: "155%", y: "-50%", scale: 0.96, z: 16, delay: 0.62 },
-            { src: "/youtube-page/book-6.png", x: "205%", y: "-50%", scale: 0.92, z: 14, delay: 0.72 },
-            { src: "/youtube-page/book-1.png", x: "255%", y: "-50%", scale: 0.96, z: 12, delay: 0.82 },
-            { src: "/youtube-page/book-2.png", x: "305%", y: "-50%", scale: 0.92, z: 10, delay: 0.92 },
-          ].map((book, i) => (
-            <motion.div
-              key={i}
-              className="absolute top-1/2 left-1/2 w-[90px] sm:w-[130px] md:w-[170px] lg:w-[210px] aspect-[2/3] drop-shadow-[0_12px_22px_rgba(0,0,0,0.22)]"
-              style={{ zIndex: book.z }}
-              initial={{ x: "-50%", y: "-50%", opacity: 0, scale: 0.58 }}
-              animate={{ x: book.x, y: book.y, opacity: 1, scale: book.scale }}
-              transition={{
-                duration: 1.9,
-                delay: book.delay,
-                ease: [0.22, 1, 0.36, 1]
-              }}
-            >
-              <Image
-                src={book.src}
-                alt={`Book ${i + 1}`}
-                fill
-                className="object-contain"
-              />
-            </motion.div>
-          ))}
-
-          {/* Center TV (Slides Up First, Stays above all books z-50) */}
-          <motion.div
-            className="absolute top-1/2 left-1/2 w-[320px] sm:w-[500px] md:w-[700px] lg:w-[880px] aspect-video z-50 drop-shadow-[0_30px_60px_rgba(0,0,0,0.4)]"
-            initial={{ x: "-50%", y: "20%", opacity: 0 }}
-            animate={{ x: "-50%", y: "-50%", opacity: 1 }}
-            transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          >
+          <div className="relative w-full aspect-[4/3] sm:aspect-[16/9] md:aspect-[2.2/1] lg:aspect-[2.5/1]">
             <Image
-              src="/youtube-page/tv.png"
-              alt="YouTube TV Content"
+              src="/youtube-page/Banner_img.png"
+              alt="Books to YouTube Video Conversion Banner"
               fill
-              className="object-contain"
+              className="object-contain object-top"
               priority
             />
-          </motion.div>
-
+          </div>
         </div>
-
-        {/* --- 3. BOTTOM REVIEWS IMAGE (With proper gap) --- */}
-        <motion.div
-          className="relative z-50 shrink-0 w-full max-w-[280px] sm:max-w-[400px] md:max-w-[550px] h-[45px] sm:h-[60px] mt-4 mb-6 sm:mb-10"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.5, ease: "easeOut" }}
-        >
-          <Image
-            src="/youtube-page/reviews.png"
-            alt="Customer Reviews"
-            fill
-            className="object-contain"
-          />
-        </motion.div>
-
       </section>
 
-      <BookingSection />
+      {/* 2. TOP CALENDLY & LEFT BOX SECTION */}
+      <section id="calendly" className="py-16 sm:py-24 bg-[#fafaf9] relative z-20">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-[42%_58%] gap-8 lg:gap-12 items-stretch">
+
+          {/* LEFT BOX: Stats Card */}
+          <div className="bg-white rounded-[2.5rem] shadow-[0_12px_40px_rgba(0,0,0,0.06)] border border-black/[0.03] p-7 sm:p-14 flex flex-col justify-center gap-10 sm:gap-16 h-full">
+
+            {/* Stat 1: Books Published */}
+            <div className="flex items-center gap-6 sm:gap-8">
+              <div className="relative w-[70px] h-[70px] sm:w-[85px] sm:h-[85px] flex-shrink-0">
+                <Image
+                  src="/youtube-page/Book-Icon.png"
+                  alt="Book Published"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              <div className="flex flex-col justify-center">
+                <h4 className="text-[32px] sm:text-[52px] font-light leading-none tracking-tight text-[#111111]">
+                  10,124+
+                </h4>
+                <p className="text-[17px] sm:text-[20px] font-normal text-[#333333] mt-1.5 sm:mt-2">
+                  Book Published
+                </p>
+              </div>
+            </div>
+
+            {/* Stat 2: Book Video */}
+            <div className="flex items-center gap-6 sm:gap-8">
+              <div className="relative w-[70px] h-[70px] sm:w-[85px] sm:h-[85px] flex-shrink-0">
+                <Image
+                  src="/youtube-page/YT-Big-icon.png"
+                  alt="Book Video"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              <div className="flex flex-col justify-center">
+                <h4 className="text-[32px] sm:text-[52px] font-light leading-none tracking-tight text-[#111111]">
+                  1,200+
+                </h4>
+                <p className="text-[17px] sm:text-[20px] font-normal text-[#333333] mt-1.5 sm:mt-2">
+                  Book Video
+                </p>
+              </div>
+            </div>
+
+            {/* Stat 3: Happy Authors */}
+            <div className="flex items-center gap-6 sm:gap-8">
+              <div className="relative w-[70px] h-[70px] sm:w-[85px] sm:h-[85px] flex-shrink-0">
+                <Image
+                  src="/youtube-page/Smile_emoji_icon.png"
+                  alt="Happy Authors"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              <div className="flex flex-col justify-center">
+                <h4 className="text-[32px] sm:text-[52px] font-light leading-none tracking-tight text-[#111111]">
+                  95%
+                </h4>
+                <p className="text-[17px] sm:text-[20px] font-normal text-[#333333] mt-1.5 sm:mt-2">
+                  Happy Authors
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+          {/* RIGHT BOX: Calendly inline widget */}
+          <div className="bg-white rounded-[2.5rem] shadow-[0_12px_40px_rgba(0,0,0,0.06)] border border-black/[0.03] overflow-hidden min-h-[650px] lg:min-h-[700px] w-full h-full relative">
+            <CalendlyInlineWidget minHeight={700} />
+          </div>
+
+        </div>
+      </section>
+
       {/* 3. VIDEOS WE CREATED - YOUTUBE TV SECTION */}
       <YouTubeTVSection />
 
@@ -1232,11 +1367,11 @@ export default function BookToVideoPage() {
       {/* 7. RIGHT FIT SECTION */}
       <RightFitSection />
 
-      {/* 8. CENTER CALENDLY DUBARA — homepage jaisa inline widget */}
+      {/* 8. CENTER CALENDLY */}
       <section className="py-20 bg-[#fafaf9]">
         <div className="max-w-4xl mx-auto px-4">
-          <div className="bg-white rounded-[2.5rem] shadow-2xl border border-gray-100 overflow-hidden p-2 sm:p-4">
-            <CalendlyInlineEmbed containerId="book-to-video-calendly-center" />
+          <div className="bg-white rounded-[2.5rem] shadow-2xl border border-gray-100 overflow-hidden min-h-[700px]">
+            <CalendlyInlineWidget minHeight={700} />
           </div>
         </div>
       </section>
@@ -1244,9 +1379,9 @@ export default function BookToVideoPage() {
       {/* 9. FAQs SECTION */}
       <FAQSection />
 
-      {/* 10. FOOTER / CONTACT US */}
-      <section className="bg-white border-t border-gray-100">
-        <Footer />
+      {/* 10. FOOTER / CONTACT — Calendly replaces contact form on this page */}
+      <section id="contact" className="bg-white border-t border-gray-100 scroll-mt-24">
+        <Footer replaceContactForm={<CalendlyInlineWidget minHeight={700} />} />
       </section>
     </div>
   );

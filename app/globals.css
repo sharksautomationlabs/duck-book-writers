@@ -166,6 +166,36 @@ html {
   animation-play-state: paused;
 }
 
+/* Book-to-video testimonials: bidirectional marquee, pause on row hover */
+@keyframes marquee-rtl {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.book-video-testimonial-track {
+  display: flex;
+  width: max-content;
+  gap: 1.5rem;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.book-video-testimonial-track--ltr {
+  animation-name: marquee;
+}
+
+.book-video-testimonial-track--rtl {
+  animation-name: marquee-rtl;
+}
+
+.book-video-testimonial-row:hover .book-video-testimonial-track {
+  animation-play-state: paused;
+}
+
 /* Calendly iframe responsive fix: ensure inline widget fills its container and isn't clipped */
 /* Calendly inline widget - ensure it fills the container and removes internal margins */
 #calendly-inline-embed .calendly-inline-widget,

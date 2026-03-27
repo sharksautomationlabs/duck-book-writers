@@ -17,7 +17,12 @@ interface SocialLink {
   href: string;
 }
 
-const Footer: React.FC = () => {
+interface FooterProps {
+  /** When set, replaces the contact form column (e.g. Calendly embed). */
+  replaceContactForm?: React.ReactNode;
+}
+
+const Footer: React.FC<FooterProps> = ({ replaceContactForm }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -229,8 +234,19 @@ const Footer: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Right Column - Contact Form */}
-                <div className="bg-white rounded-[15px] sm:rounded-[20px] p-4 sm:p-6 lg:p-8 shadow-lg">
+                {/* Right Column - Contact Form or custom slot (e.g. Calendly) */}
+                <div className="bg-white rounded-[15px] sm:rounded-[20px] p-4 sm:p-6 lg:p-8 shadow-lg overflow-hidden">
+                  {replaceContactForm ? (
+                    <>
+                      <h3 className="font-['Poppins'] font-bold text-xl sm:text-2xl text-[#1A1A1A] mb-4 sm:mb-6">
+                        Book a free 30-minute call
+                      </h3>
+                      <div className="w-full min-h-[680px] sm:min-h-[700px] overflow-hidden rounded-[12px] border border-gray-100">
+                        {replaceContactForm}
+                      </div>
+                    </>
+                  ) : (
+                    <>
                   <h3 className="font-['Poppins'] font-bold text-xl sm:text-2xl text-[#1A1A1A] mb-4 sm:mb-6">
                     Let&apos;s Talk About Your Book
                   </h3>
@@ -381,6 +397,8 @@ const Footer: React.FC = () => {
                       </div>
                     )}
                   </form>
+                    </>
+                  )}
                 </div>
 
               </div>
