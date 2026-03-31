@@ -1,7 +1,3 @@
-/**
- * Official-style YouTube mark (red play button) — inline SVG so it always loads on prod
- * without depending on /public PNG paths or CDN hotlinking.
- */
 export default function YouTubeMarkIcon({ className }: { className?: string }) {
   return (
     <svg
@@ -12,7 +8,11 @@ export default function YouTubeMarkIcon({ className }: { className?: string }) {
     >
       <path
         fill="#FF0000"
-        d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
+        d="M3.5 4.75C5.667 4.5 9.333 4.5 12 4.5s6.333 0 8.5.25c.97.119 1.74.89 1.86 1.86C22.75 8.777 22.75 12 22.75 12s0 3.223-.39 5.39c-.12.97-.89 1.74-1.86 1.86C18.333 19.5 14.667 19.5 12 19.5s-6.333 0-8.5-.25a2.25 2.25 0 0 1-1.86-1.86C1.25 15.223 1.25 12 1.25 12s0-3.223.39-5.39a2.25 2.25 0 0 1 1.86-1.86Z"
+      />
+      <path
+        fill="#FFFFFF"
+        d="M10.1 9.05c-.333-.195-.6-.035-.6.356v5.188c0 .39.267.55.6.356l4.668-2.72c.333-.195.333-.517 0-.712Z"
       />
     </svg>
   );

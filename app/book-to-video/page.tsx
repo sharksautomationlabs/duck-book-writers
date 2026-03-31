@@ -82,14 +82,20 @@ const VideoServiceSideCard = ({ service, side }: { service: VideoServiceItem; si
         className={`hidden md:block absolute -top-32 md:-top-40 z-0 w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 blur-[2px] group-hover:blur-0 pointer-events-none ${isLeft ? '-left-12 md:-left-20' : '-right-12 md:-right-20'
           }`}
       >
-        <Image
-          src={service.assetSrc}
-          alt={service.assetAlt}
-          width={400}
-          height={400}
-          className="object-contain w-full h-full drop-shadow-2xl"
-          unoptimized={service.assetUnoptimized}
-        />
+        {service.id === 'cash-cow' ? (
+          <div className="flex h-full w-full items-center justify-center">
+            <YouTubeMarkIcon className="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48" />
+          </div>
+        ) : (
+          <Image
+            src={service.assetSrc}
+            alt={service.assetAlt}
+            width={400}
+            height={400}
+            className="object-contain w-full h-full drop-shadow-2xl"
+            unoptimized={service.assetUnoptimized}
+          />
+        )}
       </motion.div>
 
       <div className="relative z-10 bg-white/80 backdrop-blur-xl rounded-2xl sm:rounded-[2rem] lg:rounded-[2.5rem] p-6 sm:p-7 md:p-8 pt-10 sm:pt-11 md:pt-12 border border-white/50 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] group-hover:shadow-[0_30px_60px_-15px_rgba(255,190,2,0.3)] transition-all duration-500 hover:-translate-y-2 sm:hover:-translate-y-4">
@@ -176,7 +182,8 @@ const VideoConversionServices = () => {
   const rightService = VIDEO_SERVICES[rightIndex];
 
   return (
-    <section className="py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 bg-[#fafaf9] overflow-visible relative">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 bg-[#fafaf9] overflow-visible relative">
+        <div className="pointer-events-none absolute -top-24 right-[-10%] h-[260px] w-[260px] rounded-full bg-[#FFBE02]/18 blur-[90px]" />
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-0 w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] lg:w-[500px] lg:h-[500px] bg-[#FFBE02]/5 rounded-full blur-[80px] sm:blur-[100px]" />
         <div className="absolute bottom-0 right-0 w-[350px] h-[350px] sm:w-[500px] sm:h-[500px] lg:h-[600px] lg:h-[600px] bg-purple-500/5 rounded-full blur-[100px] sm:blur-[120px]" />
@@ -1097,6 +1104,7 @@ const YouTubeTVSection = () => {
 const WhyYouTubeSection = () => {
   return (
     <section className="py-16 sm:py-20 bg-[#efefef] relative z-10">
+      <div className="pointer-events-none absolute -top-20 left-[-12%] h-[240px] w-[240px] rounded-full bg-[#FFBE02]/16 blur-[85px]" />
       <div className="max-w-[1240px] mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.15fr] gap-7 lg:gap-10 items-start">
           <motion.div
@@ -1298,7 +1306,8 @@ const RightFitSection = () => {
   ];
 
   return (
-    <section className="py-14 sm:py-20 bg-[#efefef] font-sans">
+    <section className="py-14 sm:py-20 bg-[#efefef] font-sans relative overflow-hidden">
+      <div className="pointer-events-none absolute -top-16 right-[-10%] h-[220px] w-[220px] rounded-full bg-[#FFBE02]/14 blur-[80px]" />
       <div className="max-w-[1140px] mx-auto px-4 sm:px-6">
 
         {/* Header Section */}
@@ -1394,7 +1403,8 @@ const FAQSection = () => {
   ];
 
   return (
-    <section className="py-24 bg-[#fafaf9]">
+    <section className="py-24 bg-[#fafaf9] relative overflow-hidden">
+      <div className="pointer-events-none absolute -top-24 left-[-8%] h-[260px] w-[260px] rounded-full bg-[#FFBE02]/16 blur-[90px]" />
       <div className="max-w-4xl mx-auto px-4">
         <h2 className="text-3xl md:text-5xl font-bold text-center mb-12 font-serif text-gray-900">
           Frequently Asked <span className="text-[#FFBE02]">Questions</span>
@@ -1664,6 +1674,7 @@ export default function BookToVideoPage() {
 
       {/* 1. HERO BANNER SECTION (ELITE FULL-SCREEN ANIMATION) */}
       <section className="relative w-full h-[100dvh] min-h-[850px] bg-white pt-12 sm:pt-14 md:pt-16 lg:pt-[4.25rem] pb-6 flex flex-col items-center justify-between overflow-hidden font-sans">
+        <div className="pointer-events-none absolute -top-24 right-[-14%] h-[320px] w-[320px] rounded-full bg-[#FFBE02]/20 blur-[110px]" />
 
         {/* --- 1. TOP TEXT AREA (Slides Down & Adjusted Size) --- */}
         <div className="relative z-50 flex flex-col items-center text-center px-4 shrink-0 -mt-1 sm:mt-0">
