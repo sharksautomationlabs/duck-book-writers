@@ -7,7 +7,7 @@ type CalendlyInlineEmbedProps = {
   /** Must be unique per page when multiple embeds exist */
   containerId: string;
   className?: string;
-  /** Iframe height in px (taller = less in-widget scrolling). Default 700. */
+  /** Iframe height in px (taller = less in-widget scrolling). Default 600. */
   heightPx?: number;
 };
 
@@ -16,8 +16,8 @@ type CalendlyInlineEmbedProps = {
  */
 export default function CalendlyInlineEmbed({
   containerId,
-  className = 'w-full min-h-[700px] h-auto overflow-hidden',
-  heightPx = 700,
+  className = 'w-full min-h-[600px] h-auto overflow-hidden',
+  heightPx = 600,
 }: CalendlyInlineEmbedProps) {
   useEffect(() => {
     let resizeHandler: (() => void) | null = null;

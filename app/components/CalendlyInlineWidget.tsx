@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { CALENDLY_LINK } from '../config/constants';
 
 const CALENDLY_SCRIPT_SRC = 'https://assets.calendly.com/assets/external/widget.js';
-const DEFAULT_CALENDLY_URL = 'https://calendly.com/meeting-duckbookwriters/30min';
 
 declare global {
   interface Window {
@@ -52,7 +52,7 @@ type CalendlyInlineWidgetProps = {
 export default function CalendlyInlineWidget({
   className = '',
   minHeight = 700,
-  calendlyUrl = DEFAULT_CALENDLY_URL,
+  calendlyUrl = CALENDLY_LINK,
 }: CalendlyInlineWidgetProps) {
   const parentRef = useRef<HTMLDivElement>(null);
 

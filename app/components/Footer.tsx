@@ -1,15 +1,9 @@
 "use client"
 import Image from 'next/image';
 import Link from 'next/link';
-import { ChevronRight, Phone, Mail, MapPin } from 'lucide-react';
+import { ChevronRight, Phone, Mail } from 'lucide-react';
 import React, { useState } from 'react';
 import { CONTACT_EMAIL } from '../config/constants';
-
-// Define interfaces for the data structures
-interface ContactInfo {
-  icon: React.ComponentType<{ className?: string }>;
-  text: string;
-}
 
 interface SocialLink {
   icon: string;
@@ -149,11 +143,6 @@ const Footer: React.FC<FooterProps> = ({ replaceContactForm }) => {
     }
   };
 
-  const contactInfo: ContactInfo[] = [
-    { icon: Phone, text: "+1 (346) 463-7721" },
-    { icon: Mail, text: CONTACT_EMAIL },
-  ];
-
   const socialLinks: SocialLink[] = [
     { icon: "/images/facebook.png", alt: "Facebook", href: "https://www.facebook.com/duckbookwriters" },
     { icon: "/images/instagram.svg", alt: "Instagram", href: "https://www.instagram.com/duckbookwriters/" },
@@ -170,7 +159,7 @@ const Footer: React.FC<FooterProps> = ({ replaceContactForm }) => {
           <div className="relative bg-[#F8F9FA] rounded-[20px] sm:rounded-[30px] lg:rounded-[40px] z-10">
 
             <div className="pt-12 sm:pt-16 lg:pt-20 pb-4 sm:pb-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-6 sm:gap-8 px-4 sm:px-8 lg:px-24">
+              <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-4 sm:gap-5 px-4 sm:px-8 lg:px-24">
                 {/* Left Column - Logo and Contact Info */}
                 <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
                   {/* Logo */}
@@ -184,24 +173,25 @@ const Footer: React.FC<FooterProps> = ({ replaceContactForm }) => {
                     />
                   </div>
 
-                  {/* Contact Info */}
-                  <div className="space-y-4 sm:space-y-5 w-full">
-                    {contactInfo.map((item, index) => (
-                      <div key={index} className="flex items-start gap-4 justify-center lg:justify-start">
-                        <item.icon className="mt-1 flex-shrink-0 w-6 h-6 text-yellow-500" />
-                        {index === 0 ? (
-                          <a href="tel:+13464637721" className="font-['Poppins'] text-sm sm:text-base text-gray-600 hover:text-yellow-500 transition-colors duration-200 text-center lg:text-left">
-                            {item.text}
-                          </a>
-                        ) : index === 1 ? (
-                          <a href={`mailto:${CONTACT_EMAIL}`} className="font-['Poppins'] text-sm sm:text-base text-gray-600 hover:text-yellow-500 transition-colors duration-200 text-center lg:text-left">
-                            {item.text}
-                          </a>
-                        ) : (
-                          <p className="font-['Poppins'] text-sm sm:text-base text-gray-600 whitespace-pre-line text-center lg:text-left">{item.text}</p>
-                        )}
-                      </div>
-                    ))}
+                  {/* Contact Info — phone + email on one line */}
+                  <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-2 gap-y-1 w-full font-['Poppins'] text-sm sm:text-base font-normal text-gray-600">
+                    <Phone className="hidden sm:block flex-shrink-0 w-5 h-5 text-yellow-500" aria-hidden />
+                    <a
+                      href="tel:+13464637721"
+                      className="hover:text-yellow-500 transition-colors duration-200 text-center lg:text-left"
+                    >
+                      +1 (346) 463-7721
+                    </a>
+                    <span className="text-gray-300 select-none" aria-hidden>
+                      ·
+                    </span>
+                    <Mail className="hidden sm:block flex-shrink-0 w-5 h-5 text-yellow-500" aria-hidden />
+                    <a
+                      href={`mailto:${CONTACT_EMAIL}`}
+                      className="whitespace-nowrap hover:text-yellow-500 transition-colors duration-200 text-center lg:text-left"
+                    >
+                      {CONTACT_EMAIL}
+                    </a>
                   </div>
 
                   {/* Social Media Links */}
@@ -239,9 +229,9 @@ const Footer: React.FC<FooterProps> = ({ replaceContactForm }) => {
                   {replaceContactForm ? (
                     <>
                       <h3 className="font-['Poppins'] font-bold text-xl sm:text-2xl text-[#1A1A1A] mb-4 sm:mb-6">
-                        Book a free 30-minute call
+                        Reserve Your Spot.
                       </h3>
-                      <div className="w-full min-h-[680px] sm:min-h-[700px] overflow-hidden rounded-[12px] border border-gray-100">
+                      <div className="w-full min-h-[580px] sm:min-h-[600px] overflow-hidden rounded-[12px] border border-gray-100">
                         {replaceContactForm}
                       </div>
                     </>

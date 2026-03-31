@@ -84,3 +84,9 @@ jspm_packages/
 
 # dotenv environment variables file
 .env
+
+# TypeScript incremental build cache
+*.tsbuildinfo
+
+# Local scratch HTML dumps (do not commit)
+.yt-channel.html

@@ -5,6 +5,7 @@
   "scripts": {
     "clean": "node -e \"try { require('fs').rmSync('.next', { recursive: true, force: true }); console.log('.next cleared'); } catch (e) { console.log('no .next to remove'); }\"",
     "dev": "next dev",
+    "dev:fresh": "npm run clean && next dev",
     "dev:turbo": "next dev --turbo",
     "build": "next build",
     "start": "next start",

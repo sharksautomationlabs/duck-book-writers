@@ -28,7 +28,7 @@ const CalendlySection = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.3, delay: 0.1 }}
           >
-            Schedule a <span className="text-yellow-500">30 Minute Meeting</span>
+            Reserve Your <span className="text-yellow-500">Spot.</span>
           </motion.h2>
 
           <motion.p
@@ -53,13 +53,17 @@ const CalendlySection = () => {
         </motion.div>
 
         <motion.div
-          className="bg-white rounded-[20px] sm:rounded-[30px] shadow-xl p-2 sm:p-6 lg:p-8 overflow-hidden"
+          className="bg-white rounded-[20px] sm:rounded-[26px] shadow-xl p-2 sm:p-4 lg:p-6 overflow-hidden"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <CalendlyInlineEmbed containerId="calendly-inline-embed" />
+          <CalendlyInlineEmbed
+            containerId="calendly-inline-embed"
+            heightPx={600}
+            className="w-full min-h-[600px] h-auto overflow-hidden"
+          />
         </motion.div>
       </div>
     </section>

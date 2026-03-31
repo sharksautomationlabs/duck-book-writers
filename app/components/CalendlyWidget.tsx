@@ -116,7 +116,7 @@ const CalendlyWidget: React.FC<CalendlyWidgetProps> = ({
         </button>
         <div 
           id="calendly-inline-widget" 
-          className="w-full min-h-[600px] sm:min-h-[700px] lg:min-h-[800px] mt-4"
+          className="w-full min-h-[520px] sm:min-h-[620px] lg:min-h-[720px] mt-4"
           style={{ minWidth: '320px' }}
         />
       </div>
