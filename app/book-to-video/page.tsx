@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Header from '../components/Header';
-import YouTubeMarkIcon from '../components/icons/YouTubeMarkIcon';
 import CalendlyInlineEmbed from '../components/CalendlyInlineEmbed';
 import BookingSection from './BookingSection';
 import Image from 'next/image';
@@ -31,9 +30,9 @@ const VIDEO_SERVICES: VideoServiceItem[] = [
     id: 'cash-cow',
     title: 'Cash Cow Video',
     description:
-      "High-retention storytelling. We engineer scripts and visuals specifically to trigger YouTube's algorithm, turning your book's concepts into viral assets.",
-    assetSrc: '/book-to-video/youtube_main.png',
-    assetAlt: 'YouTube',
+      "High-retention storytelling. We engineer scripts and visuals specifically to trigger Cenima's algorithm, turning your book's concepts into viral assets.",
+    assetSrc: '/youtube-page/1341 3.png',
+    assetAlt: 'Cenima',
     sideIcon: 'play',
   },
   {
@@ -82,20 +81,14 @@ const VideoServiceSideCard = ({ service, side }: { service: VideoServiceItem; si
         className={`hidden md:block absolute -top-32 md:-top-40 z-0 w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 blur-[2px] group-hover:blur-0 pointer-events-none ${isLeft ? '-left-12 md:-left-20' : '-right-12 md:-right-20'
           }`}
       >
-        {service.id === 'cash-cow' ? (
-          <div className="flex h-full w-full items-center justify-center">
-            <YouTubeMarkIcon className="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48" />
-          </div>
-        ) : (
-          <Image
-            src={service.assetSrc}
-            alt={service.assetAlt}
-            width={400}
-            height={400}
-            className="object-contain w-full h-full drop-shadow-2xl"
-            unoptimized={service.assetUnoptimized}
-          />
-        )}
+        <Image
+          src={service.assetSrc}
+          alt={service.assetAlt}
+          width={400}
+          height={400}
+          className="object-contain w-full h-full drop-shadow-2xl"
+          unoptimized={service.assetUnoptimized}
+        />
       </motion.div>
 
       <div className="relative z-10 bg-white/80 backdrop-blur-xl rounded-2xl sm:rounded-[2rem] lg:rounded-[2.5rem] p-6 sm:p-7 md:p-8 pt-10 sm:pt-11 md:pt-12 border border-white/50 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] group-hover:shadow-[0_30px_60px_-15px_rgba(255,190,2,0.3)] transition-all duration-500 hover:-translate-y-2 sm:hover:-translate-y-4">
@@ -132,18 +125,14 @@ const VideoServiceCenterCard = ({ service }: { service: VideoServiceItem }) => {
 
         <div className="relative z-10 flex flex-col items-center">
           <div className={`relative mx-auto mb-3 sm:mb-3.5 md:mb-4 flex items-center justify-center ${assetWrapClass}`}>
-            {service.id === 'cash-cow' ? (
-              <YouTubeMarkIcon className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28" />
-            ) : (
-              <Image
-                src={service.assetSrc}
-                alt={service.assetAlt}
-                width={400}
-                height={520}
-                className={`object-contain w-full h-full drop-shadow-2xl ${isAnimatedGif ? 'scale-110 sm:scale-[1.14] md:scale-[1.12]' : ''}`}
-                unoptimized={service.assetUnoptimized}
-              />
-            )}
+            <Image
+              src={service.assetSrc}
+              alt={service.assetAlt}
+              width={400}
+              height={520}
+              className={`object-contain w-full h-full drop-shadow-2xl ${isAnimatedGif ? 'scale-110 sm:scale-[1.14] md:scale-[1.12]' : ''}`}
+              unoptimized={service.assetUnoptimized}
+            />
           </div>
 
           <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-[10px] sm:text-xs font-bold mb-2.5 sm:mb-3 md:mb-3.5">
@@ -270,7 +259,7 @@ const StreamlinedProcessSection = () => {
       id: 0,
       tabTitle: "Consultation & Strategy",
       heading: "Consultation & Strategy",
-      desc: "Tell us about your book and your goals. We'll recommend the best video format (Animation, B-Roll, Face Content) and create a content plan tailored for YouTube.",
+      desc: "Tell us about your book and your goals. We'll recommend the best video format (Animation, B-Roll, Face Content) and create a content plan tailored for Cenima.",
       image: "/book-to-video/Third_Section_banner.png"
     },
     {
@@ -385,7 +374,7 @@ const YouTubeTVSection = () => {
   const [videoTabsManual, setVideoTabsManual] = useState(false);
 
   const longFormDefaultDesc =
-    'Videos we produced and curated for authors — long-form storytelling and education on YouTube.';
+    'Videos we produced and curated for authors — long-form storytelling and education on Cenima.';
 
   const playlist = [
     {
@@ -1114,7 +1103,7 @@ const WhyYouTubeSection = () => {
             className="relative h-full"
           >
             <div className="relative w-full max-w-[500px] mx-auto lg:mx-0 rounded-[2rem] overflow-hidden shadow-[0_18px_45px_-25px_rgba(0,0,0,0.45)] min-h-[460px] sm:min-h-[520px] lg:min-h-[650px]">
-              <Image src="/youtube-page/why_youtube.png" alt="Why Youtube" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 500px" />
+              <Image src="/youtube-page/why_youtube.png" alt="Why Cenima" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 500px" />
             </div>
           </motion.div>
 
@@ -1127,7 +1116,7 @@ const WhyYouTubeSection = () => {
             <div className="relative inline-flex items-center mb-6 mt-4 pl-2">
               {/* Red Button Box */}
               <div className="bg-[#FF0000] text-white pl-8 sm:pl-10 pr-16 sm:pr-20 py-3.5 sm:py-4.5 rounded-[1.25rem] sm:rounded-[1.5rem] text-[1.6rem] sm:text-[2rem] font-black tracking-tight leading-none shadow-[0_10px_25px_rgba(255,0,0,0.35)]">
-                Why Youtube ?
+                Why Cenima ?
               </div>
 
             </div>
@@ -1146,7 +1135,7 @@ const WhyYouTubeSection = () => {
                   <span className="font-medium">Cinematic Transformation</span>
                 </p>
                 <p className="mt-1.5 text-[0.96rem] sm:text-[1rem] leading-[1.15] text-zinc-700">
-                  We adapt your manuscript into a high-retention, animated Youtube series. We build the visuals that stop the scroll.
+                  We adapt your manuscript into a high-retention, animated Cenima series. We build the visuals that stop the scroll.
                 </p>
               </div>
 
@@ -1166,7 +1155,7 @@ const WhyYouTubeSection = () => {
                   <span className="font-medium">The Viral Funnel</span>
                 </p>
                 <p className="mt-1.5 text-[0.96rem] sm:text-[1rem] leading-[1.15] text-zinc-700">
-                  Your Youtube series acts as a 24/7 sales machine, funneling viewers directly from your episodes to your checkout page.
+                  Your Cenima series acts as a 24/7 sales machine, funneling viewers directly from your episodes to your checkout page.
                 </p>
               </div>
             </div>
@@ -1197,7 +1186,7 @@ function getAuthorInitials(name: string): string {
 // --- 6. SLIDING TESTIMONIALS SECTION ---
 const SlidingTestimonials = () => {
   const reviewsRow1: SlidingReview[] = [
-    { name: "Sarah Jenkins", role: "Fiction Author", text: "My book sales exploded after the cinematic trailer went live on YouTube!" },
+    { name: "Sarah Jenkins", role: "Fiction Author", text: "My book sales exploded after the cinematic trailer went live on Cenima!" },
     { name: "Michael T.", role: "Bestseller", text: "The cash cow strategy worked flawlessly. Passive income is real." },
     { name: "Emily Rose", role: "Indie Publisher", text: "Unbelievable quality. The 2D animation brought my characters to life.", avatarSrc: "/book-to-video/review-author-user-1.png" },
     { name: "David Clarke", role: "Author", text: "They handled everything from script to upload. Absolute lifesavers!", avatarSrc: "/book-to-video/review-author-user-2.png" },
@@ -1397,8 +1386,8 @@ const FAQSection = () => {
 
   const faqs = [
     { q: "How long does the entire video creation process take?", a: "Depending on the complexity (2D animation vs standard editing), it generally takes between 2 to 4 weeks from script approval to final delivery." },
-    { q: "Do I need to have my own script ready?", a: "Not at all! Our professional scriptwriters will analyze your book and craft a highly engaging script designed for YouTube audience retention." },
-    { q: "Do you guarantee a certain amount of views?", a: "While we use battle-tested strategies to maximize algorithmic reach, YouTube is an organic platform, so we cannot promise exact view counts. We do guarantee premium, highly engaging production." },
+    { q: "Do I need to have my own script ready?", a: "Not at all! Our professional scriptwriters will analyze your book and craft a highly engaging script designed for Cenima audience retention." },
+    { q: "Do you guarantee a certain amount of views?", a: "While we use battle-tested strategies to maximize algorithmic reach, Cenima is an organic platform, so we cannot promise exact view counts. We do guarantee premium, highly engaging production." },
     { q: "Who owns the rights to the finalized video?", a: "You do! Once the project is complete and paid in full, you retain 100% of the commercial rights to the video to use anywhere you like." }
   ];
 
@@ -1530,7 +1519,7 @@ const BookToVideoFooter = () => {
             <div className="min-w-0">
               <h4 className={footerColTitle}>Product</h4>
               <ul className="space-y-3">
-                <li><Link href="/book-to-video" className={footerLinkClass}>Book to YouTube</Link></li>
+                <li><Link href="/book-to-video" className={footerLinkClass}>Book to Cenima</Link></li>
                 <li><Link href="/services" className={footerLinkClass}>Our Services</Link></li>
                 <li><span className={footerLinkClass + ' cursor-default'}>Cash Cow &amp; Long-form</span></li>
                 <li><span className={footerLinkClass + ' cursor-default'}>2D Animation</span></li>
@@ -1600,7 +1589,7 @@ const BookToVideoFooter = () => {
                 <BookToVideoFooterSocial href="https://www.instagram.com/duckbookwriters/" label="Instagram">
                   <Image src="/images/instagram.svg" alt="" width={22} height={22} className="h-[22px] w-[22px] brightness-0 invert" />
                 </BookToVideoFooterSocial>
-                <BookToVideoFooterSocial href="https://www.youtube.com/results?search_query=Duck+Book+Writers" label="YouTube">
+                <BookToVideoFooterSocial href="https://www.youtube.com/results?search_query=Duck+Book+Writers" label="Cenima">
                   <svg className="h-5 w-[22px]" viewBox="0 0 24 18" fill="currentColor" aria-hidden>
                     <path d="M23.5 4.5a2.8 2.8 0 0 0-1.98-2C19.5 2 12 2 12 2s-7.5 0-9.52.5A2.8 2.8 0 0 0 .5 4.5 29 29 0 0 0 0 9a29 29 0 0 0 .5 4.5 2.8 2.8 0 0 0 1.98 2C4.5 16 12 16 12 16s7.5 0 9.52-.5a2.8 2.8 0 0 0 1.98-2 29 29 0 0 0 .5-4.5 29 29 0 0 0-.5-4.5ZM9.75 12.25V5.75L15.5 9l-5.75 3.25Z"/>
                   </svg>
@@ -1685,30 +1674,18 @@ export default function BookToVideoPage() {
             className="text-[22px] sm:text-[28px] md:text-[34px] lg:text-[40px] leading-[1.12] text-[#111] mb-2 sm:mb-2.5 tracking-tight"
           >
             <span className="font-normal text-black">Turn your Book into a </span>
-            <span className="font-black text-[#FF0000] tracking-tighter">YouTube</span>
+            <span className="font-black text-[#FFBE02] tracking-tighter">Cenima</span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: -30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[12px] sm:text-[14px] md:text-[15px] text-gray-600 mb-5 max-w-[520px] mx-auto font-medium leading-snug"
+            className="text-[12px] sm:text-[14px] md:text-[15px] text-gray-600 mb-12 sm:mb-16 md:mb-20 max-w-[520px] mx-auto font-medium leading-snug"
           >
             For ambitious authors with a manuscript or a published book who are tired of being
           </motion.p>
 
-          <motion.a
-            href="#calendly"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="group flex items-center bg-[#FF0000] rounded-full p-1.5 pr-6 sm:pr-8 mb-16 sm:mb-20 md:mb-24 lg:mb-28 shadow-[0_8px_25px_rgba(255,0,0,0.25)] hover:shadow-[0_12px_35px_rgba(255,0,0,0.35)] hover:-translate-y-1 transition-all duration-300 active:scale-95 cursor-pointer"
-          >
-            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full flex items-center justify-center mr-3 sm:mr-4 shadow-md group-hover:scale-105 transition-transform duration-300">
-              <YouTubeMarkIcon className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
-            </div>
-            <span className="text-white font-bold text-sm sm:text-[15px] tracking-wide uppercase">Start Your Journey</span>
-          </motion.a>
         </div>
 
         {/* --- 2. THE STAGE: TV & BOOKS ANIMATION (With Proper Spacing) --- */}
@@ -1768,7 +1745,7 @@ export default function BookToVideoPage() {
           >
             <Image
               src="/youtube-page/tv.png"
-              alt="YouTube TV Content"
+              alt="Cenima TV Content"
               fill
               className="object-contain"
               priority
@@ -1831,7 +1808,7 @@ export default function BookToVideoPage() {
                 </div>
               </div>
               <p className="text-[12px] sm:text-[14px] md:text-[16px] leading-tight text-zinc-700 font-medium mt-0.5">
-                based on 1000+ YouTube Channels
+                based on 1000+ Cenima Channels
               </p>
               <div className="mt-1.5 flex flex-wrap items-center justify-center sm:justify-start gap-2 text-[10px] sm:text-[11px] font-semibold text-zinc-600">
                 <span className="inline-flex items-center gap-1">

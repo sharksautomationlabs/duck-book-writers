@@ -4,7 +4,6 @@ import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { useInView } from 'framer-motion';
 import CalendlyInlineEmbed from '../components/CalendlyInlineEmbed';
-import YouTubeMarkIcon from '../components/icons/YouTubeMarkIcon';
 
 function formatStat(n: number, useGrouping: boolean) {
   return useGrouping ? n.toLocaleString('en-US') : String(n);
@@ -81,7 +80,7 @@ export default function BookingSection() {
             Reserve Your Spot.
           </h2>
           <p className="mx-auto mt-4 max-w-2xl font-['Poppins'] text-base text-zinc-600 sm:text-lg">
-            Free 30-minute strategy call · Walk through Book-to-YouTube with our team · No obligation
+            Free 30-minute strategy call · Walk through Book-to-Cenima with our team · No obligation
           </p>
         </div>
 
@@ -112,7 +111,13 @@ export default function BookingSection() {
 
           <div className="group relative bg-white rounded-3xl p-5 sm:p-7 flex items-center gap-6 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-black/[0.04] hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1.5 transition-all duration-500 ease-out cursor-default">
             <div className="relative flex h-[65px] w-[65px] shrink-0 items-center justify-center sm:h-[75px] sm:w-[75px] transform transition-transform duration-500 ease-out group-hover:scale-110">
-              <YouTubeMarkIcon className="h-11 w-11 sm:h-[52px] sm:w-[52px]" />
+              <Image
+                src="/youtube-page/1341 2.png"
+                alt="Cenima logo"
+                width={52}
+                height={52}
+                className="h-11 w-11 sm:h-[52px] sm:w-[52px] object-contain"
+              />
             </div>
             <div className="flex flex-col justify-center">
               <AnimatedStatNumber
