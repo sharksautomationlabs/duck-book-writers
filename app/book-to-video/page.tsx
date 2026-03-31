@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Header from '../components/Header';
+import YouTubeMarkIcon from '../components/icons/YouTubeMarkIcon';
 import CalendlyInlineEmbed from '../components/CalendlyInlineEmbed';
 import BookingSection from './BookingSection';
 import Image from 'next/image';
@@ -1689,13 +1690,7 @@ export default function BookToVideoPage() {
             className="group flex items-center bg-[#FF0000] rounded-full p-1.5 pr-6 sm:pr-8 mb-16 sm:mb-20 md:mb-24 lg:mb-28 shadow-[0_8px_25px_rgba(255,0,0,0.25)] hover:shadow-[0_12px_35px_rgba(255,0,0,0.35)] hover:-translate-y-1 transition-all duration-300 active:scale-95 cursor-pointer"
           >
             <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full flex items-center justify-center mr-3 sm:mr-4 shadow-md group-hover:scale-105 transition-transform duration-300">
-              <Image
-                src="/youtube-page/YT-Icon.png"
-                alt="YT Icon"
-                width={20}
-                height={20}
-                className="w-4 h-4 sm:w-5 sm:h-5 object-contain"
-              />
+              <YouTubeMarkIcon className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
             </div>
             <span className="text-white font-bold text-sm sm:text-[15px] tracking-wide uppercase">Start Your Journey</span>
           </motion.a>
@@ -1885,7 +1880,7 @@ export default function BookToVideoPage() {
             </p>
             <h2 className="font-serif text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl md:text-[2.75rem] md:leading-tight">
               Book your free{' '}
-              <span className="text-[#9a7209]">30-minute</span> consultation
+              <span className="text-[#FFBE02]">30-minute</span> consultation
             </h2>
             <p className="mx-auto mt-4 max-w-xl font-['Poppins'] text-base leading-relaxed text-zinc-600 sm:text-lg">
               Same calendar as above — lock in a time when you&apos;re ready. We&apos;ll confirm by email and prep for your call.

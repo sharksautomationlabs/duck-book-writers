@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { useInView } from 'framer-motion';
 import CalendlyInlineEmbed from '../components/CalendlyInlineEmbed';
+import YouTubeMarkIcon from '../components/icons/YouTubeMarkIcon';
 
 function formatStat(n: number, useGrouping: boolean) {
   return useGrouping ? n.toLocaleString('en-US') : String(n);
@@ -110,13 +111,8 @@ export default function BookingSection() {
           </div>
 
           <div className="group relative bg-white rounded-3xl p-5 sm:p-7 flex items-center gap-6 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-black/[0.04] hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1.5 transition-all duration-500 ease-out cursor-default">
-            <div className="relative w-[65px] h-[65px] sm:w-[75px] sm:h-[75px] flex-shrink-0 transform group-hover:scale-110 transition-transform duration-500 ease-out">
-              <Image
-                src="/youtube-page/YT-Big-icon.png"
-                alt="Book Video"
-                fill
-                className="object-contain"
-              />
+            <div className="relative flex h-[65px] w-[65px] shrink-0 items-center justify-center sm:h-[75px] sm:w-[75px] transform transition-transform duration-500 ease-out group-hover:scale-110">
+              <YouTubeMarkIcon className="h-11 w-11 sm:h-[52px] sm:w-[52px]" />
             </div>
             <div className="flex flex-col justify-center">
               <AnimatedStatNumber
