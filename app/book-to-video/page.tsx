@@ -1632,7 +1632,7 @@ const BookToVideoFooter = () => {
                 <PaymentMarkVisa />
               </div>
               <p className={`text-[15px] sm:text-[16px] text-slate-600 ${footerFont}`}>
-                <a href="/" className="hover:text-slate-800 underline-offset-2 hover:underline">Home</a>
+                <Link href="/" className="hover:text-slate-800 underline-offset-2 hover:underline">Home</Link>
                 {' · '}
                 © {new Date().getFullYear()} {COMPANY_NAME}
               </p>
