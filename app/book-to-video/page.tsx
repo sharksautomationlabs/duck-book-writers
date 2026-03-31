@@ -126,14 +126,18 @@ const VideoServiceCenterCard = ({ service }: { service: VideoServiceItem }) => {
 
         <div className="relative z-10 flex flex-col items-center">
           <div className={`relative mx-auto mb-3 sm:mb-3.5 md:mb-4 flex items-center justify-center ${assetWrapClass}`}>
-            <Image
-              src={service.assetSrc}
-              alt={service.assetAlt}
-              width={400}
-              height={520}
-              className={`object-contain w-full h-full drop-shadow-2xl ${isAnimatedGif ? 'scale-110 sm:scale-[1.14] md:scale-[1.12]' : ''}`}
-              unoptimized={service.assetUnoptimized}
-            />
+            {service.id === 'cash-cow' ? (
+              <YouTubeMarkIcon className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28" />
+            ) : (
+              <Image
+                src={service.assetSrc}
+                alt={service.assetAlt}
+                width={400}
+                height={520}
+                className={`object-contain w-full h-full drop-shadow-2xl ${isAnimatedGif ? 'scale-110 sm:scale-[1.14] md:scale-[1.12]' : ''}`}
+                unoptimized={service.assetUnoptimized}
+              />
+            )}
           </div>
 
           <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-[10px] sm:text-xs font-bold mb-2.5 sm:mb-3 md:mb-3.5">
