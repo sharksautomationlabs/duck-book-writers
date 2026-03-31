@@ -30,7 +30,7 @@ const Header = () => {
       {isBookToVideoPage ? (
         <header className="sticky top-0 z-50 bg-white/95 pt-4 sm:pt-5 backdrop-blur">
           <div className="relative max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="pointer-events-none absolute -top-10 right-[-10%] h-[190px] w-[260px] rounded-full bg-[#FFBE02]/28 blur-[95px]" />
+            <div className="pointer-events-none absolute -top-10 right-[-10%] h-[190px] w-[260px] rounded-full bg-[#FFBE02]/36 blur-[90px]" />
             <div className="relative bg-gradient-to-r from-[#FFF7DC] via-white to-[#FFE4E4] rounded-2xl sm:rounded-[22px] border border-[#FFE08A] shadow-[0_14px_30px_rgba(0,0,0,0.06)] px-4 sm:px-6 py-3 sm:py-3.5">
               <div className="flex items-center justify-between gap-4">
                 {/* Left: Logo + brand */}
