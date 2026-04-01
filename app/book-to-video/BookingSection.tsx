@@ -63,7 +63,7 @@ export default function BookingSection() {
   return (
     <section
       id="calendly"
-      className="relative z-20 overflow-hidden py-14 sm:py-20 md:py-24 bg-gradient-to-b from-[#fafaf9] via-white to-[#fff8ed]/60"
+      className="relative z-20 overflow-hidden py-14 sm:py-20 md:py-24 bg-gradient-to-b from-[#fff7eb] via-[#fafaf9] to-[#fafaf9]"
     >
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -top-24 right-[-10%] h-[380px] w-[380px] rounded-full bg-[#FFBE02]/12 blur-[100px]" />
@@ -80,7 +80,7 @@ export default function BookingSection() {
             Reserve Your Spot.
           </h2>
           <p className="mx-auto mt-4 max-w-2xl font-['Poppins'] text-base text-zinc-600 sm:text-lg">
-            Free 30-minute strategy call · Walk through Book-to-Cenima with our team · No obligation
+            Free 30-minute strategy call · Walk through Book-to-Cinema with our team · No obligation
           </p>
         </div>
 
@@ -113,7 +113,7 @@ export default function BookingSection() {
             <div className="relative flex h-[65px] w-[65px] shrink-0 items-center justify-center sm:h-[75px] sm:w-[75px] transform transition-transform duration-500 ease-out group-hover:scale-110">
               <Image
                 src="/youtube-page/1341 2.png"
-                alt="Cenima logo"
+                alt="Cinema logo"
                 width={52}
                 height={52}
                 className="h-11 w-11 sm:h-[52px] sm:w-[52px] object-contain"
@@ -161,19 +161,12 @@ export default function BookingSection() {
             <div className="w-full max-w-[600px] lg:ml-auto lg:mr-0">
               <div className="rounded-[1.5rem] bg-white/90 p-1.5 shadow-[0_24px_64px_-12px_rgba(15,15,15,0.14),0_0_0_1px_rgba(0,0,0,0.05)] backdrop-blur-sm sm:rounded-[1.85rem] sm:p-2">
                 <div className="overflow-hidden rounded-[1.25rem] border border-zinc-200/80 bg-zinc-50/40 sm:rounded-[1.65rem]">
-                  <div className="border-b border-zinc-200/70 bg-white px-4 py-4 sm:px-6 sm:py-5">
-                    <p className="font-['Poppins'] text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9a7209]">
-                      Pick a time
-                    </p>
-                    <p className="mt-1.5 font-['Poppins'] text-sm leading-snug text-zinc-600 sm:text-[15px]">
-                      Secure calendar — choose an opening that fits your schedule. You&apos;ll get a confirmation email right away.
-                    </p>
-                  </div>
                   <div className="bg-white">
                     <CalendlyInlineEmbed
                       containerId="book-to-video-calendly-side"
-                      heightPx={620}
-                      className="w-full min-h-[620px] overflow-hidden bg-white"
+                      heightPx={520}
+                      heightPxMobile={440}
+                      className="w-full min-h-[440px] sm:min-h-[520px] overflow-hidden bg-white"
                     />
                   </div>
                 </div>

@@ -182,6 +182,8 @@ html {
   gap: 1.5rem;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .book-video-testimonial-track--ltr {
@@ -194,6 +196,22 @@ html {
 
 .book-video-testimonial-row:hover .book-video-testimonial-track {
   animation-play-state: paused;
+}
+
+/* Book-to-video Calendly: vertical scroll OK, hide scrollbars where the browser allows */
+.calendly-book-to-video-host {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.calendly-book-to-video-host::-webkit-scrollbar {
+  display: none;
+}
+
+.calendly-book-to-video-host iframe {
+  display: block;
 }
 
 /* Calendly iframe responsive fix: ensure inline widget fills its container and isn't clipped */

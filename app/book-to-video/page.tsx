@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import Header from '../components/Header';
 import CalendlyInlineEmbed from '../components/CalendlyInlineEmbed';
 import BookingSection from './BookingSection';
 import Image from 'next/image';
-import { motion, AnimatePresence, useAnimationControls } from 'framer-motion';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 import {
   PlayCircle, ArrowRight,
   MonitorPlay, Sparkles,
@@ -30,9 +30,9 @@ const VIDEO_SERVICES: VideoServiceItem[] = [
     id: 'cash-cow',
     title: 'Cash Cow Video',
     description:
-      "High-retention storytelling. We engineer scripts and visuals specifically to trigger Cenima's algorithm, turning your book's concepts into viral assets.",
+      "High-retention storytelling. We engineer scripts and visuals specifically to trigger Cinema's algorithm, turning your book's concepts into viral assets.",
     assetSrc: '/youtube-page/1341 3.png',
-    assetAlt: 'Cenima',
+    assetAlt: 'Cinema',
     sideIcon: 'play',
   },
   {
@@ -259,7 +259,7 @@ const StreamlinedProcessSection = () => {
       id: 0,
       tabTitle: "Consultation & Strategy",
       heading: "Consultation & Strategy",
-      desc: "Tell us about your book and your goals. We'll recommend the best video format (Animation, B-Roll, Face Content) and create a content plan tailored for Cenima.",
+      desc: "Tell us about your book and your goals. We'll recommend the best video format (Animation, B-Roll, Face Content) and create a content plan tailored for Cinema.",
       image: "/book-to-video/Third_Section_banner.png"
     },
     {
@@ -367,14 +367,23 @@ const StreamlinedProcessSection = () => {
   );
 };
 
+/** Pause / mute embedded players when the LED section is off-screen (stops audio leaking). */
+function ledAwareEmbedSrc(inView: boolean, videoId: string, activeSrc: string): string {
+  if (inView) return activeSrc;
+  return `https://www.youtube.com/embed/${videoId}?autoplay=0&mute=1&controls=1&rel=0`;
+}
+
 // --- YOUTUBE TV SECTION ---
 const YouTubeTVSection = () => {
+  const ledSectionRef = useRef<HTMLElement | null>(null);
+  const ledInView = useInView(ledSectionRef, { amount: 0.12, margin: '-15% 0px -15% 0px' });
+
   const [activeVideoTab, setActiveVideoTab] = useState<'long' | 'short' | 'thumbnail'>('long');
   /** After user clicks a tab once, stop auto-cycling until page reload */
   const [videoTabsManual, setVideoTabsManual] = useState(false);
 
   const longFormDefaultDesc =
-    'Videos we produced and curated for authors — long-form storytelling and education on Cenima.';
+    'Videos we produced and curated for authors — long-form storytelling and education on Cinema.';
 
   const playlist = [
     {
@@ -618,15 +627,15 @@ const YouTubeTVSection = () => {
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [width, setWidth] = useState(0);
 
-  // Auto-rotate tabs every 3s only until the user picks a tab manually
+  // Auto-rotate tabs only while the section is on screen and user hasn't locked a tab
   useEffect(() => {
-    if (isLightboxOpen || videoTabsManual) return;
+    if (isLightboxOpen || videoTabsManual || !ledInView) return;
     const tabOrder: Array<'long' | 'short' | 'thumbnail'> = ['long', 'short', 'thumbnail'];
     const intervalId = window.setInterval(() => {
       setActiveVideoTab((prev) => tabOrder[(tabOrder.indexOf(prev) + 1) % tabOrder.length]);
     }, 3000);
     return () => window.clearInterval(intervalId);
-  }, [isLightboxOpen, videoTabsManual]);
+  }, [isLightboxOpen, videoTabsManual, ledInView]);
 
   useEffect(() => {
     const handleResize = () => setWidth(window.innerWidth);
@@ -635,13 +644,10 @@ const YouTubeTVSection = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Thumbnail tab now uses actual thumbnails from the same videos (long + short)
-  const thumbnailList = [
-    ...playlist.slice(0, 3),
-    ...shortsList.slice(0, 3),
-  ].map((video, idx) => ({
+  // Thumbnails: long-form playlist only (no shorts), no duplicated rows
+  const thumbnailList = playlist.map((video, idx) => ({
     id: idx + 1,
-    image: `https://i.ytimg.com/vi/${video.videoId}/hqdefault.jpg`,
+    image: video.thumbnailUrl,
     title: video.title,
   }));
 
@@ -672,13 +678,9 @@ const YouTubeTVSection = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isLightboxOpen, handleNextImage, handlePrevImage]);
 
-  const extendedThumbnailList = [];
-  for (let i = 0; i < 3; i++) {
-    extendedThumbnailList.push(...thumbnailList.map((thumb) => ({ ...thumb, uniqueId: `${thumb.id}-${i}` })));
-  }
-
   return (
     <section
+      ref={ledSectionRef}
       className="relative w-full pt-6 sm:pt-8 md:pt-10 lg:pt-12 py-12 sm:py-14 md:py-20 lg:py-24 overflow-hidden z-50"
       style={{
         background:
@@ -754,23 +756,40 @@ const YouTubeTVSection = () => {
           </div>
         </div>
 
-        {/* TV — smaller overall via max-width only (frame + % insets scale together; no extra Image scale) */}
-        <div className="relative w-full max-w-[860px] sm:max-w-[940px] md:max-w-[1000px] lg:max-w-[1080px] mx-auto perspective-[1000px]">
-          {/* TV Frame */}
-          <div className="relative w-full aspect-[16/9] z-20 pointer-events-none">
-            <Image src="/book-to-video/fourth_S_TV.png" alt="TV Frame" fill className="object-contain scale-105" sizes="(max-width: 1080px) 100vw, 1080px" />
+        {/* Mobile: shadow bahar; border seedha YouTube screen panel pe (neeche inner div) */}
+        <div className="relative w-full max-w-[min(92vw,316px)] mx-auto md:max-w-[1000px] lg:max-w-[1080px] perspective-[1000px] max-md:drop-shadow-[0_3px_14px_rgba(0,0,0,0.14)]">
+          <div className={`relative w-full z-20 pointer-events-none mx-auto ${width < 768 ? 'aspect-[10/20]' : 'aspect-[16/9]'}`}>
+            <Image
+              src={width < 768 ? '/youtube-page/mobile-removebg-preview.png' : '/book-to-video/fourth_S_TV.png'}
+              alt={width < 768 ? 'Phone frame' : 'TV frame'}
+              fill
+              className={`object-contain ${width < 768 ? '' : 'scale-105'}`}
+              sizes={width < 768 ? '(max-width: 767px) 316px, 100vw' : '(max-width: 1080px) 100vw, 1080px'}
+            />
           </div>
 
-          {/* Internal Screen */}
+          {/* Internal Screen — mobile: patla border yahi (YouTube UI ke sath); insets thode tight */}
           <div
-            className="absolute bg-white z-40 overflow-hidden rounded-t-[5px] sm:rounded-t-[7px] rounded-b-[11px] sm:rounded-b-[14px] shadow-inner"
-            style={{
-              // Nudge down + slightly wider side insets so inner UI sits inside bezel (not flush to top rim)
-              top: width < 768 ? 'calc(13.25% - 32px)' : width < 1024 ? 'calc(14.25% - 52px)' : 'calc(16.25% - 68px)',
-              left: width < 768 ? 'calc(9.25% - 12px)' : width < 1024 ? 'calc(10% - 16px)' : 'calc(11% - 24px)',
-              right: width < 768 ? 'calc(9.25% - 12px)' : width < 1024 ? 'calc(10% - 16px)' : 'calc(11% - 24px)',
-              bottom: width < 768 ? 'calc(15.75% - 18px)' : width < 1024 ? 'calc(16.75% - 28px)' : 'calc(18.75% - 36px)',
-            }}
+            className={`absolute bg-white z-40 overflow-hidden shadow-inner box-border ${
+              width < 768
+                ? 'rounded-[22px] border-[4px] border-black'
+                : 'rounded-t-[5px] sm:rounded-t-[7px] rounded-b-[11px] sm:rounded-b-[14px]'
+            }`}
+            style={
+              width < 768
+                ? {
+                    top: '10.35%',
+                    left: '6.95%',
+                    right: '6.95%',
+                    bottom: '9.95%',
+                  }
+                : {
+                    top: width < 1024 ? 'calc(14.25% - 52px)' : 'calc(16.25% - 68px)',
+                    left: width < 1024 ? 'calc(10% - 16px)' : 'calc(11% - 24px)',
+                    right: width < 1024 ? 'calc(10% - 16px)' : 'calc(11% - 24px)',
+                    bottom: width < 1024 ? 'calc(16.75% - 28px)' : 'calc(18.75% - 36px)',
+                  }
+            }
           >
             {/* YouTube Header — compact to match smaller bezel */}
             <div className="sticky top-0 z-50 bg-white h-10 sm:h-11 md:h-12 flex items-center justify-between px-1.5 sm:px-2.5 md:px-3 shrink-0 shadow-sm border-b border-gray-200">
@@ -809,10 +828,10 @@ const YouTubeTVSection = () => {
                   <div className="w-full lg:w-[70%]">
                     <div className="w-full aspect-video bg-black rounded-md sm:rounded-lg overflow-hidden shadow-sm mb-2 sm:mb-3">
                       <iframe
-                        key={currentVideo.videoId}
+                        key={`${currentVideo.videoId}-${ledInView ? 'on' : 'off'}`}
                         width="100%"
                         height="100%"
-                        src={currentVideo.src}
+                        src={ledAwareEmbedSrc(ledInView, currentVideo.videoId, currentVideo.src)}
                         title="Player"
                         allow="autoplay; encrypted-media"
                         loading="lazy"
@@ -923,10 +942,14 @@ const YouTubeTVSection = () => {
                         className="relative z-30 w-[72%] max-w-[168px] sm:max-w-[188px] md:max-w-[208px] lg:max-w-[236px] xl:max-w-[252px] aspect-[9/16] max-h-[82%] sm:max-h-[400px] md:max-h-[460px] lg:max-h-[520px] bg-black rounded-lg sm:rounded-xl overflow-hidden shadow-2xl mx-auto"
                       >
                         <iframe
-                          key={shortsList[currentShortIndex].videoId}
+                          key={`${shortsList[currentShortIndex].videoId}-${ledInView ? 'on' : 'off'}`}
                           width="100%"
                           height="100%"
-                          src={shortsList[currentShortIndex].src}
+                          src={ledAwareEmbedSrc(
+                            ledInView,
+                            shortsList[currentShortIndex].videoId,
+                            shortsList[currentShortIndex].src,
+                          )}
                           title="Shorts"
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                           allowFullScreen
@@ -969,17 +992,15 @@ const YouTubeTVSection = () => {
                 <div className="w-full h-full relative bg-[#f9f9f9]">
                   <div className="w-full h-full overflow-y-auto p-3 sm:p-4 md:p-5 lg:p-6">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-5 w-full">
-                      {extendedThumbnailList.map((thumbnail, idx) => {
-                        const originalIndex = thumbnailList.findIndex(t => t.id === thumbnail.id);
-                        return (
+                      {thumbnailList.map((thumbnail, idx) => (
                           <motion.div
-                            key={thumbnail.uniqueId}
+                            key={thumbnail.id}
                             initial={{ opacity: 0, y: 50, scale: 0.95 }}
                             whileInView={{ opacity: 1, y: 0, scale: 1 }}
                             viewport={{ once: true, margin: "-50px" }}
                             transition={{ duration: 0.5, ease: "easeOut", delay: (idx % 3) * 0.1 }}
                             onClick={() => {
-                              setActiveThumbnailIndex(originalIndex);
+                              setActiveThumbnailIndex(idx);
                               if (width >= 768) {
                                 setIsLightboxOpen(true);
                               }
@@ -1005,8 +1026,7 @@ const YouTubeTVSection = () => {
                               </h4>
                             </div>
                           </motion.div>
-                        );
-                      })}
+                      ))}
                     </div>
                   </div>
 
@@ -1103,7 +1123,7 @@ const WhyYouTubeSection = () => {
             className="relative h-full"
           >
             <div className="relative w-full max-w-[500px] mx-auto lg:mx-0 rounded-[2rem] overflow-hidden shadow-[0_18px_45px_-25px_rgba(0,0,0,0.45)] min-h-[460px] sm:min-h-[520px] lg:min-h-[650px]">
-              <Image src="/youtube-page/why_youtube.png" alt="Why Cenima" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 500px" />
+              <Image src="/youtube-page/why_youtube.png" alt="Why Cinema" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 500px" />
             </div>
           </motion.div>
 
@@ -1116,7 +1136,7 @@ const WhyYouTubeSection = () => {
             <div className="relative inline-flex items-center mb-6 mt-4 pl-2">
               {/* Red Button Box */}
               <div className="bg-[#FF0000] text-white pl-8 sm:pl-10 pr-16 sm:pr-20 py-3.5 sm:py-4.5 rounded-[1.25rem] sm:rounded-[1.5rem] text-[1.6rem] sm:text-[2rem] font-black tracking-tight leading-none shadow-[0_10px_25px_rgba(255,0,0,0.35)]">
-                Why Cenima ?
+                Why Cinema ?
               </div>
 
             </div>
@@ -1135,7 +1155,7 @@ const WhyYouTubeSection = () => {
                   <span className="font-medium">Cinematic Transformation</span>
                 </p>
                 <p className="mt-1.5 text-[0.96rem] sm:text-[1rem] leading-[1.15] text-zinc-700">
-                  We adapt your manuscript into a high-retention, animated Cenima series. We build the visuals that stop the scroll.
+                  We adapt your manuscript into a high-retention, animated Cinema series. We build the visuals that stop the scroll.
                 </p>
               </div>
 
@@ -1155,7 +1175,7 @@ const WhyYouTubeSection = () => {
                   <span className="font-medium">The Viral Funnel</span>
                 </p>
                 <p className="mt-1.5 text-[0.96rem] sm:text-[1rem] leading-[1.15] text-zinc-700">
-                  Your Cenima series acts as a 24/7 sales machine, funneling viewers directly from your episodes to your checkout page.
+                  Your Cinema series acts as a 24/7 sales machine, funneling viewers directly from your episodes to your checkout page.
                 </p>
               </div>
             </div>
@@ -1186,7 +1206,7 @@ function getAuthorInitials(name: string): string {
 // --- 6. SLIDING TESTIMONIALS SECTION ---
 const SlidingTestimonials = () => {
   const reviewsRow1: SlidingReview[] = [
-    { name: "Sarah Jenkins", role: "Fiction Author", text: "My book sales exploded after the cinematic trailer went live on Cenima!" },
+    { name: "Sarah Jenkins", role: "Fiction Author", text: "My book sales exploded after the cinematic trailer went live on Cinema!" },
     { name: "Michael T.", role: "Bestseller", text: "The cash cow strategy worked flawlessly. Passive income is real." },
     { name: "Emily Rose", role: "Indie Publisher", text: "Unbelievable quality. The 2D animation brought my characters to life.", avatarSrc: "/book-to-video/review-author-user-1.png" },
     { name: "David Clarke", role: "Author", text: "They handled everything from script to upload. Absolute lifesavers!", avatarSrc: "/book-to-video/review-author-user-2.png" },
@@ -1225,35 +1245,22 @@ const SlidingTestimonials = () => {
     </div>
   );
 
-  const MarqueeRow = ({ items, direction = 1, speed = 40 }: { items: SlidingReview[]; direction?: number; speed?: number }) => {
-    const controls = useAnimationControls();
-    const [paused, setPaused] = useState(false);
-
-    useEffect(() => {
-      if (paused) {
-        void controls.stop();
-        return;
-      }
-      void controls.start({
-        x: direction === 1 ? ["0%", "-50%"] : ["-50%", "0%"],
-        transition: { repeat: Infinity, ease: "linear", duration: speed },
-      });
-    }, [controls, direction, speed, paused]);
-
-    return (
+  const MarqueeRow = ({ items, direction = 1, speed = 40 }: { items: SlidingReview[]; direction?: number; speed?: number }) => (
+    <div className="book-video-testimonial-row flex w-full overflow-hidden mb-6 relative">
       <div
-        className="flex overflow-hidden w-full mb-6 relative"
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
+        className={
+          direction === 1
+            ? 'book-video-testimonial-track book-video-testimonial-track--ltr'
+            : 'book-video-testimonial-track book-video-testimonial-track--rtl'
+        }
+        style={{ animationDuration: `${speed}s` }}
       >
-        <motion.div className="flex gap-6 w-max" animate={controls}>
-          {[...items, ...items, ...items].map((item, i) => (
-            <TestimonialCard key={i} item={item} />
-          ))}
-        </motion.div>
+        {[...items, ...items].map((item, i) => (
+          <TestimonialCard key={`${item.name}-${i}`} item={item} />
+        ))}
       </div>
-    );
-  };
+    </div>
+  );
 
   return (
     <section className="py-20 overflow-hidden relative bg-gradient-to-b from-violet-100/50 via-[#FFBE02]/28 to-[#FFBE02]/18">
@@ -1386,8 +1393,8 @@ const FAQSection = () => {
 
   const faqs = [
     { q: "How long does the entire video creation process take?", a: "Depending on the complexity (2D animation vs standard editing), it generally takes between 2 to 4 weeks from script approval to final delivery." },
-    { q: "Do I need to have my own script ready?", a: "Not at all! Our professional scriptwriters will analyze your book and craft a highly engaging script designed for Cenima audience retention." },
-    { q: "Do you guarantee a certain amount of views?", a: "While we use battle-tested strategies to maximize algorithmic reach, Cenima is an organic platform, so we cannot promise exact view counts. We do guarantee premium, highly engaging production." },
+    { q: "Do I need to have my own script ready?", a: "Not at all! Our professional scriptwriters will analyze your book and craft a highly engaging script designed for Cinema audience retention." },
+    { q: "Do you guarantee a certain amount of views?", a: "While we use battle-tested strategies to maximize algorithmic reach, Cinema is an organic platform, so we cannot promise exact view counts. We do guarantee premium, highly engaging production." },
     { q: "Who owns the rights to the finalized video?", a: "You do! Once the project is complete and paid in full, you retain 100% of the commercial rights to the video to use anywhere you like." }
   ];
 
@@ -1519,7 +1526,7 @@ const BookToVideoFooter = () => {
             <div className="min-w-0">
               <h4 className={footerColTitle}>Product</h4>
               <ul className="space-y-3">
-                <li><Link href="/book-to-video" className={footerLinkClass}>Book to Cenima</Link></li>
+                <li><Link href="/book-to-video" className={footerLinkClass}>Book to Cinema</Link></li>
                 <li><Link href="/services" className={footerLinkClass}>Our Services</Link></li>
                 <li><span className={footerLinkClass + ' cursor-default'}>Cash Cow &amp; Long-form</span></li>
                 <li><span className={footerLinkClass + ' cursor-default'}>2D Animation</span></li>
@@ -1589,7 +1596,7 @@ const BookToVideoFooter = () => {
                 <BookToVideoFooterSocial href="https://www.instagram.com/duckbookwriters/" label="Instagram">
                   <Image src="/images/instagram.svg" alt="" width={22} height={22} className="h-[22px] w-[22px] brightness-0 invert" />
                 </BookToVideoFooterSocial>
-                <BookToVideoFooterSocial href="https://www.youtube.com/results?search_query=Duck+Book+Writers" label="Cenima">
+                <BookToVideoFooterSocial href="https://www.youtube.com/results?search_query=Duck+Book+Writers" label="Cinema">
                   <svg className="h-5 w-[22px]" viewBox="0 0 24 18" fill="currentColor" aria-hidden>
                     <path d="M23.5 4.5a2.8 2.8 0 0 0-1.98-2C19.5 2 12 2 12 2s-7.5 0-9.52.5A2.8 2.8 0 0 0 .5 4.5 29 29 0 0 0 0 9a29 29 0 0 0 .5 4.5 2.8 2.8 0 0 0 1.98 2C4.5 16 12 16 12 16s7.5 0 9.52-.5a2.8 2.8 0 0 0 1.98-2 29 29 0 0 0 .5-4.5 29 29 0 0 0-.5-4.5ZM9.75 12.25V5.75L15.5 9l-5.75 3.25Z"/>
                   </svg>
@@ -1662,26 +1669,26 @@ export default function BookToVideoPage() {
       <Header />
 
       {/* 1. HERO BANNER SECTION (ELITE FULL-SCREEN ANIMATION) */}
-      <section className="relative w-full h-[100dvh] min-h-[850px] bg-white pt-12 sm:pt-14 md:pt-16 lg:pt-[4.25rem] pb-6 flex flex-col items-center justify-between overflow-hidden font-sans">
+      <section className="relative w-full min-h-0 max-md:h-auto md:min-h-[850px] md:h-[100dvh] bg-white pt-9 max-md:pt-12 sm:pt-12 md:pt-16 lg:pt-[4.25rem] pb-6 max-md:pb-9 sm:pb-6 flex flex-col items-center max-md:justify-start md:justify-between overflow-hidden font-sans">
         <div className="pointer-events-none absolute -top-24 right-[-14%] h-[320px] w-[320px] rounded-full bg-[#FFBE02]/20 blur-[110px]" />
 
         {/* --- 1. TOP TEXT AREA (Slides Down & Adjusted Size) --- */}
-        <div className="relative z-50 flex flex-col items-center text-center px-4 shrink-0 -mt-1 sm:mt-0">
+        <div className="relative z-50 flex flex-col items-center text-center px-4 sm:px-4 shrink-0 mt-0 sm:mt-0">
           <motion.h1
             initial={{ opacity: 0, y: -40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[22px] sm:text-[28px] md:text-[34px] lg:text-[40px] leading-[1.12] text-[#111] mb-2 sm:mb-2.5 tracking-tight"
+            className="text-[22px] sm:text-[28px] md:text-[34px] lg:text-[40px] leading-[1.12] text-[#111] mb-4 max-md:mb-5 sm:mb-2.5 tracking-tight"
           >
             <span className="font-normal text-black">Turn your Book into a </span>
-            <span className="font-black text-[#FFBE02] tracking-tighter">Cenima</span>
+            <span className="font-black text-[#FFBE02] tracking-tighter">Cinema</span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: -30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[12px] sm:text-[14px] md:text-[15px] text-gray-600 mb-12 sm:mb-16 md:mb-20 max-w-[520px] mx-auto font-medium leading-snug"
+            className="text-[12px] sm:text-[14px] md:text-[15px] text-gray-600 mb-10 max-md:mb-12 sm:mb-12 md:mb-16 max-w-[520px] mx-auto font-medium leading-relaxed"
           >
             For ambitious authors with a manuscript or a published book who are tired of being
           </motion.p>
@@ -1689,7 +1696,7 @@ export default function BookToVideoPage() {
         </div>
 
         {/* --- 2. THE STAGE: TV & BOOKS ANIMATION (With Proper Spacing) --- */}
-        <div className="relative w-full min-w-0 flex-1 max-w-[100vw] mx-auto flex items-center justify-center mt-20 sm:mt-28 md:mt-32 lg:mt-36 mb-10 sm:mb-16 pointer-events-none px-0">
+        <div className="relative w-full min-w-0 flex-1 max-md:flex-none max-w-[100vw] mx-auto flex items-center justify-center mt-10 max-md:mt-16 sm:mt-24 md:mt-36 lg:mt-44 mb-8 max-md:mb-10 sm:mb-12 md:mb-16 pointer-events-none px-3 max-sm:px-4 sm:px-0">
 
           {/* Edge fade — z below books (z-10+) so covers aren’t hidden under white; TV stays z-50 */}
           <div className="absolute inset-0 z-[6] pointer-events-none">
@@ -1736,18 +1743,18 @@ export default function BookToVideoPage() {
             </motion.div>
           ))}
 
-          {/* Center TV (Slides Up First, Stays above all books z-50) */}
+          {/* Center LED — must stay position:absolute (never add trailing `relative` — it overrides absolute and breaks centering) */}
           <motion.div
-            className="absolute top-1/2 left-1/2 w-[320px] sm:w-[500px] md:w-[700px] lg:w-[880px] aspect-video z-50 drop-shadow-[0_30px_60px_rgba(0,0,0,0.4)]"
+            className="absolute top-1/2 left-1/2 z-50 aspect-video max-sm:aspect-square w-full max-w-[min(268px,calc(100vw-2.5rem))] sm:max-w-none sm:w-[min(670px,calc(100vw-2rem))] md:w-[min(940px,calc(100vw-2.5rem))] lg:w-[min(1180px,95vw)] overflow-hidden drop-shadow-[0_30px_60px_rgba(0,0,0,0.4)]"
             initial={{ x: "-50%", y: "20%", opacity: 0 }}
             animate={{ x: "-50%", y: "-50%", opacity: 1 }}
             transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
             <Image
-              src="/youtube-page/tv.png"
-              alt="Cenima TV Content"
+              src="/youtube-page/led.png"
+              alt="LED display"
               fill
-              className="object-contain"
+              className="object-contain object-center"
               priority
             />
           </motion.div>
@@ -1756,7 +1763,7 @@ export default function BookToVideoPage() {
 
         {/* --- 3. BOTTOM REVIEWS: compact trust strip like reference --- */}
         <motion.div
-          className="relative z-50 shrink-0 w-full max-w-[300px] sm:max-w-[480px] md:max-w-[560px] pt-16 sm:pt-20 md:pt-28 lg:pt-32 mt-12 sm:mt-14 mb-5 sm:mb-8"
+          className="relative z-50 shrink-0 w-full max-w-[300px] sm:max-w-[480px] md:max-w-[560px] pt-7 max-md:pt-10 sm:pt-12 md:pt-24 lg:pt-28 mt-6 max-md:mt-8 sm:mt-8 md:mt-12 mb-6 max-md:mb-8 sm:mb-6 md:mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.5, ease: "easeOut" }}
@@ -1808,9 +1815,9 @@ export default function BookToVideoPage() {
                 </div>
               </div>
               <p className="text-[12px] sm:text-[14px] md:text-[16px] leading-tight text-zinc-700 font-medium mt-0.5">
-                based on 1000+ Cenima Channels
+                based on 1000+ Cinema Channels
               </p>
-              <div className="mt-1.5 flex flex-wrap items-center justify-center sm:justify-start gap-2 text-[10px] sm:text-[11px] font-semibold text-zinc-600">
+              <div className="mt-1.5 flex flex-wrap items-center justify-center gap-2 text-[10px] sm:text-[11px] font-semibold text-zinc-600 sm:justify-start">
                 <span className="inline-flex items-center gap-1">
                   <span className="h-3.5 w-3.5 rounded-full bg-black text-white inline-flex items-center justify-center text-[8px]">G</span>
                   <span className="tracking-tight">Google</span>
@@ -1887,19 +1894,12 @@ export default function BookToVideoPage() {
           >
             <div className="rounded-[1.5rem] bg-white/90 p-1.5 shadow-[0_24px_64px_-12px_rgba(15,15,15,0.14),0_0_0_1px_rgba(0,0,0,0.05)] backdrop-blur-sm sm:rounded-[1.85rem] sm:p-2">
               <div className="overflow-hidden rounded-[1.25rem] border border-zinc-200/80 bg-zinc-50/40 sm:rounded-[1.65rem]">
-                <div className="border-b border-zinc-200/70 bg-white px-4 py-4 sm:px-6 sm:py-5">
-                  <p className="font-['Poppins'] text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9a7209]">
-                    Availability
-                  </p>
-                  <p className="mt-1.5 font-['Poppins'] text-sm leading-snug text-zinc-600 sm:text-[15px]">
-                    Select a slot below. Times shown in your local timezone once Calendly loads.
-                  </p>
-                </div>
                 <div className="bg-white">
                   <CalendlyInlineEmbed
                     containerId="book-to-video-calendly-center"
-                    heightPx={620}
-                    className="w-full min-h-[620px] overflow-hidden bg-white"
+                    heightPx={520}
+                    heightPxMobile={440}
+                    className="w-full min-h-[440px] sm:min-h-[520px] overflow-hidden bg-white"
                   />
                 </div>
               </div>
