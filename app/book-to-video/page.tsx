@@ -1222,24 +1222,24 @@ const SlidingTestimonials = () => {
   ];
 
   const TestimonialCard = ({ item }: { item: SlidingReview }) => (
-    <div className="w-[320px] md:w-[380px] bg-white border border-gray-100 rounded-3xl p-6 shadow-sm flex flex-col gap-4 flex-shrink-0">
+    <div className="w-[min(272px,calc(100vw-2rem))] sm:w-[320px] md:w-[380px] bg-white border border-gray-100 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-sm flex flex-col gap-3 sm:gap-4 flex-shrink-0">
       <div className="flex text-[#FFBE02]">
-        {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
+        {[...Array(5)].map((_, i) => <Star key={i} className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current" />)}
       </div>
-      <p className="text-gray-700 italic flex-1 text-sm md:text-base leading-relaxed">&quot;{item.text}&quot;</p>
-      <div className="flex items-center gap-3 mt-2">
+      <p className="text-gray-700 italic flex-1 text-xs sm:text-sm md:text-base leading-relaxed">&quot;{item.text}&quot;</p>
+      <div className="flex items-center gap-2 sm:gap-3 mt-1 sm:mt-2">
         {item.avatarSrc ? (
-          <div className="relative w-10 h-10 rounded-full overflow-hidden flex-shrink-0 ring-1 ring-gray-200/80">
-            <Image src={item.avatarSrc} alt={item.name} fill className="object-cover" sizes="40px" />
+          <div className="relative w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden flex-shrink-0 ring-1 ring-gray-200/80">
+            <Image src={item.avatarSrc} alt={item.name} fill className="object-cover" sizes="(max-width: 640px) 32px, 40px" />
           </div>
         ) : (
-          <div className="w-10 h-10 bg-gradient-to-tr from-gray-200 to-gray-300 rounded-full flex items-center justify-center text-gray-600 text-xs font-bold flex-shrink-0">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-tr from-gray-200 to-gray-300 rounded-full flex items-center justify-center text-gray-600 text-[10px] sm:text-xs font-bold flex-shrink-0">
             {getAuthorInitials(item.name)}
           </div>
         )}
-        <div>
-          <h5 className="font-bold text-gray-900 text-sm">{item.name}</h5>
-          <p className="text-xs text-gray-500">{item.role}</p>
+        <div className="min-w-0">
+          <h5 className="font-bold text-gray-900 text-xs sm:text-sm truncate">{item.name}</h5>
+          <p className="text-[10px] sm:text-xs text-gray-500 truncate">{item.role}</p>
         </div>
       </div>
     </div>
@@ -1271,7 +1271,7 @@ const SlidingTestimonials = () => {
         <p className="text-gray-500 mt-2 text-lg italic">Who have achieved massive success.</p>
       </div>
 
-      <div className="relative w-full flex flex-col items-center rotate-[-1deg] scale-105">
+      <div className="relative w-full flex flex-col items-center rotate-[-1deg] scale-100 sm:scale-105">
         <MarqueeRow items={reviewsRow1} direction={1} speed={78} />
         <MarqueeRow items={reviewsRow2} direction={-1} speed={85} />
 
@@ -1723,7 +1723,7 @@ export default function BookToVideoPage() {
           ].map((book, i) => (
             <motion.div
               key={`${book.src}-${i}`}
-              className="absolute top-1/2 left-1/2 w-[90px] sm:w-[130px] md:w-[170px] lg:w-[210px] aspect-[2/3] overflow-hidden rounded-[2px] drop-shadow-[0_12px_22px_rgba(0,0,0,0.22)]"
+              className="absolute top-1/2 left-1/2 w-[74px] sm:w-[130px] md:w-[170px] lg:w-[210px] aspect-[2/3] overflow-hidden rounded-[2px] drop-shadow-[0_12px_22px_rgba(0,0,0,0.22)]"
               style={{ zIndex: book.z }}
               initial={{ x: "-50%", y: "-50%", opacity: 0, scale: 0.58 }}
               animate={{ x: book.x, y: book.y, opacity: 1, scale: book.scale }}
@@ -1737,7 +1737,7 @@ export default function BookToVideoPage() {
                 src={book.src}
                 alt={`Book ${i + 1}`}
                 fill
-                sizes="(max-width: 640px) 90px, (max-width: 768px) 130px, (max-width: 1024px) 170px, 210px"
+                sizes="(max-width: 640px) 74px, (max-width: 768px) 130px, (max-width: 1024px) 170px, 210px"
                 className="object-cover object-center"
               />
             </motion.div>
@@ -1745,7 +1745,7 @@ export default function BookToVideoPage() {
 
           {/* Center LED — must stay position:absolute (never add trailing `relative` — it overrides absolute and breaks centering) */}
           <motion.div
-            className="absolute top-1/2 left-1/2 z-50 aspect-video max-sm:aspect-square w-full max-w-[min(268px,calc(100vw-2.5rem))] sm:max-w-none sm:w-[min(670px,calc(100vw-2rem))] md:w-[min(940px,calc(100vw-2.5rem))] lg:w-[min(1180px,95vw)] overflow-hidden drop-shadow-[0_30px_60px_rgba(0,0,0,0.4)]"
+            className="absolute top-1/2 left-1/2 z-50 aspect-video max-sm:aspect-square w-full max-w-[min(228px,calc(100vw-3rem))] sm:max-w-none sm:w-[min(670px,calc(100vw-2rem))] md:w-[min(940px,calc(100vw-2.5rem))] lg:w-[min(1180px,95vw)] overflow-hidden drop-shadow-[0_30px_60px_rgba(0,0,0,0.4)]"
             initial={{ x: "-50%", y: "20%", opacity: 0 }}
             animate={{ x: "-50%", y: "-50%", opacity: 1 }}
             transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
@@ -1763,17 +1763,17 @@ export default function BookToVideoPage() {
 
         {/* --- 3. BOTTOM REVIEWS: compact trust strip like reference --- */}
         <motion.div
-          className="relative z-50 shrink-0 w-full max-w-[300px] sm:max-w-[480px] md:max-w-[560px] pt-7 max-md:pt-10 sm:pt-12 md:pt-24 lg:pt-28 mt-6 max-md:mt-8 sm:mt-8 md:mt-12 mb-6 max-md:mb-8 sm:mb-6 md:mb-8"
+          className="relative z-50 shrink-0 w-full max-w-[min(252px,calc(100%-1.5rem))] sm:max-w-[480px] md:max-w-[560px] px-2 max-sm:mx-auto pt-7 max-md:pt-10 sm:px-0 sm:pt-12 md:pt-24 lg:pt-28 mt-6 max-md:mt-8 sm:mt-8 md:mt-12 mb-6 max-md:mb-8 sm:mb-6 md:mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.5, ease: "easeOut" }}
         >
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 md:gap-5">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 md:gap-5">
             <div className="flex items-center justify-center">
               {heroReviewAuthorAvatars.map((author, i) => (
                 <div
                   key={author.src}
-                  className="relative h-7 w-7 sm:h-9 sm:w-9 md:h-[42px] md:w-[42px] rounded-full border-[2px] border-white shadow-[0_6px_14px_rgba(0,0,0,0.18)] overflow-hidden bg-zinc-100 -ml-1 sm:-ml-1.5 first:ml-0"
+                  className="relative h-6 w-6 sm:h-9 sm:w-9 md:h-[42px] md:w-[42px] rounded-full border-[2px] border-white shadow-[0_6px_14px_rgba(0,0,0,0.18)] overflow-hidden bg-zinc-100 -ml-1 sm:-ml-1.5 first:ml-0"
                   style={{ zIndex: 10 + i }}
                 >
                   <Image
@@ -1781,29 +1781,29 @@ export default function BookToVideoPage() {
                     alt={author.alt}
                     fill
                     className="object-cover"
-                    sizes="(max-width: 640px) 28px, 42px"
+                    sizes="(max-width: 640px) 24px, 42px"
                   />
                 </div>
               ))}
             </div>
 
-            <div className="flex flex-col items-center sm:items-start">
-              <div className="flex items-center gap-1.5 sm:gap-2">
-                <h3 className="text-[20px] sm:text-[24px] md:text-[28px] font-normal leading-none text-black tracking-tight">
+            <div className="flex flex-col items-center sm:items-start max-sm:max-w-[240px]">
+              <div className="flex items-center gap-1 sm:gap-2">
+                <h3 className="text-[17px] sm:text-[24px] md:text-[28px] font-normal leading-none text-black tracking-tight">
                   Excellent
                 </h3>
-                <div className="flex items-center gap-0.5 pt-0.5" role="img" aria-label="4.5 out of 5 stars">
+                <div className="flex items-center gap-px pt-0.5 sm:gap-0.5" role="img" aria-label="4.5 out of 5 stars">
                   {Array.from({ length: 4 }).map((_, i) => (
                     <span
                       key={i}
-                      className="inline-flex h-2.5 w-2.5 shrink-0 items-center justify-center sm:h-3.5 sm:w-3.5 md:h-4 md:w-4"
+                      className="inline-flex h-2 w-2 shrink-0 items-center justify-center sm:h-3.5 sm:w-3.5 md:h-4 md:w-4"
                       aria-hidden
                     >
                       <Star className="h-full w-full text-[#F8BE00] fill-[#F8BE00]" strokeWidth={0} />
                     </span>
                   ))}
                   <span
-                    className="relative inline-flex h-2.5 w-2.5 shrink-0 items-center justify-center overflow-hidden sm:h-3.5 sm:w-3.5 md:h-4 md:w-4"
+                    className="relative inline-flex h-2 w-2 shrink-0 items-center justify-center overflow-hidden sm:h-3.5 sm:w-3.5 md:h-4 md:w-4"
                     aria-hidden
                   >
                     <Star className="absolute inset-0 h-full w-full text-zinc-200 fill-zinc-200" strokeWidth={0} />
@@ -1814,24 +1814,24 @@ export default function BookToVideoPage() {
                   </span>
                 </div>
               </div>
-              <p className="text-[12px] sm:text-[14px] md:text-[16px] leading-tight text-zinc-700 font-medium mt-0.5">
+              <p className="text-[10px] sm:text-[14px] md:text-[16px] leading-tight text-zinc-700 font-medium mt-0.5 text-center sm:text-left">
                 based on 1000+ Cinema Channels
               </p>
-              <div className="mt-1.5 flex flex-wrap items-center justify-center gap-2 text-[10px] sm:text-[11px] font-semibold text-zinc-600 sm:justify-start">
-                <span className="inline-flex items-center gap-1">
-                  <span className="h-3.5 w-3.5 rounded-full bg-black text-white inline-flex items-center justify-center text-[8px]">G</span>
+              <div className="mt-1 flex max-sm:max-w-[220px] flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[9px] sm:text-[11px] font-semibold text-zinc-600 sm:mt-1.5 sm:justify-start sm:gap-2">
+                <span className="inline-flex items-center gap-0.5 sm:gap-1">
+                  <span className="h-3 w-3 shrink-0 rounded-full bg-black text-white inline-flex items-center justify-center text-[7px] sm:h-3.5 sm:w-3.5 sm:text-[8px]">G</span>
                   <span className="tracking-tight">Google</span>
                 </span>
-                <span className="inline-flex items-center gap-1">
-                  <span className="h-3.5 w-3.5 rounded-full bg-[#1877F2] text-white inline-flex items-center justify-center text-[8px]">f</span>
+                <span className="inline-flex items-center gap-0.5 sm:gap-1">
+                  <span className="h-3 w-3 shrink-0 rounded-full bg-[#1877F2] text-white inline-flex items-center justify-center text-[7px] sm:h-3.5 sm:w-3.5 sm:text-[8px]">f</span>
                   <span className="tracking-tight">Facebook</span>
                 </span>
-                <span className="inline-flex items-center gap-1">
-                  <span className="inline-flex items-center justify-center h-3.5 w-3.5 rounded-[2px] bg-emerald-500 text-white text-[9px]">★</span>
+                <span className="inline-flex items-center gap-0.5 sm:gap-1">
+                  <span className="inline-flex items-center justify-center h-3 w-3 shrink-0 rounded-[2px] bg-emerald-500 text-white text-[8px] sm:h-3.5 sm:w-3.5 sm:text-[9px]">★</span>
                   <span className="tracking-tight">Trustpilot</span>
                 </span>
-                <span className="inline-flex items-center gap-1">
-                  <span className="inline-flex items-center justify-center h-3.5 w-3.5 rounded-full bg-zinc-700 text-white text-[8px] font-bold">b</span>
+                <span className="inline-flex items-center gap-0.5 sm:gap-1">
+                  <span className="inline-flex items-center justify-center h-3 w-3 shrink-0 rounded-full bg-zinc-700 text-white text-[7px] font-bold sm:h-3.5 sm:w-3.5 sm:text-[8px]">b</span>
                   <span className="tracking-tight">bark</span>
                 </span>
               </div>
