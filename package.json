@@ -9,7 +9,8 @@
     "dev:turbo": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "partner-logos:knockout": "node scripts/knockout-partner-logo-bg.cjs"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",

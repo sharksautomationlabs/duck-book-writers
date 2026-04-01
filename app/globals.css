@@ -198,6 +198,96 @@ html {
   animation-play-state: paused;
 }
 
+/* Book-to-video hero: partner logos marquee (light gray default → original on hover; pause on hover) */
+@keyframes hero-partner-marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.hero-partner-marquee-row {
+  position: relative;
+  overflow: hidden;
+  /* Match page bg so mask edges & compositing never show black behind content */
+  background: #fafaf9;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+}
+
+.hero-partner-marquee-track {
+  display: flex;
+  flex-wrap: nowrap;
+  width: max-content;
+  min-width: max-content;
+  align-items: center;
+  gap: 2.5rem;
+  animation: hero-partner-marquee 48s linear infinite;
+  will-change: transform;
+}
+
+@media (min-width: 640px) {
+  .hero-partner-marquee-track {
+    gap: 3.75rem;
+  }
+}
+
+.hero-partner-marquee-row:hover .hero-partner-marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-partner-marquee-track {
+    animation: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+    row-gap: 1rem;
+  }
+}
+
+.hero-partner-logo-wrap {
+  flex-shrink: 0;
+  background: transparent;
+}
+
+/* Wide wordmarks: cap height only, generous max-width so text is not clipped.
+   True transparency comes from processed PNGs (npm run partner-logos:knockout). */
+.hero-partner-logo-img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-height: 3.75rem;
+  max-width: min(42rem, 88vw);
+  object-fit: contain;
+  object-position: center;
+  background-color: transparent;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  filter: none;
+}
+
+@media (min-width: 640px) {
+  .hero-partner-logo-img {
+    max-height: 4.25rem;
+    max-width: min(44rem, 70vw);
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-partner-logo-img {
+    max-height: 4.75rem;
+    max-width: min(40rem, 85vw);
+  }
+}
+
+.hero-partner-logo-wrap:hover .hero-partner-logo-img {
+  opacity: 0.92;
+  transform: scale(1.02);
+}
+
 /* Book-to-video Calendly: vertical scroll OK, hide scrollbars where the browser allows */
 .calendly-book-to-video-host {
   overflow-y: auto !important;

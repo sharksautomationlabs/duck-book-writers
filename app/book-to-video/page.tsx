@@ -388,6 +388,19 @@ const YouTubeTVSection = () => {
   const playlist = [
     {
       id: 'long-1',
+      videoId: '05OWsG4sSX8',
+      title: 'THE WHITE WOLF | Episode 3 — The Soldier Who Chose Love Over War | Military Motivation Story',
+      channel: 'Duck Book Writers',
+      subscribers: '',
+      views: 'Long form',
+      date: '',
+      thumbnailUrl: 'https://i.ytimg.com/vi/05OWsG4sSX8/hqdefault.jpg',
+      duration: '',
+      src: 'https://www.youtube.com/embed/05OWsG4sSX8?autoplay=0&rel=0',
+      desc: longFormDefaultDesc,
+    },
+    {
+      id: 'long-2',
       videoId: 'ha1NneZGm7A',
       title: 'The ENTIRE History of Human Civilizations | Ancient to Modern (4K Documentary) [Full Movie]',
       channel: 'Duck Book Writers',
@@ -400,7 +413,7 @@ const YouTubeTVSection = () => {
       desc: longFormDefaultDesc,
     },
     {
-      id: 'long-2',
+      id: 'long-3',
       videoId: '7ChWjQ-vnEU',
       title: 'America Renewed Chapter 1 Explained | The American Tipping Point - Must Watch!',
       channel: 'Duck Book Writers',
@@ -413,7 +426,7 @@ const YouTubeTVSection = () => {
       desc: longFormDefaultDesc,
     },
     {
-      id: 'long-3',
+      id: 'long-4',
       videoId: 'mBZBPptSneM',
       title: 'Timber | Short Film about Solidarity by Nils Hedinger',
       channel: 'Duck Book Writers',
@@ -426,7 +439,7 @@ const YouTubeTVSection = () => {
       desc: longFormDefaultDesc,
     },
     {
-      id: 'long-4',
+      id: 'long-5',
       videoId: 'VjTJvwgJnGc',
       title: 'The Little Red Hen (US English accent) - TheFableCottage.com',
       channel: 'Duck Book Writers',
@@ -436,19 +449,6 @@ const YouTubeTVSection = () => {
       thumbnailUrl: 'https://i.ytimg.com/vi/VjTJvwgJnGc/hqdefault.jpg',
       duration: '',
       src: 'https://www.youtube.com/embed/VjTJvwgJnGc?autoplay=0&rel=0',
-      desc: longFormDefaultDesc,
-    },
-    {
-      id: 'long-5',
-      videoId: '05OWsG4sSX8',
-      title: 'THE WHITE WOLF | Episode 3 — The Soldier Who Chose Love Over War | Military Motivation Story',
-      channel: 'Duck Book Writers',
-      subscribers: '',
-      views: 'Long form',
-      date: '',
-      thumbnailUrl: 'https://i.ytimg.com/vi/05OWsG4sSX8/hqdefault.jpg',
-      duration: '',
-      src: 'https://www.youtube.com/embed/05OWsG4sSX8?autoplay=0&rel=0',
       desc: longFormDefaultDesc,
     },
     {
@@ -1663,6 +1663,47 @@ const heroReviewAuthorAvatars = [
   { src: '/youtube-page/review-author-5.png', alt: 'Author' },
 ] as const;
 
+/** Logos under hero: files in /public/book-to-video/partner-logos/ */
+const HERO_PARTNER_LOGOS: { src: string; alt: string }[] = [
+  { src: '/book-to-video/partner-logos/trustpilot.png', alt: 'Trustpilot' },
+  { src: '/book-to-video/partner-logos/facebook.png', alt: 'Facebook' },
+  { src: '/book-to-video/partner-logos/bark.png', alt: 'Bark' },
+  { src: '/book-to-video/partner-logos/clutch.png', alt: 'Clutch' },
+  { src: '/book-to-video/partner-logos/bbb.png', alt: 'Better Business Bureau' },
+];
+
+function HeroPartnerLogoMarquee() {
+  const doubled = [...HERO_PARTNER_LOGOS, ...HERO_PARTNER_LOGOS];
+  return (
+    <section
+      className="relative z-40 w-full border-y border-zinc-100/80 bg-[#fafaf9] py-6 sm:py-7 md:py-8"
+      aria-label="Featured on partner and review platforms"
+    >
+      <div className="hero-partner-marquee-row">
+        <div className="hero-partner-marquee-track">
+          {doubled.map((logo, i) => (
+            <div
+              key={`${logo.alt}-${i}`}
+              className="hero-partner-logo-wrap flex shrink-0 cursor-default items-center justify-center px-4 sm:px-9 md:px-11"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element -- preserve PNG alpha; avoid Image compositor grey/black backing */}
+              <img
+                src={logo.src}
+                alt={logo.alt}
+                width={560}
+                height={140}
+                loading="eager"
+                decoding="async"
+                className="hero-partner-logo-img pointer-events-none select-none"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function BookToVideoPage() {
   return (
     <div className="w-full bg-[#fafaf9] font-sans selection:bg-red-200 selection:text-red-900 overflow-x-hidden">
@@ -1688,7 +1729,7 @@ export default function BookToVideoPage() {
             initial={{ opacity: 0, y: -30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[12px] sm:text-[14px] md:text-[15px] text-gray-600 mb-10 max-md:mb-12 sm:mb-12 md:mb-16 max-w-[520px] mx-auto font-medium leading-relaxed"
+            className="text-[12px] sm:text-[14px] md:text-[15px] text-gray-600 mb-8 max-sm:mb-10 max-md:mb-12 sm:mb-12 md:mb-16 max-w-[520px] mx-auto font-medium leading-relaxed"
           >
             For ambitious authors with a manuscript or a published book who are tired of being
           </motion.p>
@@ -1696,10 +1737,11 @@ export default function BookToVideoPage() {
         </div>
 
         {/* --- 2. THE STAGE: TV & BOOKS ANIMATION (With Proper Spacing) --- */}
-        <div className="relative w-full min-w-0 flex-1 max-md:flex-none max-w-[100vw] mx-auto flex items-center justify-center mt-10 max-md:mt-16 sm:mt-24 md:mt-36 lg:mt-44 mb-8 max-md:mb-10 sm:mb-12 md:mb-16 pointer-events-none px-3 max-sm:px-4 sm:px-0">
+        {/* Mobile: min-height — absolute children don’t expand the box; without this the stage collapses */}
+        <div className="relative w-full min-w-0 min-h-0 max-sm:min-h-[min(360px,52svh)] sm:min-h-[min(380px,44svh)] md:min-h-0 flex-1 max-md:flex-none max-w-[100vw] mx-auto flex items-center justify-center max-sm:mt-6 sm:mt-24 md:mt-36 lg:mt-44 mb-6 max-sm:mb-10 sm:mb-12 md:mb-16 pointer-events-none px-1.5 max-sm:px-2 sm:px-0">
 
-          {/* Edge fade — z below books (z-10+) so covers aren’t hidden under white; TV stays z-50 */}
-          <div className="absolute inset-0 z-[6] pointer-events-none">
+          {/* Edge fade — hidden on small mobile so books aren’t eaten at sides */}
+          <div className="absolute inset-0 z-[6] pointer-events-none max-sm:hidden">
             <div className="absolute top-0 bottom-0 left-0 w-[3%] max-w-[32px] bg-gradient-to-r from-white via-white/50 to-transparent" />
             <div className="absolute top-0 bottom-0 right-0 w-[3%] max-w-[32px] bg-gradient-to-l from-white via-white/50 to-transparent" />
           </div>
@@ -1709,24 +1751,27 @@ export default function BookToVideoPage() {
 
           {/* The 8 Books Sliding Out (compact, slight overlap, fully visible) */}
           {[
-            // Left side (inner → outer); x is % of book width — more negative = further left (fills left edge)
             { src: "/youtube-page/book-4.png", x: "-218%", y: "-50%", scale: 0.96, z: 16, delay: 0.62 },
             { src: "/youtube-page/book-3.png", x: "-272%", y: "-50%", scale: 0.92, z: 14, delay: 0.72 },
             { src: "/youtube-page/book-2.png", x: "-326%", y: "-50%", scale: 0.84, z: 12, delay: 0.82 },
             { src: "/youtube-page/book-1.png", x: "-382%", y: "-50%", scale: 0.77, z: 10, delay: 0.92 },
 
-            // Right side (inner → outer)
-            { src: "/youtube-page/book-6.png", x: "138%", y: "-50%", scale: 0.96, z: 16, delay: 0.62 },
-            { src: "/youtube-page/hero-right-fatal-exchange.png", x: "198%", y: "-50%", scale: 0.92, z: 14, delay: 0.72 },
-            { src: "/youtube-page/hero-right-educated.png", x: "236%", y: "-50%", scale: 0.84, z: 12, delay: 0.82 },
-            { src: "/youtube-page/hero-right-paradox.png", x: "274%", y: "-50%", scale: 0.77, z: 10, delay: 0.92 },
+            { src: "/youtube-page/book-6.png", x: "124%", y: "-50%", scale: 0.96, z: 16, delay: 0.62 },
+            { src: "/youtube-page/hero-right-fatal-exchange.png", x: "182%", y: "-50%", scale: 0.92, z: 14, delay: 0.72 },
+            { src: "/youtube-page/hero-right-educated.png", x: "218%", y: "-50%", scale: 0.84, z: 12, delay: 0.82 },
+            { src: "/youtube-page/hero-right-paradox.png", x: "254%", y: "-50%", scale: 0.77, z: 10, delay: 0.92 },
           ].map((book, i) => (
             <motion.div
               key={`${book.src}-${i}`}
-              className="absolute top-1/2 left-1/2 w-[74px] sm:w-[130px] md:w-[170px] lg:w-[210px] aspect-[2/3] overflow-hidden rounded-[2px] drop-shadow-[0_12px_22px_rgba(0,0,0,0.22)]"
+              className="absolute top-1/2 left-1/2 w-[90px] sm:w-[130px] md:w-[170px] lg:w-[210px] aspect-[5/18] sm:aspect-[2/3] overflow-hidden rounded-[2px] drop-shadow-[0_12px_22px_rgba(0,0,0,0.22)]"
               style={{ zIndex: book.z }}
               initial={{ x: "-50%", y: "-50%", opacity: 0, scale: 0.58 }}
-              animate={{ x: book.x, y: book.y, opacity: 1, scale: book.scale }}
+              animate={{
+                x: book.x,
+                y: book.y,
+                opacity: 1,
+                scale: book.scale,
+              }}
               transition={{
                 duration: 1.9,
                 delay: book.delay,
@@ -1737,33 +1782,42 @@ export default function BookToVideoPage() {
                 src={book.src}
                 alt={`Book ${i + 1}`}
                 fill
-                sizes="(max-width: 640px) 74px, (max-width: 768px) 130px, (max-width: 1024px) 170px, 210px"
+                sizes="(max-width: 640px) 90px, (max-width: 768px) 130px, (max-width: 1024px) 170px, 210px"
                 className="object-cover object-center"
               />
             </motion.div>
           ))}
 
-          {/* Center LED — must stay position:absolute (never add trailing `relative` — it overrides absolute and breaks centering) */}
+          {/* Center: phone on mobile, wide LED on sm+ — z-50 above books */}
           <motion.div
-            className="absolute top-1/2 left-1/2 z-50 aspect-video max-sm:aspect-square w-full max-w-[min(228px,calc(100vw-3rem))] sm:max-w-none sm:w-[min(670px,calc(100vw-2rem))] md:w-[min(940px,calc(100vw-2.5rem))] lg:w-[min(1180px,95vw)] overflow-hidden drop-shadow-[0_30px_60px_rgba(0,0,0,0.4)]"
+            className="absolute top-1/2 left-1/2 z-50 aspect-video max-sm:aspect-[10/19] w-full max-w-[min(236px,calc(100vw-2rem))] sm:max-w-none sm:w-[min(670px,calc(100vw-2rem))] md:w-[min(940px,calc(100vw-2.5rem))] lg:w-[min(1180px,95vw)] overflow-visible max-sm:overflow-visible sm:overflow-hidden drop-shadow-[0_30px_60px_rgba(0,0,0,0.4)]"
             initial={{ x: "-50%", y: "20%", opacity: 0 }}
             animate={{ x: "-50%", y: "-50%", opacity: 1 }}
             transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
             <Image
+              src="/youtube-page/hero-led-mobile.png"
+              alt="Cinema on mobile"
+              fill
+              className="object-contain object-center sm:hidden"
+              sizes="(max-width: 639px) min(236px, 88vw), 0"
+              priority
+            />
+            <Image
               src="/youtube-page/led.png"
               alt="LED display"
               fill
-              className="object-contain object-center"
+              className="object-contain object-center hidden sm:block"
+              sizes="(max-width: 1024px) 90vw, 1180px"
               priority
             />
           </motion.div>
 
         </div>
 
-        {/* --- 3. BOTTOM REVIEWS: compact trust strip like reference --- */}
+        {/* --- 3. BOTTOM REVIEWS: avatars + rating (no third-party app logos) --- */}
         <motion.div
-          className="relative z-50 shrink-0 w-full max-w-[min(252px,calc(100%-1.5rem))] sm:max-w-[480px] md:max-w-[560px] px-2 max-sm:mx-auto pt-7 max-md:pt-10 sm:px-0 sm:pt-12 md:pt-24 lg:pt-28 mt-6 max-md:mt-8 sm:mt-8 md:mt-12 mb-6 max-md:mb-8 sm:mb-6 md:mb-8"
+          className="relative z-50 shrink-0 w-full max-w-[min(252px,calc(100%-1.5rem))] sm:max-w-[480px] md:max-w-[560px] px-2 max-sm:mx-auto max-sm:pt-4 max-sm:mt-2 pt-7 max-md:pt-10 sm:px-0 sm:pt-12 md:pt-24 lg:pt-28 mt-6 max-md:mt-8 sm:mt-8 md:mt-12 mb-6 max-md:mb-8 sm:mb-6 md:mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.5, ease: "easeOut" }}
@@ -1817,29 +1871,13 @@ export default function BookToVideoPage() {
               <p className="text-[10px] sm:text-[14px] md:text-[16px] leading-tight text-zinc-700 font-medium mt-0.5 text-center sm:text-left">
                 based on 1000+ Cinema Channels
               </p>
-              <div className="mt-1 flex max-sm:max-w-[220px] flex-wrap items-center justify-center gap-x-2 gap-y-1 text-[9px] sm:text-[11px] font-semibold text-zinc-600 sm:mt-1.5 sm:justify-start sm:gap-2">
-                <span className="inline-flex items-center gap-0.5 sm:gap-1">
-                  <span className="h-3 w-3 shrink-0 rounded-full bg-black text-white inline-flex items-center justify-center text-[7px] sm:h-3.5 sm:w-3.5 sm:text-[8px]">G</span>
-                  <span className="tracking-tight">Google</span>
-                </span>
-                <span className="inline-flex items-center gap-0.5 sm:gap-1">
-                  <span className="h-3 w-3 shrink-0 rounded-full bg-[#1877F2] text-white inline-flex items-center justify-center text-[7px] sm:h-3.5 sm:w-3.5 sm:text-[8px]">f</span>
-                  <span className="tracking-tight">Facebook</span>
-                </span>
-                <span className="inline-flex items-center gap-0.5 sm:gap-1">
-                  <span className="inline-flex items-center justify-center h-3 w-3 shrink-0 rounded-[2px] bg-emerald-500 text-white text-[8px] sm:h-3.5 sm:w-3.5 sm:text-[9px]">★</span>
-                  <span className="tracking-tight">Trustpilot</span>
-                </span>
-                <span className="inline-flex items-center gap-0.5 sm:gap-1">
-                  <span className="inline-flex items-center justify-center h-3 w-3 shrink-0 rounded-full bg-zinc-700 text-white text-[7px] font-bold sm:h-3.5 sm:w-3.5 sm:text-[8px]">b</span>
-                  <span className="tracking-tight">bark</span>
-                </span>
-              </div>
             </div>
           </div>
         </motion.div>
 
       </section>
+
+      <HeroPartnerLogoMarquee />
 
       <BookingSection />
       {/* 3. VIDEOS WE CREATED - YOUTUBE TV SECTION */}
