@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import Script from "next/script";
 import FacebookPixel from "./components/FacebookPixel";
 import CalendlyLoaderSuppress from "./components/CalendlyLoaderSuppress";
+import CalendlyScheduledRedirect from "./components/CalendlyScheduledRedirect";
 import TawkTo from "./components/TawkTo";
 import "./globals.css";
 
@@ -73,6 +74,7 @@ export default function RootLayout({
       >
         <FacebookPixel />
         <CalendlyLoaderSuppress />
+        <CalendlyScheduledRedirect />
         <TawkTo />
         {children}
         <Script src="https://assets.calendly.com/assets/external/widget.js" strategy="lazyOnload" />   
