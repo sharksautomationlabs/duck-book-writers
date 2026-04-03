@@ -321,9 +321,17 @@ export default function ThankYouPageClient() {
   return (
     <div className="min-h-svh w-full bg-gradient-to-b from-[#fff8e6] via-[#fffbeb] to-[#faf9f6] font-sans text-zinc-900">
       <main className="mx-auto max-w-3xl px-4 pb-16 pt-10 sm:px-6 sm:pb-20 sm:pt-14 lg:max-w-4xl">
-        <div className="mb-10 text-center sm:mb-12">
-          <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-[#FFBE02]/20 ring-2 ring-[#FFBE02]/40">
-            <CheckCircle2 className="h-10 w-10 text-[#c9a008]" strokeWidth={2} aria-hidden />
+        <div className="mb-10 flex flex-col items-center text-center sm:mb-12">
+          <Image
+            src="/images/duck-logo-final.png"
+            alt="Duck Book Writers"
+            width={264}
+            height={144}
+            className="mb-5 h-[52px] w-auto object-contain sm:mb-6 sm:h-[60px] md:h-[68px]"
+            priority
+          />
+          <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-[#FFBE02]/20 ring-2 ring-[#FFBE02]/40 sm:mb-6 sm:h-14 sm:w-14">
+            <CheckCircle2 className="h-6 w-6 text-[#c9a008] sm:h-7 sm:w-7" strokeWidth={2.25} aria-hidden />
           </div>
           <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-[#b8860b] sm:text-sm">Congrats</p>
           <h1 className="font-serif text-3xl font-black tracking-tight sm:text-4xl md:text-5xl">
