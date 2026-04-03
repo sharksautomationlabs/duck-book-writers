@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import CalendlyScheduledRedirect from '../components/CalendlyScheduledRedirect';
 
 type TawkWindow = Window & {
   Tawk_API?: { hideWidget?: () => void; showWidget?: () => void };
@@ -27,5 +28,10 @@ export default function BookToVideoClientLayout({
     };
   }, []);
 
-  return <>{children}</>;
+  return (
+    <>
+      <CalendlyScheduledRedirect />
+      {children}
+    </>
+  );
 }
