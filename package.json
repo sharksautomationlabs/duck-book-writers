@@ -10,7 +10,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "partner-logos:knockout": "node scripts/knockout-partner-logo-bg.cjs"
+    "partner-logos:knockout": "node scripts/knockout-partner-logo-bg.cjs",
+    "hero-review-logos:knockout": "node scripts/knockout-hero-review-logos.cjs"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",

@@ -62,8 +62,8 @@ function AnimatedStatNumber({
 export default function BookingSection() {
   return (
     <section
-      id="calendly"
-      className="relative z-20 overflow-hidden py-14 sm:py-20 md:py-24 bg-gradient-to-b from-[#fff7eb] via-[#fafaf9] to-[#fafaf9]"
+      id="booking-calendly"
+      className="relative z-20 overflow-hidden bg-gradient-to-b from-white via-[#fff8e6]/85 to-violet-100/40 py-14 sm:py-20 md:py-24"
     >
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -top-24 right-[-10%] h-[380px] w-[380px] rounded-full bg-[#FFBE02]/12 blur-[100px]" />
@@ -84,7 +84,7 @@ export default function BookingSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(320px,1.05fr)] lg:gap-16 xl:gap-20">
+        <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(380px,1.15fr)] lg:gap-16 xl:gap-20">
           <div className="mx-auto flex w-full max-w-[500px] flex-col justify-center gap-5 sm:gap-6 lg:mx-0">
           <div className="group relative bg-white rounded-3xl p-5 sm:p-7 flex items-center gap-6 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-black/[0.04] hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1.5 transition-all duration-500 ease-out cursor-default">
             <div className="relative w-[65px] h-[65px] sm:w-[75px] sm:h-[75px] flex-shrink-0 transform group-hover:scale-110 transition-transform duration-500 ease-out">
@@ -158,18 +158,14 @@ export default function BookingSection() {
           </div>
 
           <div className="relative z-10 flex w-full justify-center lg:justify-end">
-            <div className="w-full max-w-[600px] lg:ml-auto lg:mr-0">
-              <div className="rounded-[1.5rem] bg-white/90 p-1.5 shadow-[0_24px_64px_-12px_rgba(15,15,15,0.14),0_0_0_1px_rgba(0,0,0,0.05)] backdrop-blur-sm sm:rounded-[1.85rem] sm:p-2">
-                <div className="overflow-hidden rounded-[1.25rem] border border-zinc-200/80 bg-zinc-50/40 sm:rounded-[1.65rem]">
-                  <div className="bg-white">
-                    <CalendlyInlineEmbed
-                      containerId="book-to-video-calendly-side"
-                      heightPx={520}
-                      heightPxMobile={440}
-                      className="w-full min-h-[440px] sm:min-h-[520px] overflow-hidden bg-white"
-                    />
-                  </div>
-                </div>
+            <div className="w-full max-w-[min(100%,440px)] sm:max-w-[min(100%,500px)] md:max-w-[min(100%,540px)] lg:ml-auto lg:mr-0 lg:max-w-[580px]">
+              <div className="overflow-hidden rounded-2xl border border-zinc-200/70 bg-white shadow-[0_12px_40px_-14px_rgba(15,23,42,0.12)]">
+                <CalendlyInlineEmbed
+                  containerId="book-to-video-calendly-side"
+                  heightPx={600}
+                  heightPxMobile={480}
+                  className="w-full overflow-hidden bg-white"
+                />
               </div>
             </div>
           </div>

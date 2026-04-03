@@ -171,11 +171,12 @@ const VideoConversionServices = () => {
   const rightService = VIDEO_SERVICES[rightIndex];
 
   return (
-      <section className="py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 bg-[#fafaf9] overflow-visible relative">
-        <div className="pointer-events-none absolute -top-24 right-[-10%] h-[260px] w-[260px] rounded-full bg-[#FFBE02]/18 blur-[90px]" />
+      <section className="relative overflow-visible bg-gradient-to-b from-[#eeede8] via-[#fff9f2] to-[#fff5e8] px-4 py-12 sm:px-6 sm:py-16 md:py-20 lg:px-8 lg:py-24">
+        {/* Warm handoff from How It Works into testimonials below */}
+        <div className="pointer-events-none absolute -top-20 right-[-8%] h-[240px] w-[240px] rounded-full bg-[#FFBE02]/14 blur-[95px]" />
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-0 w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] lg:w-[500px] lg:h-[500px] bg-[#FFBE02]/5 rounded-full blur-[80px] sm:blur-[100px]" />
-        <div className="absolute bottom-0 right-0 w-[350px] h-[350px] sm:w-[500px] sm:h-[500px] lg:h-[600px] lg:h-[600px] bg-purple-500/5 rounded-full blur-[100px] sm:blur-[120px]" />
+        <div className="absolute top-1/3 left-[-5%] h-[280px] w-[280px] rounded-full bg-violet-200/12 blur-[90px] sm:h-[380px] sm:w-[380px] sm:blur-[110px] lg:h-[460px] lg:w-[460px]" />
+        <div className="absolute bottom-[-5%] right-0 h-[320px] w-[320px] rounded-full bg-[#FFBE02]/10 blur-[100px] sm:h-[480px] sm:w-[480px] sm:blur-[120px] lg:h-[560px] lg:w-[560px]" />
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
@@ -188,8 +189,8 @@ const VideoConversionServices = () => {
           <span className="inline-block py-1.5 px-3 sm:px-4 rounded-full bg-[#FFBE02]/10 text-[#FFBE02] text-[10px] sm:text-xs font-bold tracking-widest uppercase mb-2 sm:mb-3 border border-[#FFBE02]/20">
             Premium Production
           </span>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-zinc-900 font-serif tracking-tight leading-[1.12] sm:leading-tight px-2">
-            Our Video Conversion <br className="hidden sm:block" /> Services
+          <h2 className="text-balance text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-zinc-900 font-serif tracking-tight leading-[1.12] sm:leading-tight px-2">
+            Our Video Conversion Services
           </h2>
         </motion.div>
 
@@ -279,7 +280,7 @@ const StreamlinedProcessSection = () => {
   ];
 
   return (
-    <section className="relative w-full bg-gradient-to-b from-[#fafaf9] to-[#f5f5f3] py-16 sm:py-20 md:py-24 lg:py-28 overflow-hidden z-10">
+    <section className="relative z-10 w-full overflow-hidden bg-gradient-to-b from-violet-50/40 via-[#faf8f5] to-[#fff8e6]/35 py-16 sm:py-20 md:py-24 lg:py-28">
       {/* Decorative Pattern */}
       <div className="absolute top-[-5%] right-0 w-[300px] lg:w-[400px] h-full opacity-10 pointer-events-none z-0 rotate-12">
         <div className="w-full h-full" style={{ backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(0,0,0,0.1) 10px, rgba(0,0,0,0.1) 20px)`, backgroundSize: '40px 100%' }} />
@@ -679,14 +680,15 @@ const YouTubeTVSection = () => {
   }, [isLightboxOpen, handleNextImage, handlePrevImage]);
 
   return (
-    <section
+      <section
       ref={ledSectionRef}
-      className="relative w-full pt-6 sm:pt-8 md:pt-10 lg:pt-12 py-12 sm:py-14 md:py-20 lg:py-24 overflow-hidden z-50"
-      style={{
-        background:
-          'linear-gradient(135deg, rgba(255,190,2,0.32) 0%, #fff8e6 38%, #fff8e6 62%, rgba(255,190,2,0.28) 100%)',
-      }}
+      className="relative w-full bg-gradient-to-t from-[#fff8e6] via-[rgba(255,190,2,0.18)] to-violet-100/40 pt-6 sm:pt-8 md:pt-10 lg:pt-12 py-12 sm:py-14 md:py-20 lg:py-24 overflow-hidden z-50"
     >
+      {/* Feather top into Booking section (same violet stop — no banding line) */}
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 z-[7] h-20 bg-gradient-to-b from-violet-100/40 to-transparent sm:h-24"
+        aria-hidden
+      />
       {/* Warm yellow wash — bottom-right (no hard edge: large blur only) */}
       <div
         className="absolute bottom-[-12%] right-[-15%] w-[min(95%,560px)] sm:w-[min(78%,680px)] aspect-square rounded-full bg-[#FFBE02]/35 blur-[100px] sm:blur-[128px] z-[8] pointer-events-none"
@@ -701,9 +703,9 @@ const YouTubeTVSection = () => {
           src="/book-to-video/shades.png"
           alt="Shades Shadow"
           fill
-          className="object-cover object-center opacity-55"
+          className="object-cover object-center opacity-38"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#fff8e6]/0 via-[#FFBE02]/12 to-[#FFBE02]/28 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#fff8e6] via-[#fff8e6]/85 to-transparent pointer-events-none" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 relative z-30">
@@ -1112,8 +1114,9 @@ const YouTubeTVSection = () => {
 // --- 5. WHY YOUTUBE SECTION ---
 const WhyYouTubeSection = () => {
   return (
-    <section className="py-16 sm:py-20 bg-[#efefef] relative z-10">
-      <div className="pointer-events-none absolute -top-20 left-[-12%] h-[240px] w-[240px] rounded-full bg-[#FFBE02]/16 blur-[85px]" />
+    <section className="relative z-10 bg-gradient-to-b from-[#fff8e6] via-[#fffdf6] to-[#eeede8] py-16 sm:py-20">
+      <div className="pointer-events-none absolute -top-16 left-[-10%] h-[220px] w-[220px] rounded-full bg-[#FFBE02]/12 blur-[88px]" />
+      <div className="pointer-events-none absolute bottom-0 right-[-6%] h-[200px] w-[200px] rounded-full bg-violet-200/20 blur-[85px]" />
       <div className="max-w-[1240px] mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.15fr] gap-7 lg:gap-10 items-start">
           <motion.div
@@ -1133,49 +1136,46 @@ const WhyYouTubeSection = () => {
             viewport={{ once: true }}
             className="flex flex-col justify-center h-full"
           >
-            <div className="relative inline-flex items-center mb-6 mt-4 pl-2">
-              {/* Red Button Box */}
-              <div className="bg-[#FF0000] text-white pl-8 sm:pl-10 pr-16 sm:pr-20 py-3.5 sm:py-4.5 rounded-[1.25rem] sm:rounded-[1.5rem] text-[1.6rem] sm:text-[2rem] font-black tracking-tight leading-none shadow-[0_10px_25px_rgba(255,0,0,0.35)]">
-                Why Cinema ?
-              </div>
-
-            </div>
-
-            <h2 className="text-[3.05rem] sm:text-[3.4rem] font-black text-black leading-[0.95] tracking-[-0.02em]">
-              How It Works
+            <h2 className="mb-6 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-[3.05rem] font-black leading-[0.95] tracking-[-0.02em] text-black sm:mb-7 sm:text-[3.4rem]">
+              <span>How It Works</span>
+              <span className="text-[1.05rem] font-semibold leading-snug tracking-normal text-zinc-600 sm:text-[1.2rem] md:text-[1.35rem]">
+                (The 7-Day Roadmap)
+              </span>
             </h2>
-            <h3 className="text-[2.2rem] sm:text-[2.6rem] font-medium text-zinc-900 leading-[1.02] tracking-[-0.02em] mb-6 sm:mb-7">
-              The 7-Days Roadmap
-            </h3>
 
             <div className="space-y-4">
-              <div className="bg-[#f4f4f4] border border-[#e6e6e6] rounded-[1.9rem] px-6 sm:px-7 py-5 sm:py-6 shadow-[0_8px_20px_-18px_rgba(0,0,0,0.35)]">
+              <div className="rounded-[1.9rem] border border-violet-100/40 bg-white/85 px-6 py-5 shadow-[0_8px_24px_-20px_rgba(109,40,217,0.08)] backdrop-blur-[2px] sm:px-7 sm:py-6">
                 <p className="text-[1.08rem] sm:text-[1.24rem] leading-tight text-zinc-900">
-                  <span className="font-extrabold">Phase 1 - </span>
-                  <span className="font-medium">Cinematic Transformation</span>
+                  <span className="font-extrabold">Step 1: </span>
+                  <span className="font-medium">The Strategic Audit</span>
                 </p>
-                <p className="mt-1.5 text-[0.96rem] sm:text-[1rem] leading-[1.15] text-zinc-700">
-                  We adapt your manuscript into a high-retention, animated Cinema series. We build the visuals that stop the scroll.
+                <p className="mt-1.5 text-[0.96rem] sm:text-[1rem] leading-relaxed text-zinc-700">
+                  We begin by analyzing exactly where you are in your journey. Whether you have a 500-page manuscript or just a rough
+                  concept on a napkin, we assess your goals and map out the fastest path to market.
                 </p>
               </div>
 
-              <div className="bg-[#f4f4f4] border border-[#e6e6e6] rounded-[1.9rem] px-6 sm:px-7 py-5 sm:py-6 shadow-[0_8px_20px_-18px_rgba(0,0,0,0.35)]">
+              <div className="rounded-[1.9rem] border border-violet-100/40 bg-white/85 px-6 py-5 shadow-[0_8px_24px_-20px_rgba(109,40,217,0.08)] backdrop-blur-[2px] sm:px-7 sm:py-6">
                 <p className="text-[1.08rem] sm:text-[1.24rem] leading-tight text-zinc-900">
-                  <span className="font-extrabold">Phase 2 - </span>
-                  <span className="font-medium">Global Distribution</span>
+                  <span className="font-extrabold">Step 2: </span>
+                  <span className="font-medium">Publication & Global Distribution</span>
                 </p>
-                <p className="mt-1.5 text-[0.96rem] sm:text-[1rem] leading-[1.15] text-zinc-700">
-                  We launch your book across 200+ global retailers. You keep 100% of your rights and every cent of your royalties.
+                <p className="mt-1.5 text-[0.96rem] sm:text-[1rem] leading-relaxed text-zinc-700">
+                  Next, we get you professional-grade publishing on more than 300+ platforms and launch your book across the
+                  world&apos;s major platforms. This establishes your authority and ensures your story is available to a global
+                  audience from day one.
                 </p>
               </div>
 
-              <div className="bg-[#f4f4f4] border border-[#e6e6e6] rounded-[1.9rem] px-6 sm:px-7 py-5 sm:py-6 shadow-[0_8px_20px_-18px_rgba(0,0,0,0.35)]">
+              <div className="rounded-[1.9rem] border border-violet-100/40 bg-white/85 px-6 py-5 shadow-[0_8px_24px_-20px_rgba(109,40,217,0.08)] backdrop-blur-[2px] sm:px-7 sm:py-6">
                 <p className="text-[1.08rem] sm:text-[1.24rem] leading-tight text-zinc-900">
-                  <span className="font-extrabold">Phase 3 - </span>
-                  <span className="font-medium">The Viral Funnel</span>
+                  <span className="font-extrabold">Step 3: </span>
+                  <span className="font-medium">Cinematic Conversion</span>
                 </p>
-                <p className="mt-1.5 text-[0.96rem] sm:text-[1rem] leading-[1.15] text-zinc-700">
-                  Your Cinema series acts as a 24/7 sales machine, funneling viewers directly from your episodes to your checkout page.
+                <p className="mt-1.5 text-[0.96rem] sm:text-[1rem] leading-relaxed text-zinc-700">
+                  Once the foundation is set, we move to the high-impact phase: transforming your book into a cinematic, animated
+                  series. This is where we turn your words into &quot;scroll-stopping&quot; visuals designed to build a massive
+                  following and drive viewers straight to your checkout page.
                 </p>
               </div>
             </div>
@@ -1263,7 +1263,7 @@ const SlidingTestimonials = () => {
   );
 
   return (
-    <section className="py-20 overflow-hidden relative bg-gradient-to-b from-violet-100/50 via-[#FFBE02]/28 to-[#FFBE02]/18">
+    <section className="relative overflow-hidden bg-gradient-to-b from-[#fff8e6]/45 via-[#FFBE02]/18 to-[#fffbeb] py-20">
       <div className="max-w-7xl mx-auto px-4 text-center mb-12">
         <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 font-serif tracking-tight">
           Join <span className="text-[#FFBE02]">Authors</span>
@@ -1275,8 +1275,8 @@ const SlidingTestimonials = () => {
         <MarqueeRow items={reviewsRow1} direction={1} speed={78} />
         <MarqueeRow items={reviewsRow2} direction={-1} speed={85} />
 
-        <div className="absolute top-0 bottom-0 left-0 w-16 md:w-32 bg-gradient-to-r from-[#fff8e6] to-transparent z-10 pointer-events-none" />
-        <div className="absolute top-0 bottom-0 right-0 w-16 md:w-32 bg-gradient-to-l from-[#fff8e6] to-transparent z-10 pointer-events-none" />
+        <div className="absolute top-0 bottom-0 left-0 w-16 md:w-32 bg-gradient-to-r from-[#fffbeb] to-transparent z-10 pointer-events-none" />
+        <div className="absolute top-0 bottom-0 right-0 w-16 md:w-32 bg-gradient-to-l from-[#fffbeb] to-transparent z-10 pointer-events-none" />
       </div>
     </section>
   );
@@ -1302,7 +1302,7 @@ const RightFitSection = () => {
   ];
 
   return (
-    <section className="py-14 sm:py-20 bg-[#efefef] font-sans relative overflow-hidden">
+    <section className="relative overflow-hidden bg-gradient-to-b from-[#fffbeb] via-[#fff8e6]/90 to-[#fefce8] py-14 font-sans sm:py-20">
       <div className="pointer-events-none absolute -top-16 right-[-10%] h-[220px] w-[220px] rounded-full bg-[#FFBE02]/14 blur-[80px]" />
       <div className="max-w-[1140px] mx-auto px-4 sm:px-6">
 
@@ -1313,7 +1313,7 @@ const RightFitSection = () => {
             <span className="font-normal text-[#1F1F1F]">Fit</span>
           </h2>
           <p className="text-[1.02rem] sm:text-[1.65rem] md:text-[1.85rem] text-[#333333] font-light tracking-wide">
-            Is This the for You?
+            Is this the right fit for you?
           </p>
         </div>
 
@@ -1392,15 +1392,28 @@ const FAQSection = () => {
   const [openIdx, setOpenIdx] = useState<number | null>(0);
 
   const faqs = [
-    { q: "How long does the entire video creation process take?", a: "Depending on the complexity (2D animation vs standard editing), it generally takes between 2 to 4 weeks from script approval to final delivery." },
-    { q: "Do I need to have my own script ready?", a: "Not at all! Our professional scriptwriters will analyze your book and craft a highly engaging script designed for Cinema audience retention." },
-    { q: "Do you guarantee a certain amount of views?", a: "While we use battle-tested strategies to maximize algorithmic reach, Cinema is an organic platform, so we cannot promise exact view counts. We do guarantee premium, highly engaging production." },
-    { q: "Who owns the rights to the finalized video?", a: "You do! Once the project is complete and paid in full, you retain 100% of the commercial rights to the video to use anywhere you like." }
+    {
+      q: "Do I need a finished book to start?",
+      a: "No. We can start your YouTube series from a draft or even a detailed outline.",
+    },
+    {
+      q: "How do I make money?",
+      a: "You keep 100% of your book royalties. We provide the production and distribution; you keep the profit.",
+    },
+    {
+      q: "Why YouTube?",
+      a: "80% of readers discover books through video. If they can't see your story, they won't read it.",
+    },
+    {
+      q: "Is this really done in 7 days?",
+      a: "Yes. Within 7 days, your publishing work will be started not only on Amazon, Barnes & Noble, and IngramSpark, but on Apple Books, Google Play, Kobo, Baker & Taylor, and 200+ other platforms. Simultaneously, your YouTube premiere production will be officially launched.",
+    },
   ];
 
   return (
-    <section className="py-24 bg-[#fafaf9] relative overflow-hidden">
-      <div className="pointer-events-none absolute -top-24 left-[-8%] h-[260px] w-[260px] rounded-full bg-[#FFBE02]/16 blur-[90px]" />
+    <section className="relative overflow-hidden bg-gradient-to-b from-[#faf9f6] via-[#faf9f6] to-[#faf9f6] py-24">
+      <div className="pointer-events-none absolute -top-24 left-[-8%] h-[260px] w-[260px] rounded-full bg-violet-200/25 blur-[95px]" />
+      <div className="pointer-events-none absolute -bottom-20 right-[-10%] h-[220px] w-[220px] rounded-full bg-[#FFBE02]/12 blur-[85px]" />
       <div className="max-w-4xl mx-auto px-4">
         <h2 className="text-3xl md:text-5xl font-bold text-center mb-12 font-serif text-gray-900">
           Frequently Asked <span className="text-[#FFBE02]">Questions</span>
@@ -1408,7 +1421,7 @@ const FAQSection = () => {
 
         <div className="space-y-4">
           {faqs.map((faq, i) => (
-            <div key={i} className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm transition-all hover:shadow-md">
+            <div key={i} className="overflow-hidden rounded-2xl border border-violet-100/40 bg-white/95 shadow-sm transition-all hover:border-violet-200/50 hover:shadow-md">
               <button
                 onClick={() => setOpenIdx(openIdx === i ? null : i)}
                 className="w-full text-left px-6 py-5 flex items-center justify-between focus:outline-none"
@@ -1504,9 +1517,9 @@ const PaymentMarkGoogle = () => (
 
 const BookToVideoFooter = () => {
   return (
-    <footer className="bg-white pt-16 pb-10 mt-8 border-t border-gray-100">
-      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-10 xl:px-12">
-        <div className="rounded-[32px] shadow-xl border border-[#ffe19a] bg-gradient-to-br from-[#fff8da] via-[#fff6f6] to-[#ffe7d8] px-5 sm:px-9 lg:px-8 xl:px-10 py-10 sm:py-12 overflow-hidden">
+    <footer className="mt-0 bg-[#faf9f6] pt-8 pb-10 sm:pt-10 sm:pb-12">
+      <div className="max-w-screen-2xl mx-auto w-full px-4 sm:px-6 lg:px-10 xl:px-12">
+        <div className="rounded-2xl sm:rounded-3xl shadow-md shadow-black/[0.04] border border-amber-200/35 bg-gradient-to-br from-[#fff8da] via-[#fff6f6] to-[#ffe7d8] px-5 sm:px-9 lg:px-8 xl:px-10 py-10 sm:py-12 overflow-hidden">
           {/* Logo + 4 menus + contact — tighter gaps so Legal + Get in touch sit on one row without horizontal scroll */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-y-7 gap-x-3 sm:gap-x-4 xl:gap-x-5 lg:justify-items-start">
             {/* Logo column */}
@@ -1606,7 +1619,7 @@ const BookToVideoFooter = () => {
           </div>
 
           {/* Bottom: trust badges + payment marks + copyright (Spines-style) */}
-          <div className="mt-12 pt-8 border-t border-[#ffd98a] flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between bg-white/55 rounded-2xl px-4 sm:px-6 py-5">
+          <div className="mt-12 pt-8 border-t border-zinc-200/50 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between bg-white/60 rounded-xl px-4 sm:px-6 py-5">
             <div className="flex flex-col sm:flex-row gap-8 sm:gap-12">
               <div className="flex gap-3 max-w-[280px] sm:max-w-[300px]">
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#FF0000]/10 text-[#FF0000]">
@@ -1663,6 +1676,13 @@ const heroReviewAuthorAvatars = [
   { src: '/youtube-page/review-author-5.png', alt: 'Author' },
 ] as const;
 
+/** Review platforms shown under hero star strip (assets: /public/book-to-video/hero-review-*.png) */
+const heroReviewPlatformBadges = [
+  { src: '/book-to-video/hero-review-trustpilot.png', alt: 'Trustpilot' },
+  { src: '/book-to-video/hero-review-clutch.png', alt: 'Clutch' },
+  { src: '/book-to-video/hero-review-bark.png', alt: 'Bark' },
+] as const;
+
 /** Logos under hero: files in /public/book-to-video/partner-logos/ */
 const HERO_PARTNER_LOGOS: { src: string; alt: string }[] = [
   { src: '/book-to-video/partner-logos/trustpilot.png', alt: 'Trustpilot' },
@@ -1676,10 +1696,10 @@ function HeroPartnerLogoMarquee() {
   const doubled = [...HERO_PARTNER_LOGOS, ...HERO_PARTNER_LOGOS];
   return (
     <section
-      className="relative z-40 w-full border-y border-zinc-100/80 bg-[#fafaf9] py-6 sm:py-7 md:py-8"
+      className="relative z-40 w-full overflow-hidden bg-white py-6 sm:py-7 md:py-8"
       aria-label="Featured on partner and review platforms"
     >
-      <div className="hero-partner-marquee-row">
+      <div className="hero-partner-marquee-row relative z-[1]">
         <div className="hero-partner-marquee-track">
           {doubled.map((logo, i) => (
             <div
@@ -1706,66 +1726,195 @@ function HeroPartnerLogoMarquee() {
 
 export default function BookToVideoPage() {
   return (
-    <div className="w-full bg-[#fafaf9] font-sans selection:bg-red-200 selection:text-red-900 overflow-x-hidden">
+    <div className="book-to-video-page w-full bg-[#faf9f6] font-sans selection:bg-red-200 selection:text-red-900 overflow-x-hidden">
       <Header />
 
-      {/* 1. HERO BANNER SECTION (ELITE FULL-SCREEN ANIMATION) */}
-      <section className="relative w-full min-h-0 max-md:h-auto md:min-h-[850px] md:h-[100dvh] bg-white pt-9 max-md:pt-12 sm:pt-12 md:pt-16 lg:pt-[4.25rem] pb-6 max-md:pb-9 sm:pb-6 flex flex-col items-center max-md:justify-start md:justify-between overflow-hidden font-sans">
-        <div className="pointer-events-none absolute -top-24 right-[-14%] h-[320px] w-[320px] rounded-full bg-[#FFBE02]/20 blur-[110px]" />
+      {/* 1. HERO — left: copy, bullets, review strip; right: Calendly */}
+      <section className="relative isolate flex min-h-0 w-full flex-col overflow-hidden bg-gradient-to-b from-white via-violet-50/15 to-[#fffbeb] pt-6 max-md:pt-9 sm:pt-8 md:pt-10 lg:pt-11 pb-6 max-md:pb-9 sm:pb-8 md:pb-10 font-sans">
+        <div className="pointer-events-none absolute -top-24 right-[-14%] h-[320px] w-[320px] rounded-full bg-[#FFBE02]/18 blur-[110px]" />
+        {/* Bottom glow kept above fold so overflow clip doesn’t draw a hard line above the next section */}
+        <div className="pointer-events-none absolute bottom-0 left-[-12%] h-[200px] w-[240px] translate-y-1/4 rounded-full bg-violet-200/20 blur-[90px]" aria-hidden />
 
-        {/* --- 1. TOP TEXT AREA (Slides Down & Adjusted Size) --- */}
-        <div className="relative z-50 flex flex-col items-center text-center px-4 sm:px-4 shrink-0 mt-0 sm:mt-0">
-          <motion.h1
-            initial={{ opacity: 0, y: -40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[22px] sm:text-[28px] md:text-[34px] lg:text-[40px] leading-[1.12] text-[#111] mb-4 max-md:mb-5 sm:mb-2.5 tracking-tight"
-          >
-            <span className="font-normal text-black">Turn your Book into a </span>
-            <span className="font-black text-[#FFBE02] tracking-tighter">Cinema</span>
-          </motion.h1>
+        {/* Same max-width + left inset as Book-to-Video header (outer px-8 + inner card px-5) so copy lines up under the logo */}
+        <div className="relative z-50 mx-auto min-w-0 w-full max-w-[1380px] shrink-0 px-4 sm:px-6 md:pr-6 md:pl-[2.75rem] lg:pr-8 lg:pl-[3.25rem]">
+          <div className="grid min-w-0 grid-cols-1 gap-10 lg:grid-cols-[minmax(0,30rem)_minmax(0,1fr)] lg:items-start lg:gap-8 xl:gap-10">
+            <div className="min-w-0 w-full max-w-full text-left lg:max-w-[30rem] lg:overflow-visible">
+              <div className="w-full lg:w-[calc(100%+10rem)] xl:w-[calc(100%+12rem)] 2xl:w-[calc(100%+14rem)]">
+                <motion.h1
+                  initial={{ opacity: 0, y: -24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-balance text-[26px] sm:text-[30px] md:text-[34px] lg:text-[2.125rem] xl:text-[2.5rem] 2xl:text-[2.75rem] leading-[1.16] sm:leading-[1.15] md:leading-[1.14] tracking-[-0.02em] text-[#111] font-black antialiased space-y-2 sm:space-y-2.5 md:space-y-3"
+                >
+                  <span className="block font-black text-black">Get your book or story</span>
+                  <span className="block font-black text-black">published, distributed, and</span>
+                  <span className="block font-black text-black">converted into a cinema</span>
+                  <span className="block font-black text-black">
+                    worldwide within{' '}
+                    <span className="font-black text-[#FFBE02] tracking-tight">14 days</span>
+                    <span className="font-black text-black">.</span>
+                  </span>
+                </motion.h1>
+              </div>
 
-          <motion.p
-            initial={{ opacity: 0, y: -30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[12px] sm:text-[14px] md:text-[15px] text-gray-600 mb-8 max-sm:mb-10 max-md:mb-12 sm:mb-12 md:mb-16 max-w-[520px] mx-auto font-medium leading-relaxed"
-          >
-            For ambitious authors with a manuscript or a published book who are tired of being
-          </motion.p>
+              <motion.p
+                initial={{ opacity: 0, y: -16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.65, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+                className="mt-6 max-w-[28rem] text-pretty text-[14px] leading-[1.7] text-zinc-600 sm:mt-8 sm:text-[15px] sm:leading-[1.68] md:mt-9 md:max-w-[30rem] md:text-base md:leading-[1.65] mb-8 font-normal tracking-normal sm:mb-9 md:mb-10"
+              >
+                For ambitious authors & writers with a published book or story, a manuscript, or even just a
+                great idea who are tired of being invisible and are ready to build a global media presence through
+                video.
+              </motion.p>
 
+              <motion.div
+                className="relative z-50 mt-0 w-full sm:mt-0"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.65, delay: 0.24, ease: "easeOut" }}
+                aria-label="Reader ratings summary"
+              >
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 md:gap-5">
+                  <div className="flex items-center justify-start">
+                    {heroReviewAuthorAvatars.map((author, i) => (
+                      <div
+                        key={author.src}
+                        className="relative h-6 w-6 sm:h-9 sm:w-9 md:h-[42px] md:w-[42px] rounded-full border-[2px] border-white shadow-[0_6px_14px_rgba(0,0,0,0.18)] overflow-hidden bg-zinc-100 -ml-1 sm:-ml-1.5 first:ml-0"
+                        style={{ zIndex: 10 + i }}
+                      >
+                        <Image
+                          src={author.src}
+                          alt={author.alt}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 640px) 24px, 42px"
+                        />
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="flex flex-col items-start max-sm:max-w-[240px]">
+                    <div className="flex flex-wrap items-center gap-1 sm:gap-2">
+                      <h3 className="text-[17px] sm:text-[24px] md:text-[28px] font-normal leading-none text-black tracking-tight">
+                        Excellent
+                      </h3>
+                      <div className="flex items-center gap-px pt-0.5 sm:gap-0.5" role="img" aria-label="4.5 out of 5 stars">
+                        {Array.from({ length: 4 }).map((_, i) => (
+                          <span
+                            key={i}
+                            className="inline-flex h-2 w-2 shrink-0 items-center justify-center sm:h-3.5 sm:w-3.5 md:h-4 md:w-4"
+                            aria-hidden
+                          >
+                            <Star className="h-full w-full text-[#F8BE00] fill-[#F8BE00]" strokeWidth={0} />
+                          </span>
+                        ))}
+                        <span
+                          className="relative inline-flex h-2 w-2 shrink-0 items-center justify-center overflow-hidden sm:h-3.5 sm:w-3.5 md:h-4 md:w-4"
+                          aria-hidden
+                        >
+                          <Star className="absolute inset-0 h-full w-full text-zinc-200 fill-zinc-200" strokeWidth={0} />
+                          <Star
+                            className="absolute inset-0 h-full w-full text-[#F8BE00] fill-[#F8BE00] [clip-path:inset(0_50%_0_0)]"
+                            strokeWidth={0}
+                          />
+                        </span>
+                      </div>
+                    </div>
+                    <p className="text-left text-[10px] sm:text-[14px] md:text-[16px] leading-tight text-zinc-700 font-medium mt-0.5">
+                      based on 1000+ Cinema Channels
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-5 w-full max-w-full border-t border-zinc-200/80 pt-4 sm:mt-6 sm:pt-5">
+                  <p className="mb-3.5 text-left text-[10px] font-semibold uppercase tracking-[0.16em] text-zinc-500 sm:mb-4 sm:text-[11px] sm:tracking-[0.18em]">
+                    Ratings &amp; reviews on
+                  </p>
+                  <ul
+                    className="flex list-none flex-wrap items-center gap-x-7 gap-y-3 sm:gap-x-9 sm:gap-y-4"
+                    role="list"
+                  >
+                    {heroReviewPlatformBadges.map((badge) => (
+                      <li key={badge.src}>
+                        <div
+                          className="flex h-8 items-center sm:h-9"
+                          title={`${badge.alt} reviews`}
+                        >
+                          <Image
+                            src={badge.src}
+                            alt={`${badge.alt} — reader reviews`}
+                            width={180}
+                            height={48}
+                            unoptimized
+                            className="h-7 w-auto max-w-[min(9.5rem,42vw)] bg-transparent object-contain object-left opacity-[0.92] transition-opacity duration-200 hover:opacity-100 sm:h-8 sm:max-w-[10.5rem]"
+                          />
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </motion.div>
+            </div>
+
+            <motion.div
+              id="calendly"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+              className="pointer-events-auto mx-auto min-w-0 w-full max-w-[min(100%,400px)] sm:max-w-[min(100%,420px)] md:max-w-[min(100%,440px)] lg:mx-0 lg:ml-auto lg:mr-0 lg:max-w-[460px] xl:max-w-[480px] lg:w-full lg:self-start lg:-mt-1 xl:-mt-2"
+            >
+              {/* Right-column embed: fixed width + ml-auto = sits like typical marketing / Calendly landing (not floating center) */}
+              <div className="max-h-[min(620px,82dvh)] overflow-hidden rounded-2xl border border-zinc-200/70 bg-white shadow-[0_12px_40px_-14px_rgba(15,23,42,0.12)]">
+                <CalendlyInlineEmbed
+                  containerId="book-to-video-calendly-hero"
+                  heightPx={580}
+                  heightPxMobile={460}
+                  className="w-full overflow-hidden bg-white"
+                />
+              </div>
+              <p className="mt-3 text-center text-[11px] font-medium text-zinc-500 lg:text-right">
+                Pick a time — same calendar as below.
+              </p>
+            </motion.div>
+          </div>
         </div>
+      </section>
 
-        {/* --- 2. THE STAGE: TV & BOOKS ANIMATION (With Proper Spacing) --- */}
-        {/* Mobile: min-height — absolute children don’t expand the box; without this the stage collapses */}
-        <div className="relative w-full min-w-0 min-h-0 max-sm:min-h-[min(360px,52svh)] sm:min-h-[min(380px,44svh)] md:min-h-0 flex-1 max-md:flex-none max-w-[100vw] mx-auto flex items-center justify-center max-sm:mt-6 sm:mt-24 md:mt-36 lg:mt-44 mb-6 max-sm:mb-10 sm:mb-12 md:mb-16 pointer-events-none px-1.5 max-sm:px-2 sm:px-0">
+      {/* 1b. LED display & hero books — same stage as before, own section directly under hero */}
+      <section
+        className="relative w-full max-w-[100vw] overflow-x-clip overflow-y-hidden bg-gradient-to-b from-[#fffbeb] via-violet-100/35 to-white pt-12 max-md:pt-14 sm:pt-16 md:pt-20 lg:pt-24 xl:pt-28 pb-10 max-md:pb-12 sm:pb-14 md:pb-16 lg:pb-20 font-sans"
+        aria-label="Featured books and display"
+      >
+        {/* min-h fits books+LED so overflow-y:hidden doesn’t clip; overflow-x-clip avoids x-hidden+y-visible → scrollbar */}
+        <div className="relative z-40 mx-auto flex w-full min-w-0 max-w-none max-sm:min-h-[min(580px,72svh)] sm:min-h-[min(660px,66svh)] md:min-h-[min(740px,70vh)] lg:min-h-[min(820px,72vh)] xl:min-h-[min(880px,74vh)] items-center justify-center overflow-x-clip overflow-y-hidden px-0 sm:px-0 pointer-events-none">
 
-          {/* Edge fade — hidden on small mobile so books aren’t eaten at sides */}
+          {/* Edge fade — soft vignette, full-bleed section */}
           <div className="absolute inset-0 z-[6] pointer-events-none max-sm:hidden">
-            <div className="absolute top-0 bottom-0 left-0 w-[3%] max-w-[32px] bg-gradient-to-r from-white via-white/50 to-transparent" />
-            <div className="absolute top-0 bottom-0 right-0 w-[3%] max-w-[32px] bg-gradient-to-l from-white via-white/50 to-transparent" />
+            <div className="absolute top-0 bottom-0 left-0 w-[5%] max-w-[56px] bg-gradient-to-r from-violet-100/35 via-transparent to-transparent" />
+            <div className="absolute top-0 bottom-0 right-0 w-[5%] max-w-[56px] bg-gradient-to-l from-violet-100/35 via-transparent to-transparent" />
           </div>
 
-          {/* Soft Shadow behind the TV & Books */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[40%] bg-black/10 blur-[60px] z-0" />
+          <div className="absolute left-1/2 top-1/2 z-0 h-[45%] w-[min(96%,1400px)] -translate-x-1/2 -translate-y-1/2 bg-[#FFBE02]/12 blur-[80px]" />
 
-          {/* The 8 Books Sliding Out (compact, slight overlap, fully visible) */}
+          {/* Books: pushed a bit further out (x%); cluster lower for top breathing room */}
           {[
-            { src: "/youtube-page/book-4.png", x: "-218%", y: "-50%", scale: 0.96, z: 16, delay: 0.62 },
-            { src: "/youtube-page/book-3.png", x: "-272%", y: "-50%", scale: 0.92, z: 14, delay: 0.72 },
-            { src: "/youtube-page/book-2.png", x: "-326%", y: "-50%", scale: 0.84, z: 12, delay: 0.82 },
-            { src: "/youtube-page/book-1.png", x: "-382%", y: "-50%", scale: 0.77, z: 10, delay: 0.92 },
+            /* LED-side books: lower z + slightly toward center so they read behind the TV; outer books sit on top */
+            { src: "/youtube-page/book-4.png", x: "-242%", y: "-54%", scale: 0.96, z: 20, delay: 0.62 },
+            { src: "/youtube-page/book-3.png", x: "-328%", y: "-49%", scale: 0.92, z: 16, delay: 0.72 },
+            { src: "/youtube-page/book-2.png", x: "-398%", y: "-43%", scale: 0.88, z: 12, delay: 0.82 },
+            { src: "/youtube-page/book-1.png", x: "-462%", y: "-38%", scale: 0.84, z: 8, delay: 0.92 },
 
-            { src: "/youtube-page/book-6.png", x: "124%", y: "-50%", scale: 0.96, z: 16, delay: 0.62 },
-            { src: "/youtube-page/hero-right-fatal-exchange.png", x: "182%", y: "-50%", scale: 0.92, z: 14, delay: 0.72 },
-            { src: "/youtube-page/hero-right-educated.png", x: "218%", y: "-50%", scale: 0.84, z: 12, delay: 0.82 },
-            { src: "/youtube-page/hero-right-paradox.png", x: "254%", y: "-50%", scale: 0.77, z: 10, delay: 0.92 },
+            { src: "/youtube-page/book-6.png", x: "142%", y: "-54%", scale: 0.96, z: 20, delay: 0.62 },
+            { src: "/youtube-page/hero-right-fatal-exchange.png", x: "228%", y: "-49%", scale: 0.92, z: 16, delay: 0.72 },
+            { src: "/youtube-page/hero-right-educated.png", x: "298%", y: "-43%", scale: 0.88, z: 12, delay: 0.82 },
+            { src: "/youtube-page/hero-right-paradox.png", x: "362%", y: "-38%", scale: 0.84, z: 8, delay: 0.92 },
           ].map((book, i) => (
             <motion.div
               key={`${book.src}-${i}`}
-              className="absolute top-1/2 left-1/2 w-[90px] sm:w-[130px] md:w-[170px] lg:w-[210px] aspect-[5/18] sm:aspect-[2/3] overflow-hidden rounded-[2px] drop-shadow-[0_12px_22px_rgba(0,0,0,0.22)]"
+              className="absolute left-1/2 top-1/2 w-[82px] sm:w-[110px] md:w-[134px] lg:w-[152px] xl:w-[164px] aspect-[5/18] sm:aspect-[2/3] overflow-hidden rounded-[2px] drop-shadow-[0_12px_26px_rgba(0,0,0,0.22)]"
               style={{ zIndex: book.z }}
-              initial={{ x: "-50%", y: "-50%", opacity: 0, scale: 0.58 }}
+              initial={{ x: "-50%", y: "-46%", opacity: 0, scale: 0.58 }}
               animate={{
                 x: book.x,
                 y: book.y,
@@ -1782,16 +1931,16 @@ export default function BookToVideoPage() {
                 src={book.src}
                 alt={`Book ${i + 1}`}
                 fill
-                sizes="(max-width: 640px) 90px, (max-width: 768px) 130px, (max-width: 1024px) 170px, 210px"
+                sizes="(max-width: 640px) 82px, (max-width: 768px) 110px, (max-width: 1024px) 134px, 164px"
                 className="object-cover object-center"
               />
             </motion.div>
           ))}
 
-          {/* Center: phone on mobile, wide LED on sm+ — z-50 above books */}
+          {/* Center: phone on mobile; sm+ LED ~40/60 of prior footprint so books read clearer */}
           <motion.div
-            className="absolute top-1/2 left-1/2 z-50 aspect-video max-sm:aspect-[10/19] w-full max-w-[min(236px,calc(100vw-2rem))] sm:max-w-none sm:w-[min(670px,calc(100vw-2rem))] md:w-[min(940px,calc(100vw-2.5rem))] lg:w-[min(1180px,95vw)] overflow-visible max-sm:overflow-visible sm:overflow-hidden drop-shadow-[0_30px_60px_rgba(0,0,0,0.4)]"
-            initial={{ x: "-50%", y: "20%", opacity: 0 }}
+            className="absolute left-1/2 top-1/2 z-[60] w-full max-sm:aspect-[10/19] max-sm:max-w-[min(168px,calc(100vw-1rem))] sm:aspect-auto sm:max-w-none sm:w-[min(59vw,468px)] sm:min-h-[calc(min(59vw,468px)*0.68)] md:w-[min(60vw,574px)] md:min-h-[calc(min(60vw,574px)*0.68)] lg:w-[min(61vw,682px)] lg:min-h-[calc(min(61vw,682px)*0.68)] xl:w-[min(62vw,774px)] xl:min-h-[calc(min(62vw,774px)*0.68)] overflow-visible drop-shadow-[0_22px_44px_rgba(0,0,0,0.3)]"
+            initial={{ x: "-50%", y: "18%", opacity: 0 }}
             animate={{ x: "-50%", y: "-50%", opacity: 1 }}
             transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
@@ -1800,7 +1949,7 @@ export default function BookToVideoPage() {
               alt="Cinema on mobile"
               fill
               className="object-contain object-center sm:hidden"
-              sizes="(max-width: 639px) min(236px, 88vw), 0"
+              sizes="(max-width: 639px) min(168px, 92vw), 0"
               priority
             />
             <Image
@@ -1808,73 +1957,11 @@ export default function BookToVideoPage() {
               alt="LED display"
               fill
               className="object-contain object-center hidden sm:block"
-              sizes="(max-width: 1024px) 90vw, 1180px"
+              sizes="(max-width: 768px) 59vw, (max-width: 1024px) 60vw, (max-width: 1280px) 61vw, 774px"
               priority
             />
           </motion.div>
-
         </div>
-
-        {/* --- 3. BOTTOM REVIEWS: avatars + rating (no third-party app logos) --- */}
-        <motion.div
-          className="relative z-50 shrink-0 w-full max-w-[min(252px,calc(100%-1.5rem))] sm:max-w-[480px] md:max-w-[560px] px-2 max-sm:mx-auto max-sm:pt-4 max-sm:mt-2 pt-7 max-md:pt-10 sm:px-0 sm:pt-12 md:pt-24 lg:pt-28 mt-6 max-md:mt-8 sm:mt-8 md:mt-12 mb-6 max-md:mb-8 sm:mb-6 md:mb-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.5, ease: "easeOut" }}
-        >
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 md:gap-5">
-            <div className="flex items-center justify-center">
-              {heroReviewAuthorAvatars.map((author, i) => (
-                <div
-                  key={author.src}
-                  className="relative h-6 w-6 sm:h-9 sm:w-9 md:h-[42px] md:w-[42px] rounded-full border-[2px] border-white shadow-[0_6px_14px_rgba(0,0,0,0.18)] overflow-hidden bg-zinc-100 -ml-1 sm:-ml-1.5 first:ml-0"
-                  style={{ zIndex: 10 + i }}
-                >
-                  <Image
-                    src={author.src}
-                    alt={author.alt}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 24px, 42px"
-                  />
-                </div>
-              ))}
-            </div>
-
-            <div className="flex flex-col items-center sm:items-start max-sm:max-w-[240px]">
-              <div className="flex items-center gap-1 sm:gap-2">
-                <h3 className="text-[17px] sm:text-[24px] md:text-[28px] font-normal leading-none text-black tracking-tight">
-                  Excellent
-                </h3>
-                <div className="flex items-center gap-px pt-0.5 sm:gap-0.5" role="img" aria-label="4.5 out of 5 stars">
-                  {Array.from({ length: 4 }).map((_, i) => (
-                    <span
-                      key={i}
-                      className="inline-flex h-2 w-2 shrink-0 items-center justify-center sm:h-3.5 sm:w-3.5 md:h-4 md:w-4"
-                      aria-hidden
-                    >
-                      <Star className="h-full w-full text-[#F8BE00] fill-[#F8BE00]" strokeWidth={0} />
-                    </span>
-                  ))}
-                  <span
-                    className="relative inline-flex h-2 w-2 shrink-0 items-center justify-center overflow-hidden sm:h-3.5 sm:w-3.5 md:h-4 md:w-4"
-                    aria-hidden
-                  >
-                    <Star className="absolute inset-0 h-full w-full text-zinc-200 fill-zinc-200" strokeWidth={0} />
-                    <Star
-                      className="absolute inset-0 h-full w-full text-[#F8BE00] fill-[#F8BE00] [clip-path:inset(0_50%_0_0)]"
-                      strokeWidth={0}
-                    />
-                  </span>
-                </div>
-              </div>
-              <p className="text-[10px] sm:text-[14px] md:text-[16px] leading-tight text-zinc-700 font-medium mt-0.5 text-center sm:text-left">
-                based on 1000+ Cinema Channels
-              </p>
-            </div>
-          </div>
-        </motion.div>
-
       </section>
 
       <HeroPartnerLogoMarquee />
@@ -1883,11 +1970,11 @@ export default function BookToVideoPage() {
       {/* 3. VIDEOS WE CREATED - YOUTUBE TV SECTION */}
       <YouTubeTVSection />
 
-      {/* 4. SERVICES SECTION (BAAP LEVEL DESIGN) */}
-      <VideoConversionServices />
-
-      {/* 5. WHY YOUTUBE SECTION */}
+      {/* 4. WHY YOUTUBE SECTION — How it works */}
       <WhyYouTubeSection />
+
+      {/* 5. SERVICES SECTION (BAAP LEVEL DESIGN) */}
+      <VideoConversionServices />
 
       {/* 6. SLIDING TESTIMONIALS */}
       <SlidingTestimonials />
@@ -1898,13 +1985,13 @@ export default function BookToVideoPage() {
       {/* 8. Bottom Calendly — same flow, focused CTA after page scroll */}
       <section
         id="schedule-consultation"
-        className="relative overflow-hidden bg-gradient-to-b from-white via-[#fafaf9] to-[#fff8ed]/50 py-16 sm:py-20 md:py-24"
+        className="relative overflow-hidden bg-gradient-to-b from-[#fefce8] via-[#fffbeb] to-[#faf9f6] py-16 sm:py-20 md:py-24"
       >
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute right-[-20%] top-1/2 h-[400px] w-[400px] -translate-y-1/2 rounded-full bg-[#FFBE02]/10 blur-[110px]" />
           <div className="absolute left-[-15%] bottom-0 h-[280px] w-[280px] rounded-full bg-violet-200/15 blur-[90px]" />
         </div>
-        <div className="relative z-10 mx-auto max-w-3xl px-4 sm:px-6">
+        <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6">
           <motion.div
             className="mb-10 text-center sm:mb-12"
             initial={{ opacity: 0, y: 24 }}
@@ -1924,23 +2011,19 @@ export default function BookToVideoPage() {
             </p>
           </motion.div>
           <motion.div
-            className="mx-auto max-w-[640px]"
+            className="mx-auto w-full max-w-[min(100%,480px)] sm:max-w-[520px] md:max-w-[580px] lg:max-w-[640px]"
             initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-40px' }}
             transition={{ duration: 0.5, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
           >
-            <div className="rounded-[1.5rem] bg-white/90 p-1.5 shadow-[0_24px_64px_-12px_rgba(15,15,15,0.14),0_0_0_1px_rgba(0,0,0,0.05)] backdrop-blur-sm sm:rounded-[1.85rem] sm:p-2">
-              <div className="overflow-hidden rounded-[1.25rem] border border-zinc-200/80 bg-zinc-50/40 sm:rounded-[1.65rem]">
-                <div className="bg-white">
-                  <CalendlyInlineEmbed
-                    containerId="book-to-video-calendly-center"
-                    heightPx={520}
-                    heightPxMobile={440}
-                    className="w-full min-h-[440px] sm:min-h-[520px] overflow-hidden bg-white"
-                  />
-                </div>
-              </div>
+            <div className="overflow-hidden rounded-2xl border border-zinc-200/70 bg-white shadow-[0_12px_40px_-14px_rgba(15,23,42,0.12)]">
+              <CalendlyInlineEmbed
+                containerId="book-to-video-calendly-center"
+                heightPx={600}
+                heightPxMobile={480}
+                className="w-full overflow-hidden bg-white"
+              />
             </div>
           </motion.div>
         </div>
