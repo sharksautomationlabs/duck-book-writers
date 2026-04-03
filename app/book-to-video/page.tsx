@@ -1727,7 +1727,7 @@ function HeroPartnerLogoMarquee() {
 export default function BookToVideoPage() {
   return (
     <div className="book-to-video-page w-full bg-[#faf9f6] font-sans selection:bg-red-200 selection:text-red-900 overflow-x-hidden">
-      <Header />
+      <Header forceBookToVideoLayout />
 
       {/* 1. HERO — left: copy, bullets, review strip; right: Calendly */}
       <section className="relative isolate flex min-h-0 w-full flex-col overflow-hidden bg-gradient-to-b from-white via-violet-50/15 to-[#fffbeb] pt-6 max-md:pt-9 sm:pt-8 md:pt-10 lg:pt-11 pb-6 max-md:pb-9 sm:pb-8 md:pb-10 font-sans">

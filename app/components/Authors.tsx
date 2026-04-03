@@ -61,14 +61,14 @@ const Authors = () => {
         {/* Beautiful Carousel */}
         <div className="relative">
           {/* Main Carousel Container */}
-          <div className="relative h-[500px] sm:h-[600px] lg:h-[700px] overflow-hidden rounded-3xl">
+          <div className="relative min-h-[480px] h-[520px] sm:h-[600px] lg:h-[700px] overflow-hidden rounded-2xl sm:rounded-3xl px-1 sm:px-0">
              <AnimatePresence mode="wait">
         <motion.div
                  key={currentIndex}
                  className="absolute inset-0 flex items-center justify-center"
-                 initial={{ opacity: 0, x: 300 }}
+                 initial={{ opacity: 0, x: 48 }}
                  animate={{ opacity: 1, x: 0 }}
-                 exit={{ opacity: 0, x: -300 }}
+                 exit={{ opacity: 0, x: -48 }}
                  transition={{ duration: 0.125, ease: "easeInOut" }}
                >
                 {/* Author Card */}
@@ -124,7 +124,7 @@ const Authors = () => {
                             {authors[currentIndex].books}
                           </span>
                         </div>
-                         <p className="font-['Poppins'] text-lg text-gray-600 leading-relaxed">
+                         <p className="font-['Poppins'] text-base sm:text-lg text-gray-600 leading-relaxed">
                           {authors[currentIndex].bio}
           </p>
         </div>

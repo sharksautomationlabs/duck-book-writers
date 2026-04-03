@@ -5,7 +5,7 @@ import Footer from '../components/Footer';
 
 export default function AuthorsPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen overflow-x-hidden bg-white">
       <Header />
       <main>
         <Authors />

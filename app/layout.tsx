@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Poppins } from "next/font/google";
 import Script from "next/script";
 import FacebookPixel from "./components/FacebookPixel";
+import CalendlyLoaderSuppress from "./components/CalendlyLoaderSuppress";
 import TawkTo from "./components/TawkTo";
 import "./globals.css";
 
@@ -11,6 +12,11 @@ const poppins = Poppins({
   variable: '--font-poppins',
   display: 'swap',
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
   title: "Duck Book Writers | Publishing House",
@@ -66,6 +72,7 @@ export default function RootLayout({
         suppressHydrationWarning={true}
       >
         <FacebookPixel />
+        <CalendlyLoaderSuppress />
         <TawkTo />
         {children}
         <Script src="https://assets.calendly.com/assets/external/widget.js" strategy="lazyOnload" />   

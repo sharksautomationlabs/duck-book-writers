@@ -46,30 +46,27 @@ const About = () => {
               }}
             >
               {/* Background Health Book - Moved further right */}
-              <motion.div
-                className="absolute inset-0 z-0"
-                animate={{ 
-                  y: [-5, 5, -5]
-                }}
-                transition={{ 
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 1
-                }}
-                style={{ 
-                  transform: 'translateX(20px) translateY(-120px)',
-                  transformOrigin: 'center'
-                }}
-              >
-                <Image
-                  src="/images/health books/book4.jpg"
-                  alt="Mental Wellness"
-                  width={647}
-                  height={653}
-                  className="w-full h-full object-contain opacity-60"
-                />
-              </motion.div>
+              <div className="absolute inset-0 z-0 translate-x-1 -translate-y-8 sm:translate-x-2 sm:-translate-y-16 md:-translate-y-24 lg:translate-x-[20px] lg:-translate-y-[120px]">
+                <motion.div
+                  className="h-full w-full"
+                  animate={{ y: [-5, 5, -5] }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 1,
+                  }}
+                  style={{ transformOrigin: "center" }}
+                >
+                  <Image
+                    src="/images/health books/book4.jpg"
+                    alt="Mental Wellness"
+                    width={647}
+                    height={653}
+                    className="h-full w-full object-contain opacity-60"
+                  />
+                </motion.div>
+              </div>
               
               {/* Foreground Self-Help Book - Moved further left */}
               <Image
@@ -77,11 +74,8 @@ const About = () => {
                 alt="Self-Help Book 4"
                 width={647}
                 height={653}
-                className="w-full h-full object-contain relative z-10"
-                style={{ 
-                  transform: 'translateX(150px)',
-                  transformOrigin: 'center'
-                }}
+                className="w-full h-full object-contain relative z-10 translate-x-6 sm:translate-x-12 md:translate-x-20 lg:translate-x-[150px]"
+                style={{ transformOrigin: 'center' }}
               />
             </motion.div>
             

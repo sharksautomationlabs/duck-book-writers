@@ -1,31 +1,12 @@
-'use client';
+import BookToVideoClientLayout from './BookToVideoClientLayout';
 
-import { useEffect } from 'react';
-
-type TawkWindow = Window & {
-  Tawk_API?: { hideWidget?: () => void; showWidget?: () => void };
-};
+/** Fresh HTML on each request — avoids CDN / stale shell showing wrong header or old Calendly scripts on live. */
+export const dynamic = 'force-dynamic';
 
 export default function BookToVideoLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  useEffect(() => {
-    const hide = () => {
-      (window as TawkWindow).Tawk_API?.hideWidget?.();
-    };
-
-    hide();
-    const interval = window.setInterval(hide, 250);
-    const stop = window.setTimeout(() => window.clearInterval(interval), 10_000);
-
-    return () => {
-      window.clearInterval(interval);
-      window.clearTimeout(stop);
-      (window as TawkWindow).Tawk_API?.showWidget?.();
-    };
-  }, []);
-
-  return <>{children}</>;
+  return <BookToVideoClientLayout>{children}</BookToVideoClientLayout>;
 }

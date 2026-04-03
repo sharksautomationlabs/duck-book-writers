@@ -33,7 +33,7 @@ const PublishingProcess = () => {
 
   return (
     <section className="py-20 bg-white">
-      <div className="max-w-[1920px] mx-auto px-16 lg:px-24 xl:px-32">
+      <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-16 xl:px-24 2xl:px-32">
         <motion.div 
           className="text-center mb-12 sm:mb-16"
           initial={{ opacity: 0, y: 30 }}

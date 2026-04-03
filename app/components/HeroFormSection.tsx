@@ -94,7 +94,7 @@ const HeroFormSection = () => {
   };
 
   return (
-    <section className="relative w-full min-h-[400px] bg-white py-8 lg:py-12">
+    <section className="relative w-full min-h-[400px] bg-white py-8 lg:py-12 overflow-x-hidden">
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left Side: Contact Form */}
@@ -273,7 +273,7 @@ const HeroFormSection = () => {
                   ease: "easeInOut"
                 }}
               >
-                <div className="relative w-80 h-96 sm:w-96 sm:h-[448] lg:w-[448] lg:h-[512] group">
+                <div className="relative w-48 h-60 sm:w-80 sm:h-96 md:w-96 md:h-[448px] lg:w-[448px] lg:h-[512px] group">
                   <Image
                     src="/images/books/book1.jpg"
                     alt="Award Winning Book 1"
@@ -311,7 +311,7 @@ const HeroFormSection = () => {
 
               {/* Right Book */}
               <motion.div
-                className="absolute top-1/2 right-1/4 transform translate-x-1/2 -translate-y-1/2 z-0"
+                className="hidden sm:block absolute top-1/2 right-1/4 transform translate-x-1/2 -translate-y-1/2 z-0"
                 animate={{
                   y: [-8, 8, -8],
                   rotate: [25, 25, 25]
@@ -323,7 +323,7 @@ const HeroFormSection = () => {
                   delay: 1
                 }}
               >
-                <div className="relative w-64 h-80 sm:w-72 sm:h-88 lg:w-80 lg:h-96 group">
+                <div className="relative w-48 h-64 sm:w-72 sm:h-88 lg:w-80 lg:h-96 group">
                   <Image
                     src="/images/books/book3.jpg"
                     alt="Award Winning Book 3"

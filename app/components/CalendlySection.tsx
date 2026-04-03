@@ -62,7 +62,8 @@ const CalendlySection = () => {
           <CalendlyInlineEmbed
             containerId="calendly-inline-embed"
             heightPx={600}
-            className="w-full min-h-[600px] h-auto overflow-hidden"
+            heightPxMobile={480}
+            className="w-full min-h-[480px] sm:min-h-[600px] h-auto overflow-hidden"
           />
         </motion.div>
       </div>

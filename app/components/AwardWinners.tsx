@@ -70,7 +70,7 @@ const AwardWinners = () => {
 
             {/* Left Book - Behind Center Book, Closer Position */}
             <motion.div 
-              className="absolute top-[70px] sm:top-[90px] lg:top-[110px] xl:top-[128px] left-[60px] sm:left-[80px] lg:left-[100px] xl:left-[120px] w-[80px] sm:w-[120px] lg:w-[140px] xl:w-[160px] h-[120px] sm:h-[180px] lg:h-[220px] xl:h-[250px] z-0"
+              className="absolute top-[70px] sm:top-[90px] lg:top-[110px] xl:top-[128px] left-2 sm:left-[80px] lg:left-[100px] xl:left-[120px] w-[72px] sm:w-[120px] lg:w-[140px] xl:w-[160px] h-[110px] sm:h-[180px] lg:h-[220px] xl:h-[250px] z-0"
               animate={{ 
                 y: [-6, 6, -6],
                 rotate: [25, 25, 25]
@@ -95,7 +95,7 @@ const AwardWinners = () => {
 
             {/* Right Book - Behind Center Book, Closer Position */}
             <motion.div 
-              className="absolute top-[70px] sm:top-[90px] lg:top-[110px] xl:top-[128px] right-[60px] sm:right-[80px] lg:right-[100px] xl:right-[120px] w-[80px] sm:w-[120px] lg:w-[140px] xl:w-[160px] h-[120px] sm:h-[180px] lg:h-[220px] xl:h-[250px] z-0"
+              className="absolute top-[70px] sm:top-[90px] lg:top-[110px] xl:top-[128px] right-2 sm:right-[80px] lg:right-[100px] xl:right-[120px] w-[72px] sm:w-[120px] lg:w-[140px] xl:w-[160px] h-[110px] sm:h-[180px] lg:h-[220px] xl:h-[250px] z-0"
               animate={{ 
                 y: [-6, 6, -6],
                 rotate: [-25, -25, -25]

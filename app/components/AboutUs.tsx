@@ -50,7 +50,7 @@ const AboutUs = () => {
               />
             </div>
             <motion.div 
-              className="absolute -bottom-8 -right-16 w-50 h-50"
+              className="absolute -bottom-6 -right-4 sm:-bottom-8 sm:-right-8 md:-right-16 w-50 h-50 max-w-[40vw]"
               initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
               animate={{ 
                 opacity: 1, 

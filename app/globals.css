@@ -198,7 +198,7 @@ html {
   animation-play-state: paused;
 }
 
-/* Book-to-video hero: partner logos marquee (light gray default → original on hover; pause on hover) */
+/* Book-to-video hero: partner logos marquee (grayscale default → full color on wrap hover; pause row on hover) */
 @keyframes hero-partner-marquee {
   0% {
     transform: translate3d(0, 0, 0);
@@ -211,10 +211,26 @@ html {
 .hero-partner-marquee-row {
   position: relative;
   overflow: hidden;
-  /* Match page bg so mask edges & compositing never show black behind content */
-  background: #fafaf9;
-  -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
-  mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  background: transparent;
+  /* Softer visibility in the middle; left/right edges fade logos (more “hidden” at sides) */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(0, 0, 0, 0.2) 8%,
+    black 22%,
+    black 78%,
+    rgba(0, 0, 0, 0.2) 92%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(0, 0, 0, 0.2) 8%,
+    black 22%,
+    black 78%,
+    rgba(0, 0, 0, 0.2) 92%,
+    transparent 100%
+  );
 }
 
 .hero-partner-marquee-track {
@@ -265,8 +281,8 @@ html {
   object-fit: contain;
   object-position: center;
   background-color: transparent;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  filter: none;
+  transition: opacity 0.35s ease, transform 0.35s ease, filter 0.35s ease;
+  filter: grayscale(1) brightness(0.94);
 }
 
 @media (min-width: 640px) {
@@ -284,14 +300,16 @@ html {
 }
 
 .hero-partner-logo-wrap:hover .hero-partner-logo-img {
-  opacity: 0.92;
+  filter: grayscale(0) brightness(1);
+  opacity: 1;
   transform: scale(1.02);
 }
 
-/* Book-to-video Calendly: vertical scroll OK, hide scrollbars where the browser allows */
+/* Book-to-video Calendly: clip host — scroll stays inside iframe only, no extra rail on section */
 .calendly-book-to-video-host {
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden !important;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -302,6 +320,35 @@ html {
 
 .calendly-book-to-video-host iframe {
   display: block;
+}
+
+/*
+ * Calendly widget.css: .calendly-spinner (3 dots, top:50%, z-index:-1) — often stuck visible.
+ * html body … beats single-class rules from Calendly’s link tag when order ties.
+ */
+html body .calendly-spinner,
+html body .calendly-spinner > div,
+html body .calendly-bounce1,
+html body .calendly-bounce2,
+html body .calendly-bounce3,
+.calendly-book-to-video-host .calendly-spinner,
+.calendly-inline-widget .calendly-spinner,
+#calendly-inline-embed .calendly-spinner,
+#book-to-video-calendly-hero .calendly-spinner,
+#book-to-video-calendly-center .calendly-spinner,
+#book-to-video-calendly-side .calendly-spinner {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  animation: none !important;
+  clip-path: inset(100%) !important;
+}
+
+/* Newer Calendly builds sometimes use a generic loading row instead of .calendly-spinner */
+.calendly-book-to-video-host .calendly-loading,
+.calendly-inline-widget .calendly-loading {
+  display: none !important;
 }
 
 /* Calendly iframe responsive fix: ensure inline widget fills its container and isn't clipped */

@@ -188,7 +188,7 @@ const Footer: React.FC<FooterProps> = ({ replaceContactForm }) => {
                     <Mail className="hidden sm:block flex-shrink-0 w-5 h-5 text-yellow-500" aria-hidden />
                     <a
                       href={`mailto:${CONTACT_EMAIL}`}
-                      className="whitespace-nowrap hover:text-yellow-500 transition-colors duration-200 text-center lg:text-left"
+                      className="break-all sm:break-normal sm:whitespace-nowrap hover:text-yellow-500 transition-colors duration-200 text-center lg:text-left"
                     >
                       {CONTACT_EMAIL}
                     </a>

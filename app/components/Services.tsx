@@ -412,7 +412,7 @@ const Services = () => {
 
       {/* Process Section */}
       <section className="py-20 bg-white">
-        <div className="max-w-[1920px] mx-auto px-16 lg:px-24 xl:px-32">
+        <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-16 xl:px-24 2xl:px-32">
           <motion.div 
             className="text-center mb-12 sm:mb-16"
             initial={{ opacity: 0, y: 30 }}
@@ -594,7 +594,7 @@ const Services = () => {
           }}
         />
 
-        <div className="max-w-[1920px] mx-auto px-16 lg:px-24 xl:px-32 relative z-10">
+        <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-16 xl:px-24 2xl:px-32 relative z-10">
           <motion.div 
             className="text-center"
             initial={{ opacity: 0, y: 50 }}
@@ -603,7 +603,7 @@ const Services = () => {
             transition={{ duration: 0.4, ease: "easeOut" }}
           >
             <motion.h2 
-              className="font-['Poppins'] font-semibold text-[48px] text-[#1A1A1A] mb-6"
+              className="font-['Poppins'] font-semibold text-3xl sm:text-4xl lg:text-[48px] text-[#1A1A1A] mb-6 px-1"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -613,7 +613,7 @@ const Services = () => {
             </motion.h2>
             
             <motion.p 
-              className="font-['Poppins'] text-[18px] text-[#6B6B6B] mb-8 max-w-3xl mx-auto"
+              className="font-['Poppins'] text-sm sm:text-base lg:text-[18px] text-[#6B6B6B] mb-8 max-w-3xl mx-auto px-1"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -623,27 +623,27 @@ const Services = () => {
             </motion.p>
             
             <motion.div
-              className="flex justify-center items-center gap-4 mb-8"
+              className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-3 sm:gap-4 mb-8"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.3, delay: 0.3 }}
             >
               <motion.div
-                className="flex items-center gap-2 text-[#6B6B6B] font-['Poppins'] text-sm"
+                className="flex items-center gap-2 text-[#6B6B6B] font-['Poppins'] text-xs sm:text-sm text-center"
                 animate={{ x: [0, 5, 0] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               >
-                <Users className="w-4 h-4 text-[#FFBE02]" />
+                <Users className="w-4 h-4 shrink-0 text-[#FFBE02]" />
                 <span>500+ Authors Trust Us</span>
               </motion.div>
-              <div className="w-1 h-1 bg-[#6B6B6B] rounded-full"></div>
+              <div className="hidden sm:block w-1 h-1 bg-[#6B6B6B] rounded-full shrink-0" aria-hidden />
               <motion.div
-                className="flex items-center gap-2 text-[#6B6B6B] font-['Poppins'] text-sm"
+                className="flex items-center gap-2 text-[#6B6B6B] font-['Poppins'] text-xs sm:text-sm text-center"
                 animate={{ x: [0, -5, 0] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
               >
-                <Award className="w-4 h-4 text-[#FFBE02]" />
+                <Award className="w-4 h-4 shrink-0 text-[#FFBE02]" />
                 <span>Award-Winning Service</span>
               </motion.div>
             </motion.div>
@@ -656,7 +656,7 @@ const Services = () => {
                 url={CALENDLY_LINK}
                 text="Get Started Today"
                 size="lg"
-                className="bg-[#FFBE02] hover:bg-[#e6aa02] text-[#040404] font-['Poppins'] font-semibold px-8 py-2 rounded-[50px] text-[18px] transition-all duration-300 hover-lift smooth-transition flex items-center justify-center gap-3 mx-auto group/btn"
+                className="bg-[#FFBE02] hover:bg-[#e6aa02] text-[#040404] font-['Poppins'] font-semibold px-6 sm:px-8 py-2 rounded-[50px] text-sm sm:text-base lg:text-[18px] transition-all duration-300 hover-lift smooth-transition flex items-center justify-center gap-3 mx-auto group/btn"
               />
               </motion.div>
           </motion.div>
