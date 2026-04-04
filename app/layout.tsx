@@ -66,12 +66,12 @@ export default function RootLayout({
       <head>
         <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />   
         {/* added for calendly     */}
+        <FacebookPixel />
       </head>
       <body
         className={`${poppins.variable} antialiased`}
         suppressHydrationWarning={true}
       >
-        <FacebookPixel />
         <CalendlyLoaderSuppress />
         <TawkTo />
         {children}

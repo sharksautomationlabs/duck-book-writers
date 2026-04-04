@@ -1,9 +1,21 @@
 'use client';
 
 import Script from 'next/script';
+import { usePathname } from 'next/navigation';
 
-const FacebookPixel = () => {
-  const pixelId = '1129105702648002';
+const pixelId = '1129105702648002';
+
+/**
+ * Meta Pixel — only on /book-to-video and /thank-you (injected via root layout <head>).
+ */
+export default function FacebookPixel() {
+  const pathname = usePathname();
+  const enabled =
+    pathname === '/thank-you' ||
+    pathname === '/book-to-video' ||
+    (pathname?.startsWith('/book-to-video/') ?? false);
+
+  if (!enabled) return null;
 
   return (
     <>
@@ -39,6 +51,4 @@ const FacebookPixel = () => {
       {/* End Meta Pixel Code */}
     </>
   );
-};
-
-export default FacebookPixel;
+}
