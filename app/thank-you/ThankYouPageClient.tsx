@@ -247,7 +247,7 @@ function ThankYouTestimonials() {
     <section className="relative overflow-hidden bg-gradient-to-b from-[#fff8e6]/45 via-[#FFBE02]/18 to-[#fffbeb] py-16 sm:py-20">
       <div className="mx-auto mb-10 max-w-3xl px-4 text-center sm:mb-12">
         <div className="mb-3 flex items-center justify-center gap-3">
-          <StepBadge n={3} />
+          <StepBadge n={2} />
           <h2 className="font-serif text-2xl font-black tracking-tight text-gray-900 sm:text-3xl md:text-4xl">
             See what others have to <span className="text-[#FFBE02]">say</span>
           </h2>
@@ -274,8 +274,7 @@ function ThankYouFAQ() {
       <div className="pointer-events-none absolute -left-[8%] -top-24 h-[260px] w-[260px] rounded-full bg-violet-200/25 blur-[95px]" />
       <div className="pointer-events-none absolute -bottom-20 -right-[10%] h-[220px] w-[220px] rounded-full bg-[#FFBE02]/12 blur-[85px]" />
       <div className="relative mx-auto max-w-3xl px-4">
-        <div className="mb-8 flex flex-col items-center gap-3 text-center sm:mb-10 sm:flex-row sm:justify-center">
-          <StepBadge n={2} />
+        <div className="mb-8 text-center sm:mb-10">
           <h2 className="font-serif text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
             Frequently asked <span className="text-[#FFBE02]">questions</span>
           </h2>
@@ -371,8 +370,6 @@ export default function ThankYouPageClient() {
         </section>
       </main>
 
-      <ThankYouFAQ />
-
       {/* Partner results — full width band */}
       <section className="border-y border-[#FFE08A]/40 bg-gradient-to-b from-white to-[#fffbeb]/80 py-14 sm:py-16">
         <div className="mx-auto max-w-5xl px-4 sm:px-6">
@@ -410,7 +407,7 @@ export default function ThankYouPageClient() {
         {/* Step 4 — Prepare */}
         <section className="mb-12 rounded-2xl border border-[#FFE08A]/60 bg-white/90 p-6 shadow-sm sm:rounded-3xl sm:p-8">
           <div className="mb-4 flex flex-wrap items-center gap-3">
-            <StepBadge n={4} />
+            <StepBadge n={3} />
             <h2 className="font-serif text-xl font-bold sm:text-2xl">Prepare for your call</h2>
           </div>
           <ul className="list-inside list-disc space-y-3 text-zinc-600 marker:text-[#FFBE02]">
@@ -429,7 +426,11 @@ export default function ThankYouPageClient() {
         <div className="mb-10 text-center">
           <p className="font-serif text-xl font-bold text-zinc-900 sm:text-2xl">We look forward to seeing you on the call!</p>
         </div>
+      </div>
 
+      <ThankYouFAQ />
+
+      <div className="mx-auto max-w-3xl px-4 pb-16 pt-4 sm:px-6 lg:max-w-4xl">
         <footer className="border-t border-zinc-200/80 pt-8 text-center text-xs text-zinc-500 sm:text-sm">
           <p className="mb-3">
             <a href={`mailto:${CONTACT_EMAIL}`} className="text-[#b8860b] underline-offset-2 hover:underline">
