@@ -1883,7 +1883,7 @@ export default function BookToVideoPage() {
 
       {/* 1b. LED display & hero books — same stage as before, own section directly under hero */}
       <section
-        className="relative w-full max-w-[100vw] overflow-x-clip overflow-y-hidden bg-gradient-to-b from-[#fffbeb] via-violet-100/35 to-white pt-12 max-md:pt-14 sm:pt-16 md:pt-20 lg:pt-24 xl:pt-28 pb-10 max-md:pb-12 sm:pb-14 md:pb-16 lg:pb-20 font-sans"
+        className="relative hidden w-full max-w-[100vw] overflow-x-clip overflow-y-hidden bg-gradient-to-b from-[#fffbeb] via-violet-100/35 to-white pt-12 max-md:pt-14 sm:block sm:pt-16 md:pt-20 lg:pt-24 xl:pt-28 pb-10 max-md:pb-12 sm:pb-14 md:pb-16 lg:pb-20 font-sans"
         aria-label="Featured books and display"
       >
         {/* min-h fits books+LED so overflow-y:hidden doesn’t clip; overflow-x-clip avoids x-hidden+y-visible → scrollbar */}
