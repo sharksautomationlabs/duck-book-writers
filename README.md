@@ -1,6 +1,6 @@
 # Duck Book Writers Landing Page
 
-A modern, responsive landing page for Duck Book Writers - a full-service publishing house based in Richmond, TX. This project is built with Next.js 15, TypeScript, and Tailwind CSS, featuring a modular component architecture.
+A modern, responsive landing page for Duck Book Writers — a full-service publishing house. This project is built with Next.js 15, TypeScript, and Tailwind CSS, featuring a modular component architecture.
 
 ## 🚀 Features
 

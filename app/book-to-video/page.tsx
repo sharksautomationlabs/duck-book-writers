@@ -12,7 +12,7 @@ import {
   MonitorPlay, Sparkles,
   Menu, Search, Mic, Bell, Share2, MoreVertical, ChevronLeft, ChevronRight, X, Star, ChevronDown, CheckCircle2, XCircle, Lock
 } from 'lucide-react';
-import { CONTACT_EMAIL, CONTACT_PHONE, COMPANY_ADDRESS, COMPANY_NAME } from '../config/constants';
+import { CONTACT_EMAIL, CONTACT_PHONE, COMPANY_NAME } from '../config/constants';
 
 // --- VIDEO SERVICES: auto-rotating carousel (center = hero + asset inside; sides = glass + asset behind) ---
 type VideoServiceItem = {
@@ -1598,7 +1598,6 @@ const BookToVideoFooter = () => {
                     Main: {CONTACT_PHONE}
                   </a>
                 </div>
-                <p className="text-[15px] sm:text-[16px] text-slate-600 pt-0.5 leading-snug">{COMPANY_ADDRESS}</p>
               </div>
               <div className="mt-5 flex flex-wrap items-center gap-3">
                 <BookToVideoFooterSocial href="https://www.facebook.com/duckbookwriters" label="Facebook">

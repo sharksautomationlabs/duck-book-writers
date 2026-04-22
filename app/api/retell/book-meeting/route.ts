@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
         </div>
 
         <div style="background: #F8F9FA; padding: 20px 30px; text-align: center; border-radius: 0 0 8px 8px; border-top: 1px solid #eee;">
-          <p style="margin: 0; color: #999; font-size: 12px;">A Project of ECOMMERCE SHARKS LLC | © 2025 Duck Book Writers. All Rights Reserved.</p>
+          <p style="margin: 0; color: #999; font-size: 12px;">© 2025 Duck Book Writers. All Rights Reserved.</p>
           <p style="margin: 5px 0 0; color: #999; font-size: 11px;">${CONTACT_EMAIL} | ${CONTACT_PHONE}</p>
         </div>
       </div>

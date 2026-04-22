@@ -20,7 +20,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: "Duck Book Writers | Publishing House",
-  description: "Duck Book Writers is a full-service publishing house based in Richmond, TX, serving authors around the globe.",
+  description: "Duck Book Writers is a full-service publishing house serving authors around the globe.",
   keywords: "publishing, books, authors, writing, publishing house, book writers",
   icons: {
     icon: [
@@ -34,14 +34,14 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
   openGraph: {
     title: "Duck Book Writers | Publishing House",
-    description: "Duck Book Writers is a full-service publishing house based in Richmond, TX, serving authors around the globe.",
+    description: "Duck Book Writers is a full-service publishing house serving authors around the globe.",
     type: 'website',
     locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
     title: "Duck Book Writers | Publishing House",
-    description: "Duck Book Writers is a full-service publishing house based in Richmond, TX, serving authors around the globe.",
+    description: "Duck Book Writers is a full-service publishing house serving authors around the globe.",
   },
   robots: {
     index: true,

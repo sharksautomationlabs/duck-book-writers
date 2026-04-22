@@ -167,7 +167,6 @@ export async function POST(request: NextRequest) {
           </div>
           <p style="margin: 0 0 3px; font-size: 12px; color: #666;">&#9742; (346) 463-7684 &nbsp;|&nbsp; &#9993; aly.reed@duckbookwriters.com</p>
           <p style="margin: 0 0 3px; font-size: 12px; color: #666;">&#9679; <a href="https://www.duckbookwriters.com" style="color: #666; text-decoration: none;">www.duckbookwriters.com</a></p>
-          <p style="margin: 0; font-size: 12px; color: #666;">&#128205; 22023 Rustic Canyon Ln, Richmond TX - 77469, United States.</p>
         </div>
 
         <div style="background: #f5f5f5; padding: 18px 30px; border-top: 1px solid #e0e0e0;">

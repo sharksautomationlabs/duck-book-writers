@@ -1,7 +1,7 @@
 {
   "name": "Duck Book Writers",
   "short_name": "Duck Book Writers",
-  "description": "Duck Book Writers is a full-service publishing house based in Richmond, TX, serving authors around the globe.",
+  "description": "Duck Book Writers is a full-service publishing house serving authors around the globe.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
