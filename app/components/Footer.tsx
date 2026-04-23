@@ -1,436 +1,215 @@
-"use client"
-import Image from 'next/image';
-import Link from 'next/link';
-import { ChevronRight, Phone, Mail } from 'lucide-react';
-import React, { useState } from 'react';
-import { CONTACT_EMAIL } from '../config/constants';
+"use client";
 
-interface SocialLink {
-  icon: string;
-  alt: string;
+import Image from "next/image";
+import Link from "next/link";
+import { CheckCircle2, Lock } from "lucide-react";
+import { COMPANY_NAME, CONTACT_EMAIL, CONTACT_PHONE } from "../config/constants";
+
+const footerFont =
+  'font-[system-ui,-apple-system,BlinkMacSystemFont,"Segoe_UI",sans-serif]';
+const footerColTitle =
+  `text-[16px] sm:text-[17px] font-semibold tracking-[0.03em] text-slate-900 mb-5 ${footerFont}`;
+const footerLinkClass =
+  `text-[16px] sm:text-[18px] leading-[1.5] text-slate-600 hover:text-slate-900 transition-colors ${footerFont}`;
+
+const FooterSocial = ({
+  href,
+  label,
+  children,
+}: {
   href: string;
-}
+  label: string;
+  children: React.ReactNode;
+}) => (
+  <a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label={label}
+    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#FF0000] to-[#FFBE02] text-white shadow-md hover:brightness-110 transition-transform transition-colors hover:-translate-y-0.5"
+  >
+    {children}
+  </a>
+);
 
-interface FooterProps {
-  /** When set, replaces the contact form column (e.g. Calendly embed). */
-  replaceContactForm?: React.ReactNode;
-}
+const PaymentMarkVisa = () => (
+  <span className="inline-flex h-8 min-w-[48px] items-center justify-center rounded bg-white px-2 shadow-sm ring-1 ring-black/5" aria-hidden>
+    <svg viewBox="0 0 48 16" className="h-3.5 w-auto" fill="none"><path fill="#1434CB" d="M20 2h8l-5 12h-8l5-12ZM31 2h5.5l3.5 6.2L42.5 2H47l-5 12h-5l5-12H31V2ZM9 2L4 14H0l2.2-5.5L2 2h7Zm2.5 0L9 14H5l2.5-12H11.5Z" /></svg>
+  </span>
+);
+const PaymentMarkMastercard = () => (
+  <span className="inline-flex h-8 min-w-[46px] items-center justify-center rounded bg-white px-2 shadow-sm ring-1 ring-black/5" aria-hidden>
+    <svg viewBox="0 0 40 24" className="h-5 w-auto"><circle cx="15" cy="12" r="10" fill="#EB001B" /><circle cx="25" cy="12" r="10" fill="#F79E1B" /><path d="M20 5.5a10 10 0 000 13 10 10 0 010-13Z" fill="#FF5F00" /></svg>
+  </span>
+);
+const PaymentMarkAmex = () => (
+  <span className="inline-flex h-8 min-w-[50px] items-center justify-center rounded bg-[#006FCF] px-2 shadow-sm" aria-hidden>
+    <span className="text-[10px] font-bold tracking-tight text-white">AMEX</span>
+  </span>
+);
+const PaymentMarkDiscover = () => (
+  <span className="inline-flex h-8 min-w-[56px] items-center justify-center rounded bg-white px-2 shadow-sm ring-1 ring-black/5" aria-hidden>
+    <span className="text-[10px] font-bold text-[#E9752F]">DISCOVER</span>
+  </span>
+);
+const PaymentMarkPayPal = () => (
+  <span className="inline-flex h-8 min-w-[54px] items-center justify-center rounded bg-white px-2 shadow-sm ring-1 ring-black/5" aria-hidden>
+    <span className="text-[10px] font-bold"><span className="text-[#003087]">Pay</span><span className="text-[#009cde]">Pal</span></span>
+  </span>
+);
+const PaymentMarkApple = () => (
+  <span className="inline-flex h-8 min-w-[58px] items-center justify-center rounded bg-black px-2 shadow-sm" aria-hidden>
+    <span className="text-[9px] font-semibold tracking-tight text-white leading-none"> Apple Pay</span>
+  </span>
+);
+const PaymentMarkGoogle = () => (
+  <span className="inline-flex h-8 min-w-[60px] items-center justify-center rounded bg-white px-2 shadow-sm ring-1 ring-black/5" aria-hidden>
+    <span className="text-[10px] font-medium text-slate-700">G Pay</span>
+  </span>
+);
 
-const Footer: React.FC<FooterProps> = ({ replaceContactForm }) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    contact: '',
-    project: '',
-    budget: ''
-  });
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [successHint, setSuccessHint] = useState<string | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value.trim()
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus('idle');
-    setSuccessHint(null);
-    setErrorMessage(null);
-
-    try {
-      const formatProjectValue = (value: string) => {
-        if (!value) return 'Not specified';
-        return value.split(' ').map(word =>
-          word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-        ).join(' ');
-      };
-
-      const payload = {
-        from_name: formData.name,
-        from_email: formData.email,
-        contact_number: formData.contact || 'Not provided',
-        project_service: formatProjectValue(formData.project),
-        budget: formData.budget || 'No budget specified',
-      };
-
-      // Email + Retell call in parallel: call must not be blocked if Resend fails (missing key, domain, etc.)
-      const emailPromise = fetch('/api/send-email-resend', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-
-      const callPromise =
-        formData.contact?.trim()
-          ? fetch('/api/retell/call', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                to_number: formData.contact,
-                customer_name: formData.name,
-                customer_email: formData.email,
-                service: formData.project,
-                budget: formData.budget,
-                source: 'Footer Contact Form',
-              }),
-            }).catch((err) => {
-              console.error('Retell call trigger failed:', err);
-              return null;
-            })
-          : Promise.resolve(null);
-
-      const [emailRes, callRes] = await Promise.all([emailPromise, callPromise]);
-
-      let callOk = false;
-      if (callRes) {
-        callOk = callRes.ok;
-        if (!callOk) {
-          const callData = await callRes.json().catch(() => ({}));
-          console.error('[Footer] Retell API response:', callRes.status, callData);
-        }
-      }
-
-      if (emailRes.status === 429) {
-        const data = await emailRes.json().catch(() => ({}));
-        throw new Error((data as { error?: string }).error || 'Submission limit reached. You can submit up to 3 times per day from this network.');
-      }
-
-      if (!emailRes.ok) {
-        const data = await emailRes.json().catch(() => ({}));
-        const serverMsg = (data as { error?: string }).error || 'Could not submit form. Please try again later.';
-        if (callOk && formData.contact?.trim()) {
-          setSubmitStatus('success');
-          setSuccessHint(
-            'We are calling you now. Note: the team email notification could not be sent — please save this screen or email us directly if you need a written copy.'
-          );
-        } else {
-          throw new Error(serverMsg);
-        }
-      } else {
-        if (formData.contact?.trim() && !callOk) {
-          setSuccessHint('Your message was sent. If you do not receive a call shortly, please check your number or call us directly.');
-        }
-        setSubmitStatus('success');
-      }
-
-      // Reset form after successful submission
-      setTimeout(() => {
-        setFormData({
-          name: '',
-          email: '',
-          contact: '',
-          project: '',
-          budget: ''
-        });
-        setSubmitStatus('idle');
-        setSuccessHint(null);
-      }, 3000);
-
-    } catch (error) {
-      console.error('Error sending email:', error);
-      setSubmitStatus('error');
-      setErrorMessage(error instanceof Error ? error.message : 'Something went wrong. Please try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const socialLinks: SocialLink[] = [
-    { icon: "/images/facebook.png", alt: "Facebook", href: "https://www.facebook.com/duckbookwriters" },
-    { icon: "/images/instagram.svg", alt: "Instagram", href: "https://www.instagram.com/duckbookwriters/" },
-    { icon: "/images/linkedin.png", alt: "LinkedIn", href: "https://www.linkedin.com/company/duckbookwriters?trk=public_post_feed-actor-image" },
-    // { icon: "/images/x.png", alt: "X", href: "#" },
-  ];
-
+export default function Footer() {
   return (
-    <>
-      <footer className="relative mt-16 sm:mt-20 lg:mt-24 mb-4">
-        <div className="relative max-w-screen-2xl mx-auto px-4">
+    <footer className="mt-0 bg-[#faf9f6] pt-8 pb-10 sm:pt-10 sm:pb-12">
+      <div className="max-w-screen-2xl mx-auto w-full px-4 sm:px-6 lg:px-10 xl:px-12">
+        <div className="rounded-2xl sm:rounded-3xl shadow-md shadow-black/[0.04] border border-amber-200/35 bg-gradient-to-br from-[#fff8da] via-[#fff6f6] to-[#ffe7d8] px-5 sm:px-9 lg:px-8 xl:px-10 py-10 sm:py-12 overflow-hidden">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-y-7 gap-x-3 sm:gap-x-4 xl:gap-x-5 lg:justify-items-start">
+            <div className="min-w-0 lg:col-span-1 flex flex-col items-start">
+              <Link href="/" className="inline-block">
+                <Image
+                  src="/images/duck-logo-final.png"
+                  alt={`${COMPANY_NAME} logo`}
+                  width={180}
+                  height={72}
+                  className="h-[56px] sm:h-[62px] md:h-[70px] lg:h-[78px] w-auto object-contain"
+                />
+              </Link>
+            </div>
 
-          {/* DIV 1: Main Content (Logo, Details, Nav) */}
-          <div className="relative bg-[#F8F9FA] rounded-[20px] sm:rounded-[30px] lg:rounded-[40px] z-10">
+            <div className="min-w-0">
+              <h4 className={footerColTitle}>Product</h4>
+              <ul className="space-y-3">
+                <li><Link href="/book-to-video" className={footerLinkClass}>Book to Cinema</Link></li>
+                <li><Link href="/services" className={footerLinkClass}>Our Services</Link></li>
+                <li><span className={footerLinkClass + " cursor-default"}>Cash Cow &amp; Long-form</span></li>
+                <li><span className={footerLinkClass + " cursor-default"}>2D Animation</span></li>
+                <li><span className={footerLinkClass + " cursor-default"}>Face Content</span></li>
+              </ul>
+            </div>
 
-            <div className="pt-12 sm:pt-16 lg:pt-20 pb-4 sm:pb-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-4 sm:gap-5 px-4 sm:px-8 lg:px-24">
-                {/* Left Column - Logo and Contact Info */}
-                <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
-                  {/* Logo */}
-                  <div className="mb-6 sm:mb-8">
-                    <Image
-                      src="/images/duck-logo-final.png"
-                      alt="Duck Book Writers Logo"
-                      width={200}
-                      height={80}
-                      className="w-40 sm:w-48 lg:w-52 h-auto"
-                    />
-                  </div>
+            <div className="min-w-0">
+              <h4 className={footerColTitle}>Resources</h4>
+              <ul className="space-y-3">
+                <li><Link href="/book-to-video#calendly" className={footerLinkClass}>How it works</Link></li>
+                <li><Link href="/news" className={footerLinkClass}>Writing &amp; publishing blog</Link></li>
+                <li><Link href="/authors" className={footerLinkClass}>For authors</Link></li>
+                <li><Link href="/books" className={footerLinkClass}>Books</Link></li>
+              </ul>
+            </div>
 
-                  {/* Contact Info — phone + email on one line */}
-                  <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-2 gap-y-1 w-full font-['Poppins'] text-sm sm:text-base font-normal text-gray-600">
-                    <Phone className="hidden sm:block flex-shrink-0 w-5 h-5 text-yellow-500" aria-hidden />
-                    <a
-                      href="tel:+13464637721"
-                      className="hover:text-yellow-500 transition-colors duration-200 text-center lg:text-left"
-                    >
-                      +1 (346) 463-7721
-                    </a>
-                    <span className="text-gray-300 select-none" aria-hidden>
-                      ·
-                    </span>
-                    <Mail className="hidden sm:block flex-shrink-0 w-5 h-5 text-yellow-500" aria-hidden />
-                    <a
-                      href={`mailto:${CONTACT_EMAIL}`}
-                      className="break-all sm:break-normal sm:whitespace-nowrap hover:text-yellow-500 transition-colors duration-200 text-center lg:text-left"
-                    >
-                      {CONTACT_EMAIL}
-                    </a>
-                  </div>
+            <div className="min-w-0">
+              <h4 className={footerColTitle}>Company</h4>
+              <ul className="space-y-3">
+                <li><Link href="/about" className={footerLinkClass}>About us</Link></li>
+                <li><Link href="/news" className={footerLinkClass}>News and media</Link></li>
+                <li><Link href="/careers" className={footerLinkClass}>Careers</Link></li>
+                <li><Link href="/services" className={footerLinkClass}>Testimonials</Link></li>
+              </ul>
+            </div>
 
-                  {/* Social Media Links */}
-                  <div className="mt-6 sm:mt-8 w-full">
-                    <h4 className="font-['Poppins'] font-semibold text-sm sm:text-base text-gray-700 mb-3 sm:mb-4 text-center lg:text-left">
-                      Follow Us
-                    </h4>
-                    <div className="flex items-start gap-4 w-full justify-center lg:justify-start">
-                      <div className="flex gap-3 mt-1">
-                        {socialLinks.map((link, index) => (
-                          <a
-                            key={index}
-                            href={link.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-yellow-100 transition-colors duration-200"
-                          >
-                            <Image
-                              src={link.icon}
-                              alt={link.alt}
-                              width={20}
-                              height={20}
-                              className={`w-4 h-4 sm:w-5 sm:h-5 ${link.alt === 'Facebook' ? 'object-contain' : ''}`}
-                              style={link.alt === 'Facebook' ? { objectFit: 'contain' } : {}}
-                            />
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
+            <div className="min-w-0 lg:-translate-x-1 xl:-translate-x-2">
+              <h4 className={footerColTitle}>Legal</h4>
+              <ul className="space-y-3">
+                <li><a href="#" className={footerLinkClass}>Terms and conditions</a></li>
+                <li><a href="#" className={footerLinkClass}>Privacy policy</a></li>
+                <li><a href="#" className={footerLinkClass}>Cancellation policy</a></li>
+                <li><span className={footerLinkClass + " cursor-default"}>Cookie settings</span></li>
+              </ul>
+            </div>
+
+            <div className="min-w-0 w-full lg:col-span-1 lg:justify-self-start text-left">
+              <h4 className={`${footerColTitle} text-left`}>Get in touch</h4>
+              <div className={`space-y-2 text-[14px] sm:text-[15px] xl:text-[16px] leading-relaxed text-slate-600 ${footerFont}`}>
+                <div className="flex flex-wrap items-center justify-start gap-x-2 gap-y-1 font-normal">
+                  <a
+                    href={`mailto:${CONTACT_EMAIL}`}
+                    className="whitespace-nowrap text-slate-600 hover:text-slate-900 underline-offset-2 hover:underline"
+                  >
+                    {CONTACT_EMAIL}
+                  </a>
+                  <span className="text-slate-300 select-none" aria-hidden>
+                    ·
+                  </span>
+                  <a href="tel:+13464637721" className="whitespace-nowrap text-slate-600 hover:text-slate-900">
+                    Main: {CONTACT_PHONE}
+                  </a>
                 </div>
-
-                {/* Right Column - Contact Form or custom slot (e.g. Calendly) */}
-                <div className="bg-white rounded-[15px] sm:rounded-[20px] p-4 sm:p-6 lg:p-8 shadow-lg overflow-hidden">
-                  {replaceContactForm ? (
-                    <>
-                      <h3 className="font-['Poppins'] font-bold text-xl sm:text-2xl text-[#1A1A1A] mb-4 sm:mb-6">
-                        Reserve Your Spot.
-                      </h3>
-                      <div className="w-full min-h-[580px] sm:min-h-[600px] overflow-hidden rounded-[12px] border border-gray-100">
-                        {replaceContactForm}
-                      </div>
-                    </>
-                  ) : (
-                    <>
-                  <h3 className="font-['Poppins'] font-bold text-xl sm:text-2xl text-[#1A1A1A] mb-4 sm:mb-6">
-                    Let&apos;s Talk About Your Book
-                  </h3>
-
-                  <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
-                    {/* Name Field */}
-                    <div>
-                      <label htmlFor="name" className="block font-['Poppins'] font-medium text-xs sm:text-sm text-[#1A1A1A] mb-1">
-                        Full Name *
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-[8px] font-['Poppins'] text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#ffbe02] focus:border-transparent transition-all duration-200"
-                        placeholder="Enter your full name"
-                      />
-                    </div>
-
-                    {/* Email Field */}
-                    <div>
-                      <label htmlFor="email" className="block font-['Poppins'] font-medium text-xs sm:text-sm text-[#1A1A1A] mb-1">
-                        Email Address *
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-[8px] font-['Poppins'] text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#ffbe02] focus:border-transparent transition-all duration-200"
-                        placeholder="Enter your email address"
-                      />
-                    </div>
-
-                    {/* Contact Field */}
-                    <div>
-                      <label htmlFor="contact" className="block font-['Poppins'] font-medium text-xs sm:text-sm text-[#1A1A1A] mb-1">
-                        Contact Number *
-                      </label>
-                      <input
-                        type="tel"
-                        id="contact"
-                        name="contact"
-                        value={formData.contact}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-[8px] font-['Poppins'] text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#ffbe02] focus:border-transparent transition-all duration-200"
-                        placeholder="Enter your contact number"
-                      />
-                    </div>
-
-                    {/* Project/Services Field */}
-                    <div className="relative">
-                      <label htmlFor="project" className="block font-['Poppins'] font-medium text-xs sm:text-sm text-[#1A1A1A] mb-1">
-                        Project/Services *
-                      </label>
-                      <select
-                        id="project"
-                        name="project"
-                        value={formData.project}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-[8px] font-['Poppins'] text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#ffbe02] focus:border-transparent transition-all duration-200 appearance-none bg-white"
-                        style={{
-                          position: 'relative',
-                          zIndex: 10,
-                          backgroundImage: 'url("data:image/svg+xml,%3csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3e%3cpath stroke=\'%236b7280\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'m6 8 4 4 4-4\'/%3e%3c/svg%3e")',
-                          backgroundPosition: 'right 0.5rem center',
-                          backgroundRepeat: 'no-repeat',
-                          backgroundSize: '1.5em 1.5em',
-                          paddingRight: '2.5rem'
-                        }}
-                      >
-                        <option value="">Select a project/service</option>
-                        <option value="ghost writing">Ghost Writing</option>
-                        <option value="publishing">Publishing</option>
-                        <option value="editing">Editing</option>
-                        <option value="marketing">Marketing</option>
-                        <option value="distribution">Distribution</option>
-                        <option value="printing">Printing</option>
-                        <option value="book to youtube">Book to YouTube</option>
-                      </select>
-                    </div>
-
-                    {/* Budget Field */}
-                    <div className="relative">
-                      <label htmlFor="budget" className="block font-['Poppins'] font-medium text-xs sm:text-sm text-[#1A1A1A] mb-1">
-                        Budget (Optional)
-                      </label>
-                      <select
-                        id="budget"
-                        name="budget"
-                        value={formData.budget}
-                        onChange={handleInputChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-[8px] font-['Poppins'] text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#ffbe02] focus:border-transparent transition-all duration-200 appearance-none bg-white"
-                        style={{
-                          position: 'relative',
-                          zIndex: 10,
-                          backgroundImage: 'url("data:image/svg+xml,%3csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 20 20\'%3e%3cpath stroke=\'%236b7280\' stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'m6 8 4 4 4-4\'/%3e%3c/svg%3e")',
-                          backgroundPosition: 'right 0.5rem center',
-                          backgroundRepeat: 'no-repeat',
-                          backgroundSize: '1.5em 1.5em',
-                          paddingRight: '2.5rem'
-                        }}
-                      >
-                        <option value="">Select budget range</option>
-                        <option value="Under $500">Under $500</option>
-                        <option value="$500 - $1,000">$500 - $1,000</option>
-                        <option value="$1,000 - $2,500">$1,000 - $2,500</option>
-                        <option value="$2,500 - $5,000">$2,500 - $5,000</option>
-                        <option value="$5,000 - $10,000">$5,000 - $10,000</option>
-                        <option value="Over $10,000">Over $10,000</option>
-                        <option value="Let's discuss">Let&apos;s discuss</option>
-                      </select>
-                    </div>
-
-                    {/* Submit Button */}
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full bg-[#ffbe02] hover:bg-[#e6aa02] disabled:bg-gray-400 text-[#040404] font-['Poppins'] font-semibold px-4 py-2 rounded-[40px] text-xs sm:text-sm transition-all duration-200 flex items-center justify-center hover-lift smooth-transition"
-                    >
-                      {isSubmitting ? 'Sending...' : 'Get Started'}
-                    </button>
-
-                    {/* Status Messages */}
-                    {submitStatus === 'success' && (
-                      <div className="space-y-2">
-                        <div className="p-2 bg-green-100 border border-green-400 text-green-700 rounded-[8px] font-['Poppins'] text-xs">
-                          Thank you! Your message has been sent. We&apos;ll get back to you soon.
-                        </div>
-                        {successHint && (
-                          <div className="p-2 bg-amber-50 border border-amber-200 text-amber-900 rounded-[8px] font-['Poppins'] text-xs">
-                            {successHint}
-                          </div>
-                        )}
-                      </div>
-                    )}
-
-                    {submitStatus === 'error' && (
-                      <div className="p-2 bg-red-100 border border-red-400 text-red-700 rounded-[8px] font-['Poppins'] text-xs">
-                        {errorMessage || 'There was an error sending your message. Please try again.'}
-                      </div>
-                    )}
-                  </form>
-                    </>
-                  )}
-                </div>
-
               </div>
-
+              <div className="mt-5 flex flex-wrap items-center gap-3">
+                <FooterSocial href="https://www.facebook.com/duckbookwriters" label="Facebook">
+                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                    <path d="M22 12.06C22 6.51 17.52 2 12 2S2 6.51 2 12.06C2 17.06 5.66 21.2 10.44 22v-7.03H7.9v-2.9h2.54V9.77c0-2.5 1.49-3.89 3.77-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.9h-2.34V22c4.78-.8 8.44-4.94 8.44-9.94Z" />
+                  </svg>
+                </FooterSocial>
+                <FooterSocial href="https://www.instagram.com/duckbookwriters/" label="Instagram">
+                  <Image src="/images/instagram.svg" alt="" width={22} height={22} className="h-[22px] w-[22px] brightness-0 invert" />
+                </FooterSocial>
+                <FooterSocial href="https://www.youtube.com/results?search_query=Duck+Book+Writers" label="Cinema">
+                  <svg className="h-5 w-[22px]" viewBox="0 0 24 18" fill="currentColor" aria-hidden>
+                    <path d="M23.5 4.5a2.8 2.8 0 0 0-1.98-2C19.5 2 12 2 12 2s-7.5 0-9.52.5A2.8 2.8 0 0 0 .5 4.5 29 29 0 0 0 0 9a29 29 0 0 0 .5 4.5 2.8 2.8 0 0 0 1.98 2C4.5 16 12 16 12 16s7.5 0 9.52-.5a2.8 2.8 0 0 0 1.98-2 29 29 0 0 0 .5-4.5 29 29 0 0 0-.5-4.5ZM9.75 12.25V5.75L15.5 9l-5.75 3.25Z" />
+                  </svg>
+                </FooterSocial>
+              </div>
             </div>
           </div>
 
-          {/* DIV 2: Links and Social Media */}
-          <div className="bg-white rounded-[20px] sm:rounded-[30px] lg:rounded-[40px] mt-4 py-6 sm:py-8 px-4 sm:px-8 lg:px-24">
-            <div className="flex flex-col sm:flex-row justify-center sm:justify-between items-center gap-4 sm:gap-6">
-              {/* Links - centered on mobile, right aligned on desktop */}
-              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 sm:ml-auto sm:justify-end w-full sm:w-auto text-center sm:text-left">
-                <Link href="#" className="flex items-center gap-2 font-['Poppins'] text-xs sm:text-sm text-gray-600 hover:text-yellow-500 transition-colors duration-200">
-                  Privacy Policy
-                  <ChevronRight className="text-yellow-500 w-3 h-3 sm:w-4 sm:h-4" />
-                </Link>
-                <Link href="#" className="flex items-center gap-2 font-['Poppins'] text-xs sm:text-sm text-gray-600 hover:text-yellow-500 transition-colors duration-200">
-                  Terms of Service
-                  <ChevronRight className="text-yellow-500 w-3 h-3 sm:w-4 sm:h-4" />
-                </Link>
-                <Link href="#" className="flex items-center gap-2 font-['Poppins'] text-xs sm:text-sm text-gray-600 hover:text-yellow-500 transition-colors duration-200">
-                  Cookie Policy
-                  <ChevronRight className="text-yellow-500 w-3 h-3 sm:w-4 sm:h-4" />
-                </Link>
+          <div className="mt-12 pt-8 border-t border-zinc-200/50 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between bg-white/60 rounded-xl px-4 sm:px-6 py-5">
+            <div className="flex flex-col sm:flex-row gap-8 sm:gap-12">
+              <div className="flex gap-3 max-w-[280px] sm:max-w-[300px]">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#FF0000]/10 text-[#FF0000]">
+                  <CheckCircle2 className="h-6 w-6" />
+                </div>
+                <div>
+                  <p className={`text-[17px] sm:text-[18px] font-semibold text-slate-900 ${footerFont}`}>100% hassle-free</p>
+                  <p className={`mt-1.5 text-[15px] sm:text-[16px] leading-snug text-slate-600 ${footerFont}`}>30-day money-back guarantee</p>
+                </div>
               </div>
+              <div className="flex gap-3 max-w-[300px] sm:max-w-[340px]">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#FFBE02]/15 text-[#b45309]">
+                  <Lock className="h-6 w-6" />
+                </div>
+                <div>
+                  <p className={`text-[17px] sm:text-[18px] font-semibold text-slate-900 ${footerFont}`}>SSL Secure payment</p>
+                  <p className={`mt-1.5 text-[15px] sm:text-[16px] leading-snug text-slate-600 ${footerFont}`}>Your information is protected by 256-bit SSL encryption</p>
+                </div>
+              </div>
+            </div>
 
+            <div className="flex flex-col items-start gap-4 lg:items-end">
+              <div
+                className="flex flex-wrap items-center gap-2.5"
+                role="list"
+                aria-label="Accepted payment methods"
+              >
+                <PaymentMarkApple />
+                <PaymentMarkDiscover />
+                <PaymentMarkGoogle />
+                <PaymentMarkMastercard />
+                <PaymentMarkAmex />
+                <PaymentMarkPayPal />
+                <PaymentMarkVisa />
+              </div>
+              <p className={`text-[15px] sm:text-[16px] text-slate-600 ${footerFont}`}>
+                <Link href="/" className="hover:text-slate-800 underline-offset-2 hover:underline">Home</Link>
+                {" · "}
+                © {new Date().getFullYear()} {COMPANY_NAME}
+              </p>
             </div>
           </div>
-
-          {/* DIV 3: Copyright Bar */}
-          <div className="bg-[#ffbe02] rounded-[20px] sm:rounded-[30px] lg:rounded-[40px] mt-2 py-1 text-center">
-            <p className="font-['Poppins'] text-[10px] sm:text-xs text-gray-800 font-medium">
-              © 2025 Duck Book Writers. All Rights Reserved.
-            </p>
-          </div>
-
         </div>
-      </footer>
-    </>
+      </div>
+    </footer>
   );
-};
-
-export default Footer;
+}
 
 

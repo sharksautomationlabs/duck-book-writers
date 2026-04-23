@@ -9,26 +9,19 @@ const Authors = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const authors = [
-    { 
-      name: "Daniel Alston", 
-      image: "/images/author-2.png",
-      bio: "Daniel Alston is known for his engaging and imaginative childrens books, bringing stories to life for young readers.",
-      books: "Published Books: 01",
-      genre: "Childrens book"
-    },
-    { 
-      name: "Judith Hobson", 
-      image: "/images/author-1.png",
-      bio: "Judith Hobson writes self biographies, sharing personal journeys and life experiences through her published works.",
+    {
+      name: "TC Baker",
+      image: "/images/thomas-profile-1.png.png",
+      bio: "TC Baker, a fiction author of three books, chose our services for publishing and is now collaborating with us to transform these stories into a series-style film production.",
       books: "Published Books: 03",
-      genre: "Self-Biography"
+      genre: "Fiction",
     },
-    { 
-      name: "Cotton Mathers", 
-      image: "/images/author-3.png",
-      bio: "Cotton Mathers is a dedicated author who writes on faith, morality, and early American thought. His work blends historical insight with spiritual depth, inspiring readers to reflect on purpose and conviction in everyday life.",
-      books: "Published Book: 02",
-      genre: "Mystery, Thriller & Suspense"
+    {
+      name: "Dr. Irwin Hudson",
+      image: "/images/dr-irwin-hudson.png.png",
+      bio: "We had the privilege of working with Dr. Irwin Hudson, a Human Systems Integration Engineer and Science & Technology Manager at US Army DEVCOM. Alongside his roles in the Diversity, Equity & Inclusion Advisory Council and Health & Wellness Council, he is also recognized as a basketball coach and trainer.",
+      books: "Leadership Profile",
+      genre: "Science & Technology",
     },
   ];
 
