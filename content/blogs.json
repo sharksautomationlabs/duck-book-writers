@@ -1,0 +1,25 @@
+{
+  "posts": [
+    {
+      "slug": "self-publishing-checklist-first-time-authors",
+      "title": "Self-publishing checklist for first-time authors",
+      "date": "2026-05-05",
+      "excerpt": "A practical list covering manuscript prep, cover design, distribution, and launch basics so you ship with fewer surprises.",
+      "content": "Self-publishing means you are the project manager for your book. Start with a clean, edited manuscript and a clear genre positioning statement.\n\nNext, invest in a professional cover and interior layout that match reader expectations in your category. Choose one primary distributor or aggregator and understand their royalty and pricing rules before you set your launch date.\n\nFinally, plan a simple launch: one mailing list or social channel you own, a few advance reviews if possible, and realistic expectations for week-one sales."
+    },
+    {
+      "slug": "why-professional-editing-matters",
+      "title": "Why professional editing still matters in the age of AI tools",
+      "date": "2026-05-01",
+      "excerpt": "AI can suggest sentences, but developmental and copy editing still protect clarity, voice, and reader trust.",
+      "content": "Generative tools are useful for brainstorming and rough drafts, but they do not replace a human editor who understands pacing, character consistency, and your intended audience.\n\nA developmental edit shapes structure and stakes. A copy edit catches grammar, style, and continuity issues readers notice instantly.\n\nAuthors who skip editing often see lower reviews and weaker word-of-mouth, regardless of marketing spend."
+    },
+    {
+      "slug": "audiobooks-reaching-new-readers",
+      "title": "How audiobooks help you reach new readers",
+      "date": "2026-04-22",
+      "excerpt": "Audio listeners are a distinct audience. Here is how to think about narration, rights, and distribution.",
+      "content": "Many buyers discover books during commutes, workouts, or chores. A strong audiobook expands your discoverability beyond ebook and print shoppers.\n\nChoose between professional narration or AI-assisted workflows depending on budget and genre norms. Always verify rights for any music or extended quotes used in marketing.\n\nDistribution platforms vary by exclusivity and royalty splits; pick the strategy that matches your long-term catalog goals."
+    }
+  ]
+}

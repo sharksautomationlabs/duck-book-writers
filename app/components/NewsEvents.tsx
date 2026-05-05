@@ -4,7 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Calendar, MapPin, Clock, BookOpen, X } from 'lucide-react';
+import { Calendar, MapPin, Clock, BookOpen, X, Newspaper } from 'lucide-react';
+import { getAllBlogsSorted } from '@/lib/blogs';
 import { useState, useEffect, useMemo } from 'react';
 // import emailjs from '@emailjs/browser'; // Not needed - using Resend for this form
 
@@ -554,6 +555,8 @@ const NewsEvents = () => {
     };
   }, [upcomingEvents]); // Re-run when events change
 
+  const blogPosts = getAllBlogsSorted();
+
   const newsItems = [
     {
       id: 1,
@@ -745,6 +748,56 @@ const NewsEvents = () => {
                       {news.excerpt}
                     </p>
 
+                  </div>
+                </motion.article>
+              ))}
+            </div>
+          </div>
+
+          {/* Writing blog */}
+          <div className="mt-16 sm:mt-20">
+            <h2 className="font-['Poppins'] font-bold text-3xl sm:text-4xl text-black mb-3 text-center">
+              From our blog
+            </h2>
+            <p className="font-['Poppins'] text-center text-gray-600 max-w-2xl mx-auto mb-10 text-base sm:text-lg">
+              Tips on writing, publishing, and reaching readers — new articles appear here as we publish them.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {blogPosts.map((post, index) => (
+                <motion.article
+                  key={post.slug}
+                  className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.15, delay: (index + 9) * 0.025 }}
+                  whileHover={{ y: -5 }}
+                >
+                  <div className="h-40 bg-gradient-to-br from-amber-500 to-yellow-400 flex items-center justify-center">
+                    <Newspaper className="w-14 h-14 text-white" aria-hidden />
+                  </div>
+                  <div className="p-6 flex flex-col flex-grow">
+                    <time
+                      dateTime={post.date}
+                      className="text-sm text-gray-500 font-['Poppins'] mb-3"
+                    >
+                      {new Date(`${post.date}T12:00:00`).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
+                    </time>
+                    <h3 className="font-['Poppins'] font-bold text-xl text-black mb-3 line-clamp-2">
+                      {post.title}
+                    </h3>
+                    <p className="text-gray-600 text-sm mb-5 line-clamp-3 flex-grow font-['Poppins']">
+                      {post.excerpt}
+                    </p>
+                    <Link
+                      href={`/blog/${post.slug}`}
+                      className="inline-flex font-['Poppins'] font-semibold text-sm text-yellow-600 hover:text-yellow-700"
+                    >
+                      Read article →
+                    </Link>
                   </div>
                 </motion.article>
               ))}
