@@ -55,10 +55,19 @@ html body .calendly-bounce3 {
     const rapid = window.setInterval(crush, 300);
     const stopRapid = window.setTimeout(() => window.clearInterval(rapid), 45000);
 
+    // widget.js calls console.error(true) when it receives a page_height postMessage
+    // from a direct iframe that has no registered widget — suppress that internal signal.
+    const origError = console.error.bind(console);
+    console.error = (...args: unknown[]) => {
+      if (args.length === 1 && args[0] === true) return;
+      origError(...args);
+    };
+
     return () => {
       observer.disconnect();
       window.clearInterval(rapid);
       window.clearTimeout(stopRapid);
+      console.error = origError;
     };
   }, []);
 
