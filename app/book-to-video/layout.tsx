@@ -1,12 +1,19 @@
 import BookToVideoClientLayout from './BookToVideoClientLayout';
 
-/** Fresh HTML on each request — avoids CDN / stale shell showing wrong header or old Calendly scripts on live. */
-export const dynamic = 'force-dynamic';
+/** Static HTML cached by CDN; revalidate hourly so updates ship without manual deploys. */
+export const revalidate = 3600;
 
 export default function BookToVideoLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <BookToVideoClientLayout>{children}</BookToVideoClientLayout>;
+  return (
+    <>
+      {/* Fetch widget.js and warm the iframe origin before React hydrates. */}
+      <link rel="preload" href="https://assets.calendly.com/assets/external/widget.js" as="script" />
+      <link rel="preconnect" href="https://app.calendly.com" crossOrigin="" />
+      <BookToVideoClientLayout>{children}</BookToVideoClientLayout>
+    </>
+  );
 }

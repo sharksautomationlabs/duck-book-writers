@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { useInView } from 'framer-motion';
-import CalendlyInlineEmbed from '../components/CalendlyInlineEmbed';
+import BookToVideoCalendlyEmbed from './BookToVideoCalendlyEmbed';
 
 function formatStat(n: number, useGrouping: boolean) {
   return useGrouping ? n.toLocaleString('en-US') : String(n);
@@ -160,12 +160,7 @@ export default function BookingSection() {
           <div className="relative z-10 flex w-full justify-center lg:justify-end">
             <div className="w-full max-w-[min(100%,440px)] sm:max-w-[min(100%,500px)] md:max-w-[min(100%,540px)] lg:ml-auto lg:mr-0 lg:max-w-[580px]">
               <div className="overflow-hidden rounded-2xl border border-zinc-200/70 bg-white shadow-[0_12px_40px_-14px_rgba(15,23,42,0.12)]">
-                <CalendlyInlineEmbed
-                  containerId="book-to-video-calendly-side"
-                  heightPx={600}
-                  heightPxMobile={480}
-                  className="w-full overflow-hidden bg-white"
-                />
+                <BookToVideoCalendlyEmbed containerId="book-to-video-calendly-side" />
               </div>
             </div>
           </div>

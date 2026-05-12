@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import Header from '../components/Header';
-import CalendlyInlineEmbed from '../components/CalendlyInlineEmbed';
+import BookToVideoCalendlyEmbed from './BookToVideoCalendlyEmbed';
 import BookingSection from './BookingSection';
 import Image from 'next/image';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
@@ -1725,11 +1725,14 @@ function HeroPartnerLogoMarquee() {
 
 export default function BookToVideoPage() {
   return (
-    <div className="book-to-video-page w-full bg-[#faf9f6] font-sans selection:bg-red-200 selection:text-red-900 overflow-x-hidden">
+    <div className="book-to-video-page w-full bg-[#faf9f6] font-sans selection:bg-red-200 selection:text-red-900 overflow-x-hidden [overflow-anchor:none]">
       <Header forceBookToVideoLayout />
 
       {/* 1. HERO — left: copy, bullets, review strip; right: Calendly */}
-      <section className="relative isolate flex min-h-0 w-full flex-col overflow-hidden bg-gradient-to-b from-white via-violet-50/15 to-[#fffbeb] pt-6 max-md:pt-9 sm:pt-8 md:pt-10 lg:pt-11 pb-6 max-md:pb-9 sm:pb-8 md:pb-10 font-sans">
+      <section
+        id="calendly"
+        className="relative isolate flex min-h-0 w-full flex-col overflow-x-clip bg-gradient-to-b from-white via-violet-50/15 to-[#fffbeb] pt-6 max-md:pt-9 sm:pt-8 md:pt-10 lg:pt-11 pb-6 max-md:pb-9 sm:pb-8 md:pb-10 font-sans [scroll-margin-top:80px]"
+      >
         <div className="pointer-events-none absolute -top-24 right-[-14%] h-[320px] w-[320px] rounded-full bg-[#FFBE02]/18 blur-[110px]" />
         {/* Bottom glow kept above fold so overflow clip doesn’t draw a hard line above the next section */}
         <div className="pointer-events-none absolute bottom-0 left-[-12%] h-[200px] w-[240px] translate-y-1/4 rounded-full bg-violet-200/20 blur-[90px]" aria-hidden />
@@ -1857,20 +1860,14 @@ export default function BookToVideoPage() {
             </div>
 
             <motion.div
-              id="calendly"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
               className="pointer-events-auto mx-auto min-w-0 w-full max-w-[min(100%,400px)] sm:max-w-[min(100%,420px)] md:max-w-[min(100%,440px)] lg:mx-0 lg:ml-auto lg:mr-0 lg:max-w-[460px] xl:max-w-[480px] lg:w-full lg:self-start lg:-mt-1 xl:-mt-2"
             >
               {/* Right-column embed: fixed width + ml-auto = sits like typical marketing / Calendly landing (not floating center) */}
-              <div className="max-h-[min(620px,82dvh)] overflow-hidden rounded-2xl border border-zinc-200/70 bg-white shadow-[0_12px_40px_-14px_rgba(15,23,42,0.12)]">
-                <CalendlyInlineEmbed
-                  containerId="book-to-video-calendly-hero"
-                  heightPx={580}
-                  heightPxMobile={460}
-                  className="w-full overflow-hidden bg-white"
-                />
+              <div className="overflow-hidden rounded-2xl border border-zinc-200/70 bg-white shadow-[0_12px_40px_-14px_rgba(15,23,42,0.12)]">
+                <BookToVideoCalendlyEmbed containerId="book-to-video-calendly-hero" eager />
               </div>
               <p className="mt-3 text-center text-[11px] font-medium text-zinc-500 lg:text-right">
                 Pick a time — same calendar as below.
@@ -2017,12 +2014,7 @@ export default function BookToVideoPage() {
             transition={{ duration: 0.5, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="overflow-hidden rounded-2xl border border-zinc-200/70 bg-white shadow-[0_12px_40px_-14px_rgba(15,23,42,0.12)]">
-              <CalendlyInlineEmbed
-                containerId="book-to-video-calendly-center"
-                heightPx={600}
-                heightPxMobile={480}
-                className="w-full overflow-hidden bg-white"
-              />
+              <BookToVideoCalendlyEmbed containerId="book-to-video-calendly-center" />
             </div>
           </motion.div>
         </div>

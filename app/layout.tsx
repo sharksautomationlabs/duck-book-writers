@@ -64,7 +64,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />   
+        {/* Calendly: warm DNS/TLS for asset host, booking app, and iframe origin. */}
+        <link rel="preconnect" href="https://assets.calendly.com" crossOrigin="" />
+        <link rel="preconnect" href="https://calendly.com" crossOrigin="" />
+        <link rel="preconnect" href="https://app.calendly.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://assets.calendly.com" />
+        <link rel="dns-prefetch" href="https://calendly.com" />
+        <link rel="dns-prefetch" href="https://app.calendly.com" />
+        <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />
         {/* added for calendly     */}
         <FacebookPixel />
       </head>
@@ -75,8 +82,7 @@ export default function RootLayout({
         <CalendlyLoaderSuppress />
         <TawkTo />
         {children}
-        <Script src="https://assets.calendly.com/assets/external/widget.js" strategy="lazyOnload" />   
-        {/* added for calendly */}
+        <Script src="https://assets.calendly.com/assets/external/widget.js" strategy="afterInteractive" />
       </body>
     </html>
   );
