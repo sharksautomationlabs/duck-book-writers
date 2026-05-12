@@ -51,7 +51,15 @@ export default function CalendlyInlineEmbed({
       if (iframeObserver) { iframeObserver.disconnect(); iframeObserver = null; }
       if (focusCleanup) { focusCleanup(); focusCleanup = null; }
       const el = document.getElementById(containerId);
-      if (el) { el.replaceChildren(); el.classList.remove('calendly-embed-host'); }
+      if (el) {
+        el.replaceChildren();
+        el.classList.remove('calendly-embed-host');
+        // Reset inline styles so next init starts fresh.
+        el.style.height = '';
+        el.style.minHeight = '';
+        el.style.overflow = '';
+        delete (el as any)._calendlyReady;
+      }
     };
 
     const stampIframe = (iframe: HTMLIFrameElement) => {
@@ -117,19 +125,25 @@ export default function CalendlyInlineEmbed({
           // Drop message if we can confirm it came from a different embed.
           if (iframe?.contentWindow && e.source && e.source !== iframe.contentWindow) return;
           const capped = maxHeightPx ? Math.min(h, maxHeightPx) : h;
+          (el as any)._calendlyReady = true;
           setHeight(el, iframe, capped);
         };
         window.addEventListener('message', msgHandler);
       }
 
       const savedY = window.scrollY;
-      (window as any).Calendly.initInlineWidget({
-        url: embedUrl,
-        parentElement: el,
-        prefill: {},
-        utm: {},
-        resize: true,
-      });
+      try {
+        (window as any).Calendly.initInlineWidget({
+          url: embedUrl,
+          parentElement: el,
+          prefill: {},
+          utm: {},
+          resize: true,
+        });
+      } catch {
+        // Calendly throws (e.g. boolean true) on duplicate init in React StrictMode dev — safe to ignore.
+        return;
+      }
       // Restore scroll in case Calendly's init stole focus.
       requestAnimationFrame(() => requestAnimationFrame(() => {
         if (Math.abs(window.scrollY - savedY) > 20) {
@@ -137,11 +151,11 @@ export default function CalendlyInlineEmbed({
         }
       }));
 
-      // Fallback height — only applied if no page_height arrived yet.
+      // Fallback height — only applied if page_height hasn't arrived yet.
       setTimeout(() => {
         if (cancelled) return;
         const iframe = el.querySelector('iframe') as HTMLIFrameElement | null;
-        if (el.style.height === '' || el.style.height === '0px') {
+        if (!(el as any)._calendlyReady) {
           setHeight(el, iframe, getFallback());
         } else if (iframe) {
           stampIframe(iframe);
