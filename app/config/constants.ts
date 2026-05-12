@@ -18,8 +18,8 @@ export const BOOK_TO_VIDEO_CALENDLY_VISUAL_SCALE = 0.82;
  * so 3 embeds on one page don't interfere. Container grows to exactly match Calendly content height.
  */
 export const BOOK_TO_VIDEO_CALENDLY_EMBED_DEFAULTS = {
-  heightPx: 900,
-  heightPxMobile: 850,
+  heightPx: 950,
+  heightPxMobile: 880,
   visualScale: BOOK_TO_VIDEO_CALENDLY_VISUAL_SCALE,
   className: 'w-full overflow-hidden bg-white',
   autoResize: false,

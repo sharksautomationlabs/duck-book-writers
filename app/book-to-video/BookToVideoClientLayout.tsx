@@ -13,6 +13,17 @@ export default function BookToVideoClientLayout({
   children: React.ReactNode;
 }) {
   useEffect(() => {
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    return () => {
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'auto';
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     const hide = () => {
       (window as TawkWindow).Tawk_API?.hideWidget?.();
     };
