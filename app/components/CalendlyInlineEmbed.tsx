@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, type CSSProperties } from 'react';
+import { memo, useEffect, useRef, type CSSProperties } from 'react';
 import { CALENDLY_LINK } from '../config/constants';
 
 type CalendlyInlineEmbedProps = {
@@ -9,50 +9,61 @@ type CalendlyInlineEmbedProps = {
   heightPx?: number;
   heightPxMobile?: number;
   visualScale?: number;
-  /** @deprecated no-op, kept for prop compatibility */
+  /** @deprecated no-op */
   autoResize?: boolean;
-  /** @deprecated no-op, kept for prop compatibility */
+  /** @deprecated no-op */
   maxHeightPx?: number;
-  /** @deprecated no-op, kept for prop compatibility */
+  /** @deprecated no-op */
   bustEmbedCache?: boolean;
 };
 
-/**
- * Renders a fixed-height Calendly iframe directly in JSX — no useEffect, no widget.js,
- * no dynamic resize, no scroll manipulation. React.memo prevents any remount.
- */
 function CalendlyInlineEmbed({
   containerId,
   className = 'w-full overflow-hidden',
   heightPx = 950,
   visualScale,
 }: CalendlyInlineEmbedProps) {
-  const src = `${CALENDLY_LINK}?embed_type=Inline&hide_gdpr_banner=1`;
+  const innerRef = useRef<HTMLDivElement>(null);
+  const initialized = useRef(false);
+
+  useEffect(() => {
+    const init = () => {
+      if (initialized.current || !innerRef.current || !window.Calendly) return;
+      initialized.current = true;
+      window.Calendly.initInlineWidget({
+        url: `${CALENDLY_LINK}?hide_gdpr_banner=1`,
+        parentElement: innerRef.current,
+      });
+    };
+
+    if (window.Calendly) {
+      init();
+      return;
+    }
+
+    // widget.js uses strategy="afterInteractive" — poll until it's ready
+    const iv = setInterval(() => {
+      if (window.Calendly) { clearInterval(iv); init(); }
+    }, 50);
+    const to = setTimeout(() => clearInterval(iv), 8000);
+    return () => { clearInterval(iv); clearTimeout(to); };
+  }, []);
+
+  const outerStyle: CSSProperties = {
+    position: 'relative',
+    height: `${heightPx}px`,
+    minHeight: `${heightPx}px`,
+    overflow: 'hidden',
+    overflowAnchor: 'none',
+    ...(visualScale != null && visualScale !== 1 ? { zoom: visualScale } : {}),
+  };
 
   return (
-    <div
-      id={containerId}
-      className={className}
-      style={{
-        height: `${heightPx}px`,
-        minHeight: `${heightPx}px`,
-        overflow: 'hidden',
-        overflowAnchor: 'none',
-        contain: 'strict',
-        ...(visualScale != null && visualScale !== 1
-          ? ({ zoom: visualScale } as CSSProperties)
-          : {}),
-      }}
-    >
-      <iframe
-        src={src}
-        title="Schedule a meeting"
-        width="100%"
-        height={heightPx}
-        frameBorder={0}
-        scrolling="no"
-        tabIndex={-1}
-        style={{ display: 'block', border: 'none', overflow: 'hidden' }}
+    <div id={containerId} className={className} style={outerStyle}>
+      {/* widget.js injects its iframe here; outer div clips any height changes */}
+      <div
+        ref={innerRef}
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
       />
     </div>
   );

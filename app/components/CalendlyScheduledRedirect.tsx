@@ -3,26 +3,33 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-const CALENDLY_ORIGINS = new Set(['https://calendly.com', 'https://app.calendly.com']);
-
-function isCalendlyScheduledMessage(event: MessageEvent): boolean {
-  if (!CALENDLY_ORIGINS.has(event.origin)) return false;
-  const d = event.data;
-  if (d == null || typeof d !== 'object') return false;
-  return (d as { event?: string }).event === 'calendly.event_scheduled';
+function isCalendlyOrigin(origin: string): boolean {
+  try {
+    const { hostname } = new URL(origin);
+    return hostname === 'calendly.com' || hostname.endsWith('.calendly.com');
+  } catch {
+    return false;
+  }
 }
 
-/**
- * When an invitee books via embedded Calendly, the iframe posts `calendly.event_scheduled`
- * to the parent window — no Calendly dashboard "redirect URL" required for embeds.
- */
+function getCalendlyEventName(data: unknown): string | null {
+  let obj = data;
+  if (typeof obj === 'string') {
+    try { obj = JSON.parse(obj); } catch { return null; }
+  }
+  if (obj == null || typeof obj !== 'object') return null;
+  const ev = (obj as Record<string, unknown>).event;
+  return typeof ev === 'string' ? ev : null;
+}
+
 export default function CalendlyScheduledRedirect() {
   const router = useRouter();
 
   useEffect(() => {
     const onMessage = (e: MessageEvent) => {
-      if (!isCalendlyScheduledMessage(e)) return;
-      router.push('/thank-you');
+      if (!isCalendlyOrigin(e.origin)) return;
+      if (getCalendlyEventName(e.data) !== 'calendly.event_scheduled') return;
+      router.replace('/thank-you');
     };
     window.addEventListener('message', onMessage);
     return () => window.removeEventListener('message', onMessage);
