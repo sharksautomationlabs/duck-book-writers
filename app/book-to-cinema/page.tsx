@@ -722,7 +722,7 @@ const FooterSection = () => (
       </span>
       <nav className="flex flex-wrap items-center gap-x-5 gap-y-2">
         {[
-          { label: 'Book to Cinema', href: '/book-to-cinema' },
+          { label: 'Book to Video', href: '/book-to-video' },
           { label: 'Services', href: '/services' },
           { label: 'About', href: '/about' },
           { label: 'Privacy Policy', href: '#' },
