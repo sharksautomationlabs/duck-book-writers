@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Services from '../components/Services';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { BreadcrumbJsonLd } from '../components/JsonLd';
+import { BreadcrumbJsonLd, ServiceJsonLd } from '../components/JsonLd';
 
 export const metadata: Metadata = {
   title: 'Publishing Services — Ghostwriting, Editing, Marketing & More | Duck Book Writers',
@@ -21,6 +21,7 @@ export default function ServicesPage() {
   return (
     <div className="min-h-screen overflow-x-hidden bg-white">
       <BreadcrumbJsonLd items={[{ name: 'Home', url: '/' }, { name: 'Services', url: '/services' }]} />
+      <ServiceJsonLd name="Book Publishing Services" description="Professional ghostwriting, editing, book cover design, self-publishing, global distribution across 300+ platforms, and Book-to-Video production for authors." url="/services" />
       <Header />
       <Services />
       <Footer />

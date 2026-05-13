@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import Header from '../components/Header';
 import Authors from '../components/Authors';
 import Footer from '../components/Footer';
-import { BreadcrumbJsonLd } from '../components/JsonLd';
+import { BreadcrumbJsonLd, PersonJsonLd } from '../components/JsonLd';
 
 export const metadata: Metadata = {
   title: 'Our Authors — Meet the Writers Behind Our Books | Duck Book Writers',
@@ -18,10 +18,16 @@ export const metadata: Metadata = {
   },
 };
 
+const AUTHORS = [
+  { name: 'TC Baker', description: 'Fiction author of three books published by Duck Book Writers, now collaborating on a series-style film production.', genre: 'Fiction' },
+  { name: 'Dr. Irwin Hudson', description: 'Human Systems Integration Engineer and Science & Technology Manager at US Army DEVCOM; published author and leadership professional.', genre: 'Science & Technology' },
+];
+
 export default function AuthorsPage() {
   return (
     <div className="min-h-screen overflow-x-hidden bg-white">
       <BreadcrumbJsonLd items={[{ name: 'Home', url: '/' }, { name: 'Authors', url: '/authors' }]} />
+      <PersonJsonLd people={AUTHORS} />
       <Header />
       <main>
         <Authors />

@@ -624,9 +624,9 @@ const NewsEvents = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <h1 className="font-['Poppins'] font-bold text-4xl sm:text-5xl lg:text-6xl text-black mb-4">
-              News & Events
-            </h1>
+            <h2 className="font-['Poppins'] font-bold text-4xl sm:text-5xl lg:text-6xl text-black mb-4">
+              News &amp; Events
+            </h2>
             <p className="font-['Poppins'] text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
               Stay updated with the latest news and upcoming events at Duck Book Writers
             </p>

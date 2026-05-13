@@ -24,6 +24,7 @@ export default function NewsPage() {
       <BreadcrumbJsonLd items={[{ name: 'Home', url: '/' }, { name: 'News & Events', url: '/news' }]} />
       <Header />
       <main>
+        <h1 className="sr-only">News &amp; Events — Duck Book Writers</h1>
         <NewsEvents />
       </main>
       <Footer />

@@ -840,9 +840,9 @@ const YouTubeTVSection = () => {
                         className="border-0"
                       />
                     </div>
-                    <h1 className="text-sm sm:text-[15px] md:text-base font-bold text-zinc-900 mb-1.5 sm:mb-2 leading-snug sm:leading-tight font-serif line-clamp-3">
+                    <h3 className="text-sm sm:text-[15px] md:text-base font-bold text-zinc-900 mb-1.5 sm:mb-2 leading-snug sm:leading-tight font-serif line-clamp-3">
                       {currentVideo.title}
-                    </h1>
+                    </h3>
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-2 sm:pb-3 gap-2 sm:gap-3">
                       <div className="flex items-center gap-2">
                         <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden bg-gray-200 border border-gray-100">

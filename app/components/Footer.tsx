@@ -120,9 +120,9 @@ export default function Footer() {
             <div className="min-w-0 lg:-translate-x-1 xl:-translate-x-2">
               <h4 className={footerColTitle}>Legal</h4>
               <ul className="space-y-3">
-                <li><a href="#" className={footerLinkClass}>Terms and conditions</a></li>
-                <li><a href="#" className={footerLinkClass}>Privacy policy</a></li>
-                <li><a href="#" className={footerLinkClass}>Cancellation policy</a></li>
+                <li><Link href="/terms" className={footerLinkClass}>Terms and conditions</Link></li>
+                <li><Link href="/privacy" className={footerLinkClass}>Privacy policy</Link></li>
+                <li><Link href="/cancellation" className={footerLinkClass}>Cancellation policy</Link></li>
                 <li><span className={footerLinkClass + " cursor-default"}>Cookie settings</span></li>
               </ul>
             </div>

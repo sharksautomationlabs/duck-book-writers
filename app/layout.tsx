@@ -19,29 +19,43 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Duck Book Writers | Publishing House",
-  description: "Duck Book Writers is a full-service publishing house serving authors around the globe.",
-  keywords: "publishing, books, authors, writing, publishing house, book writers",
+  title: {
+    default: 'Duck Book Writers — Book Publishing & Ghostwriting Services',
+    template: '%s | Duck Book Writers',
+  },
+  description:
+    'Duck Book Writers is a full-service book publishing house offering ghostwriting, editing, book cover design, self-publishing, global distribution, and Book-to-Video services for authors worldwide.',
+  keywords: [
+    'book publishing services', 'ghostwriting', 'self publishing', 'book editing',
+    'book cover design', 'global book distribution', 'book marketing', 'publishing house',
+  ],
+  metadataBase: new URL('https://www.duckbookwriters.com'),
+  alternates: { canonical: 'https://www.duckbookwriters.com' },
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
       { url: '/favicon.ico', sizes: '32x32', type: 'image/x-icon' },
-      { url: '/favicon.ico', sizes: '16x16', type: 'image/x-icon' }
     ],
     apple: '/favicon.ico',
-    shortcut: '/favicon.ico'
+    shortcut: '/favicon.ico',
   },
   manifest: '/manifest.json',
   openGraph: {
-    title: "Duck Book Writers | Publishing House",
-    description: "Duck Book Writers is a full-service publishing house serving authors around the globe.",
+    title: 'Duck Book Writers — Book Publishing & Ghostwriting Services',
+    description:
+      'Full-service publishing house: ghostwriting, editing, cover design, global distribution & Book-to-Video. Helping authors worldwide since 2018.',
     type: 'website',
     locale: 'en_US',
+    url: 'https://www.duckbookwriters.com',
+    siteName: 'Duck Book Writers',
+    images: [{ url: '/images/og-cover.jpg', width: 1200, height: 630, alt: 'Duck Book Writers' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Duck Book Writers | Publishing House",
-    description: "Duck Book Writers is a full-service publishing house serving authors around the globe.",
+    title: 'Duck Book Writers — Book Publishing & Ghostwriting Services',
+    description:
+      'Full-service publishing house: ghostwriting, editing, cover design, global distribution & Book-to-Video.',
+    images: ['/images/og-cover.jpg'],
   },
   robots: {
     index: true,
@@ -64,6 +78,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Google Fonts & external resources */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://www.youtube.com" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         {/* Calendly: warm DNS/TLS for asset host, booking app, and iframe origin. */}
         <link rel="preconnect" href="https://assets.calendly.com" crossOrigin="" />
         <link rel="preconnect" href="https://calendly.com" crossOrigin="" />

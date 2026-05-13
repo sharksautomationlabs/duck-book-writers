@@ -1,4 +1,20 @@
+import type { Metadata } from 'next';
 import Header from './components/Header';
+import { OrganizationJsonLd, WebSiteJsonLd } from './components/JsonLd';
+
+export const metadata: Metadata = {
+  title: 'Duck Book Writers — Book Publishing & Ghostwriting Services',
+  description:
+    'Professional book publishing services: ghostwriting, editing, book cover design, self-publishing, global distribution across 300+ platforms, and Book-to-Video production. Get published in 14 days.',
+  alternates: { canonical: 'https://www.duckbookwriters.com' },
+  openGraph: {
+    title: 'Duck Book Writers — Book Publishing & Ghostwriting Services',
+    description:
+      'Professional ghostwriting, editing, cover design & global distribution. Turn your manuscript into a published book — distributed worldwide in 14 days.',
+    url: 'https://www.duckbookwriters.com',
+    images: [{ url: '/images/og-cover.jpg', width: 1200, height: 630, alt: 'Duck Book Writers' }],
+  },
+};
 import Hero from './components/Hero';
 import HeroFormSection from './components/HeroFormSection';
 import About from './components/About';
@@ -20,7 +36,8 @@ import AnimatedSection from './components/AnimatedSection';
 export default function Home() {
   return (
     <main className="min-h-screen bg-white overflow-x-hidden">
-
+      <OrganizationJsonLd />
+      <WebSiteJsonLd />
       <Header />
       <Hero />
       <AnimatedSection delay={0.1}>
