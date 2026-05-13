@@ -89,7 +89,7 @@ export default function Footer() {
             <div className="min-w-0">
               <h4 className={footerColTitle}>Product</h4>
               <ul className="space-y-3">
-                <li><Link href="/book-to-video" className={footerLinkClass}>Book to Cinema</Link></li>
+                <li><Link href="/book-to-video" className={footerLinkClass}>Book to Video</Link></li>
                 <li><Link href="/services" className={footerLinkClass}>Our Services</Link></li>
                 <li><span className={footerLinkClass + " cursor-default"}>Cash Cow &amp; Long-form</span></li>
                 <li><span className={footerLinkClass + " cursor-default"}>2D Animation</span></li>
