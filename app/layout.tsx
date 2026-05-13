@@ -57,6 +57,9 @@ export const metadata: Metadata = {
       'Full-service publishing house: ghostwriting, editing, cover design, global distribution & Book-to-Video.',
     images: ['/images/og-cover.jpg'],
   },
+  verification: {
+    google: 'V6lCmVOzgMoXgXIi9-8lGW7VzBv2WpxHWIyPnXO9wbo',
+  },
   robots: {
     index: true,
     follow: true,
