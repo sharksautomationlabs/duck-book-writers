@@ -105,6 +105,14 @@ export default function RootLayout({
         <TawkTo />
         {children}
         <Script src="https://assets.calendly.com/assets/external/widget.js" strategy="afterInteractive" />
+        {/* Google Analytics 4 */}
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-T5M6922BKE" strategy="afterInteractive" />
+        <Script id="ga4-init" strategy="afterInteractive">{`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-T5M6922BKE');
+        `}</Script>
       </body>
     </html>
   );
