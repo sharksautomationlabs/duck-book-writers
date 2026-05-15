@@ -176,8 +176,6 @@ const SiteFooter = () => (
 
 // ─── 3. HERO ─────────────────────────────────────────────────────────────────
 const HeroSection = () => {
-  const [playing, setPlaying] = useState(false);
-
   return (
     <section className="relative w-full overflow-hidden bg-gradient-to-b from-white via-violet-50/15 to-[#fffbeb] pt-6 pb-12 sm:pt-8 sm:pb-16 px-4 sm:px-6 md:px-10 lg:px-14">
       <div className="pointer-events-none absolute -top-24 right-[-14%] h-[320px] w-[320px] rounded-full bg-[#FFBE02]/18 blur-[110px]" />
@@ -229,21 +227,10 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.65, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-[0_24px_60px_-12px_rgba(0,0,0,0.14)] border border-zinc-100 bg-white">
-            {!playing ? (
-              <div className="relative aspect-video flex items-center justify-center cursor-pointer group" onClick={() => setPlaying(true)}>
-                <div className="absolute inset-0 bg-gradient-to-br from-[#1a1930] via-[#16152a] to-[#0d0c1d]" />
-                <div className="relative z-10">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-[#FFBE02] flex items-center justify-center group-hover:bg-[#FFBE02]/20 transition-all duration-200">
-                    <div className="w-0 h-0 border-t-[10px] border-t-transparent border-b-[10px] border-b-transparent border-l-[18px] ml-1" style={{ borderLeftColor: ACCENT }} />
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="aspect-video">
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/K18Tnq7sC6M?autoplay=1&rel=0" title="Book to Cinema" allow="autoplay; encrypted-media" className="border-0" />
-              </div>
-            )}
+          <div className="rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-[0_24px_60px_-12px_rgba(0,0,0,0.14)] border border-zinc-100 bg-black">
+            <div className="aspect-video">
+              <video src="/videos/ebook ad longform comp.mov" controls className="w-full h-full object-contain" />
+            </div>
           </div>
           <p className="text-zinc-400 text-sm mt-3 text-center">
             See exactly how we transform your story into a global Cinema presence 👇
@@ -267,30 +254,22 @@ const VideosWeCreatedSection = () => {
 
   const [activeTab, setActiveTab] = useState<'long' | 'short' | 'thumbnail'>('long');
   const [tabManual, setTabManual] = useState(false);
-  type PlaylistItem = { id: string; type: 'local' | 'youtube'; videoId: string; title: string; channel: string; views: string; thumbnailUrl: string; src: string; desc: string; };
+  type PlaylistItem = { id: string; videoId: string; title: string; channel: string; views: string; thumbnailUrl: string; src: string; desc: string; };
 
-  const LOCAL_VIDEO: PlaylistItem = {
-    id: 'local-1', type: 'local', videoId: '', title: 'Ebook Ad — Long Form Production',
-    channel: 'Duck Book Writers', views: 'Long form',
-    thumbnailUrl: '', src: '/videos/ebook ad longform comp.mov',
-    desc: 'A full long-form cinematic ad produced for authors — book-to-cinema transformation in action.',
-  };
-
-  const [currentVideo, setCurrentVideo] = useState<PlaylistItem>(LOCAL_VIDEO);
+  const [currentVideo, setCurrentVideo] = useState<PlaylistItem>({ id: 'l1', videoId: '05OWsG4sSX8', title: 'THE WHITE WOLF | Episode 3 — The Soldier Who Chose Love Over War | Military Motivation Story', channel: 'Duck Book Writers', views: 'Long form', thumbnailUrl: 'https://i.ytimg.com/vi/05OWsG4sSX8/hqdefault.jpg', src: 'https://www.youtube.com/embed/05OWsG4sSX8?autoplay=0&rel=0', desc: 'Videos we produced and curated for authors — long-form storytelling and education on Cinema.' });
   const [currentShortIndex, setCurrentShortIndex] = useState(0);
   const [activeThumbnailIndex, setActiveThumbnailIndex] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [width, setWidth] = useState(0);
 
   const playlist: PlaylistItem[] = [
-    LOCAL_VIDEO,
-    { id: 'l1', type: 'youtube', videoId: '05OWsG4sSX8', title: 'THE WHITE WOLF | Episode 3 — The Soldier Who Chose Love Over War | Military Motivation Story', channel: 'Duck Book Writers', views: 'Long form', thumbnailUrl: 'https://i.ytimg.com/vi/05OWsG4sSX8/hqdefault.jpg', src: 'https://www.youtube.com/embed/05OWsG4sSX8?autoplay=0&rel=0', desc: 'Videos we produced and curated for authors — long-form storytelling and education on Cinema.' },
-    { id: 'l2', type: 'youtube', videoId: 'ha1NneZGm7A', title: 'The ENTIRE History of Human Civilizations | Ancient to Modern (4K Documentary) [Full Movie]', channel: 'Duck Book Writers', views: 'Long form', thumbnailUrl: 'https://i.ytimg.com/vi/ha1NneZGm7A/hqdefault.jpg', src: 'https://www.youtube.com/embed/ha1NneZGm7A?autoplay=0&rel=0', desc: 'Videos we produced and curated for authors — long-form storytelling and education on Cinema.' },
-    { id: 'l3', type: 'youtube', videoId: '7ChWjQ-vnEU', title: 'America Renewed Chapter 1 Explained | The American Tipping Point - Must Watch!', channel: 'Duck Book Writers', views: 'Long form', thumbnailUrl: 'https://i.ytimg.com/vi/7ChWjQ-vnEU/hqdefault.jpg', src: 'https://www.youtube.com/embed/7ChWjQ-vnEU?autoplay=0&rel=0', desc: 'Videos we produced and curated for authors — long-form storytelling and education on Cinema.' },
-    { id: 'l4', type: 'youtube', videoId: 'mBZBPptSneM', title: 'Timber | Short Film about Solidarity by Nils Hedinger', channel: 'Duck Book Writers', views: 'Long form', thumbnailUrl: 'https://i.ytimg.com/vi/mBZBPptSneM/hqdefault.jpg', src: 'https://www.youtube.com/embed/mBZBPptSneM?autoplay=0&rel=0', desc: 'Videos we produced and curated for authors — long-form storytelling and education on Cinema.' },
-    { id: 'l5', type: 'youtube', videoId: 'VjTJvwgJnGc', title: 'The Little Red Hen (US English accent) - TheFableCottage.com', channel: 'Duck Book Writers', views: 'Long form', thumbnailUrl: 'https://i.ytimg.com/vi/VjTJvwgJnGc/hqdefault.jpg', src: 'https://www.youtube.com/embed/VjTJvwgJnGc?autoplay=0&rel=0', desc: 'Videos we produced and curated for authors — long-form storytelling and education on Cinema.' },
-    { id: 'l6', type: 'youtube', videoId: 'Ou80IomKkJ0', title: 'THE WHITE WOLF | Episode 2 — The Trainee Who Captured the Instructors | Military Motivation Story', channel: 'Duck Book Writers', views: 'Long form', thumbnailUrl: 'https://i.ytimg.com/vi/Ou80IomKkJ0/hqdefault.jpg', src: 'https://www.youtube.com/embed/Ou80IomKkJ0?autoplay=0&rel=0', desc: 'Videos we produced and curated for authors — long-form storytelling and education on Cinema.' },
-    { id: 'l7', type: 'youtube', videoId: 'K18Tnq7sC6M', title: 'THE WHITE WOLF | The Making of John (Episode 1) | Powerful Military Motivation Story', channel: 'Duck Book Writers', views: 'Long form', thumbnailUrl: 'https://i.ytimg.com/vi/K18Tnq7sC6M/hqdefault.jpg', src: 'https://www.youtube.com/embed/K18Tnq7sC6M?autoplay=0&rel=0', desc: 'Videos we produced and curated for authors — long-form storytelling and education on Cinema.' },
+    { id: 'l1', videoId: '05OWsG4sSX8', title: 'THE WHITE WOLF | Episode 3 — The Soldier Who Chose Love Over War | Military Motivation Story', channel: 'Duck Book Writers', views: 'Long form', thumbnailUrl: 'https://i.ytimg.com/vi/05OWsG4sSX8/hqdefault.jpg', src: 'https://www.youtube.com/embed/05OWsG4sSX8?autoplay=0&rel=0', desc: 'Videos we produced and curated for authors — long-form storytelling and education on Cinema.' },
+    { id: 'l2', videoId: 'ha1NneZGm7A', title: 'The ENTIRE History of Human Civilizations | Ancient to Modern (4K Documentary) [Full Movie]', channel: 'Duck Book Writers', views: 'Long form', thumbnailUrl: 'https://i.ytimg.com/vi/ha1NneZGm7A/hqdefault.jpg', src: 'https://www.youtube.com/embed/ha1NneZGm7A?autoplay=0&rel=0', desc: 'Videos we produced and curated for authors — long-form storytelling and education on Cinema.' },
+    { id: 'l3', videoId: '7ChWjQ-vnEU', title: 'America Renewed Chapter 1 Explained | The American Tipping Point - Must Watch!', channel: 'Duck Book Writers', views: 'Long form', thumbnailUrl: 'https://i.ytimg.com/vi/7ChWjQ-vnEU/hqdefault.jpg', src: 'https://www.youtube.com/embed/7ChWjQ-vnEU?autoplay=0&rel=0', desc: 'Videos we produced and curated for authors — long-form storytelling and education on Cinema.' },
+    { id: 'l4', videoId: 'mBZBPptSneM', title: 'Timber | Short Film about Solidarity by Nils Hedinger', channel: 'Duck Book Writers', views: 'Long form', thumbnailUrl: 'https://i.ytimg.com/vi/mBZBPptSneM/hqdefault.jpg', src: 'https://www.youtube.com/embed/mBZBPptSneM?autoplay=0&rel=0', desc: 'Videos we produced and curated for authors — long-form storytelling and education on Cinema.' },
+    { id: 'l5', videoId: 'VjTJvwgJnGc', title: 'The Little Red Hen (US English accent) - TheFableCottage.com', channel: 'Duck Book Writers', views: 'Long form', thumbnailUrl: 'https://i.ytimg.com/vi/VjTJvwgJnGc/hqdefault.jpg', src: 'https://www.youtube.com/embed/VjTJvwgJnGc?autoplay=0&rel=0', desc: 'Videos we produced and curated for authors — long-form storytelling and education on Cinema.' },
+    { id: 'l6', videoId: 'Ou80IomKkJ0', title: 'THE WHITE WOLF | Episode 2 — The Trainee Who Captured the Instructors | Military Motivation Story', channel: 'Duck Book Writers', views: 'Long form', thumbnailUrl: 'https://i.ytimg.com/vi/Ou80IomKkJ0/hqdefault.jpg', src: 'https://www.youtube.com/embed/Ou80IomKkJ0?autoplay=0&rel=0', desc: 'Videos we produced and curated for authors — long-form storytelling and education on Cinema.' },
+    { id: 'l7', videoId: 'K18Tnq7sC6M', title: 'THE WHITE WOLF | The Making of John (Episode 1) | Powerful Military Motivation Story', channel: 'Duck Book Writers', views: 'Long form', thumbnailUrl: 'https://i.ytimg.com/vi/K18Tnq7sC6M/hqdefault.jpg', src: 'https://www.youtube.com/embed/K18Tnq7sC6M?autoplay=0&rel=0', desc: 'Videos we produced and curated for authors — long-form storytelling and education on Cinema.' },
   ];
 
   const shortsList = [
@@ -401,13 +380,9 @@ const VideosWeCreatedSection = () => {
                 <div className="w-full h-full flex flex-col lg:flex-row p-2 sm:p-3 md:p-4 gap-2 sm:gap-3 md:gap-4 overflow-y-auto">
                   <div className="w-full lg:w-[70%]">
                     <div className="w-full aspect-video bg-black rounded-md sm:rounded-lg overflow-hidden shadow-sm mb-2 sm:mb-3">
-                      {currentVideo.type === 'local' ? (
-                        <video key={currentVideo.src} src={currentVideo.src} controls className="w-full h-full object-contain" />
-                      ) : (
-                        <iframe key={`${currentVideo.videoId}-${inView ? 'on' : 'off'}`} width="100%" height="100%"
-                          src={ledAwareEmbedSrc(inView, currentVideo.videoId, currentVideo.src)}
-                          title="Player" allow="autoplay; encrypted-media" loading="lazy" className="border-0" />
-                      )}
+                      <iframe key={`${currentVideo.videoId}-${inView ? 'on' : 'off'}`} width="100%" height="100%"
+                        src={ledAwareEmbedSrc(inView, currentVideo.videoId, currentVideo.src)}
+                        title="Player" allow="autoplay; encrypted-media" loading="lazy" className="border-0" />
                     </div>
                     <h3 className="text-sm sm:text-[15px] md:text-base font-bold text-zinc-900 mb-1.5 sm:mb-2 leading-snug font-serif line-clamp-3">{currentVideo.title}</h3>
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-2 sm:pb-3 gap-2 sm:gap-3">
@@ -444,13 +419,7 @@ const VideosWeCreatedSection = () => {
                     {playlist.map((video) => (
                       <div key={video.id} onClick={() => setCurrentVideo({ ...video, src: video.src.replace('autoplay=0', 'autoplay=1') })} className="flex gap-1.5 cursor-pointer group">
                         <div className="relative w-[120px] sm:w-[136px] md:w-[148px] h-[68px] sm:h-[76px] md:h-[84px] flex-shrink-0 rounded-lg overflow-hidden bg-black">
-                          {video.thumbnailUrl ? (
-                            <Image src={video.thumbnailUrl} alt="" fill className="object-cover" sizes="148px" />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center bg-zinc-800">
-                              <PlayCircle className="w-8 h-8 text-white/60" />
-                            </div>
-                          )}
+                          <Image src={video.thumbnailUrl} alt="" fill className="object-cover" sizes="148px" />
                         </div>
                         <div className="flex flex-col pr-2 min-w-0">
                           <h4 className="text-[12px] sm:text-[13px] font-semibold text-zinc-900 line-clamp-2 leading-tight mb-0.5">{video.title}</h4>
