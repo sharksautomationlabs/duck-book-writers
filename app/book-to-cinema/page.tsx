@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { CheckCircle2, Lock } from 'lucide-react';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
+import { CheckCircle2, Lock, PlayCircle, ChevronLeft, ChevronRight, X, Menu, Search, Mic, Bell, Share2, MoreVertical } from 'lucide-react';
 import { CALENDLY_LINK, COMPANY_NAME, CONTACT_EMAIL, CONTACT_PHONE } from '../config/constants';
 import Header from '../components/Header';
 
@@ -255,61 +255,317 @@ const HeroSection = () => {
   );
 };
 
-// ─── 4. LED SECTION ──────────────────────────────────────────────────────────
-const LEDSection = () => (
-  <section
-    className="relative hidden w-full max-w-[100vw] overflow-x-clip overflow-y-hidden bg-gradient-to-b from-[#fffbeb] via-violet-100/35 to-white pt-12 sm:block sm:pt-16 md:pt-20 lg:pt-24 xl:pt-28 pb-10 sm:pb-14 md:pb-16 lg:pb-20 font-sans"
-    aria-label="Featured books and display"
-  >
-    <div className="relative z-40 mx-auto flex w-full min-w-0 max-w-none max-sm:min-h-[min(580px,72svh)] sm:min-h-[min(660px,66svh)] md:min-h-[min(740px,70vh)] lg:min-h-[min(820px,72vh)] xl:min-h-[min(880px,74vh)] items-center justify-center overflow-x-clip overflow-y-hidden px-0 pointer-events-none">
+// ─── 4. VIDEOS WE CREATED SECTION ────────────────────────────────────────────
+function ledAwareEmbedSrc(inView: boolean, videoId: string, activeSrc: string): string {
+  if (inView) return activeSrc;
+  return `https://www.youtube.com/embed/${videoId}?autoplay=0&mute=1&controls=1&rel=0`;
+}
 
-      <div className="absolute inset-0 z-[6] pointer-events-none max-sm:hidden">
-        <div className="absolute top-0 bottom-0 left-0 w-[5%] max-w-[56px] bg-gradient-to-r from-violet-100/35 via-transparent to-transparent" />
-        <div className="absolute top-0 bottom-0 right-0 w-[5%] max-w-[56px] bg-gradient-to-l from-violet-100/35 via-transparent to-transparent" />
+const VideosWeCreatedSection = () => {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const inView = useInView(sectionRef, { amount: 0.12, margin: '-15% 0px -15% 0px' });
+
+  const [activeTab, setActiveTab] = useState<'long' | 'short' | 'thumbnail'>('long');
+  const [tabManual, setTabManual] = useState(false);
+  const [currentVideo, setCurrentVideo] = useState({
+    id: 'long-1', videoId: '05OWsG4sSX8',
+    title: 'THE WHITE WOLF | Episode 3 — The Soldier Who Chose Love Over War | Military Motivation Story',
+    channel: 'Duck Book Writers', subscribers: '', views: 'Long form', date: '',
+    thumbnailUrl: 'https://i.ytimg.com/vi/05OWsG4sSX8/hqdefault.jpg', duration: '',
+    src: 'https://www.youtube.com/embed/05OWsG4sSX8?autoplay=0&rel=0',
+    desc: 'Videos we produced and curated for authors — long-form storytelling and education on Cinema.',
+  });
+  const [currentShortIndex, setCurrentShortIndex] = useState(0);
+  const [activeThumbnailIndex, setActiveThumbnailIndex] = useState(0);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [width, setWidth] = useState(0);
+
+  const playlist = [
+    { id: 'l1', videoId: '05OWsG4sSX8', title: 'THE WHITE WOLF | Episode 3 — The Soldier Who Chose Love Over War | Military Motivation Story', channel: 'Duck Book Writers', subscribers: '', views: 'Long form', date: '', thumbnailUrl: 'https://i.ytimg.com/vi/05OWsG4sSX8/hqdefault.jpg', duration: '', src: 'https://www.youtube.com/embed/05OWsG4sSX8?autoplay=0&rel=0', desc: 'Videos we produced and curated for authors — long-form storytelling and education on Cinema.' },
+    { id: 'l2', videoId: 'ha1NneZGm7A', title: 'The ENTIRE History of Human Civilizations | Ancient to Modern (4K Documentary) [Full Movie]', channel: 'Duck Book Writers', subscribers: '', views: 'Long form', date: '', thumbnailUrl: 'https://i.ytimg.com/vi/ha1NneZGm7A/hqdefault.jpg', duration: '', src: 'https://www.youtube.com/embed/ha1NneZGm7A?autoplay=0&rel=0', desc: 'Videos we produced and curated for authors — long-form storytelling and education on Cinema.' },
+    { id: 'l3', videoId: '7ChWjQ-vnEU', title: 'America Renewed Chapter 1 Explained | The American Tipping Point - Must Watch!', channel: 'Duck Book Writers', subscribers: '', views: 'Long form', date: '', thumbnailUrl: 'https://i.ytimg.com/vi/7ChWjQ-vnEU/hqdefault.jpg', duration: '', src: 'https://www.youtube.com/embed/7ChWjQ-vnEU?autoplay=0&rel=0', desc: 'Videos we produced and curated for authors — long-form storytelling and education on Cinema.' },
+    { id: 'l4', videoId: 'mBZBPptSneM', title: 'Timber | Short Film about Solidarity by Nils Hedinger', channel: 'Duck Book Writers', subscribers: '', views: 'Long form', date: '', thumbnailUrl: 'https://i.ytimg.com/vi/mBZBPptSneM/hqdefault.jpg', duration: '', src: 'https://www.youtube.com/embed/mBZBPptSneM?autoplay=0&rel=0', desc: 'Videos we produced and curated for authors — long-form storytelling and education on Cinema.' },
+    { id: 'l5', videoId: 'VjTJvwgJnGc', title: 'The Little Red Hen (US English accent) - TheFableCottage.com', channel: 'Duck Book Writers', subscribers: '', views: 'Long form', date: '', thumbnailUrl: 'https://i.ytimg.com/vi/VjTJvwgJnGc/hqdefault.jpg', duration: '', src: 'https://www.youtube.com/embed/VjTJvwgJnGc?autoplay=0&rel=0', desc: 'Videos we produced and curated for authors — long-form storytelling and education on Cinema.' },
+    { id: 'l6', videoId: 'Ou80IomKkJ0', title: 'THE WHITE WOLF | Episode 2 — The Trainee Who Captured the Instructors | Military Motivation Story', channel: 'Duck Book Writers', subscribers: '', views: 'Long form', date: '', thumbnailUrl: 'https://i.ytimg.com/vi/Ou80IomKkJ0/hqdefault.jpg', duration: '', src: 'https://www.youtube.com/embed/Ou80IomKkJ0?autoplay=0&rel=0', desc: 'Videos we produced and curated for authors — long-form storytelling and education on Cinema.' },
+    { id: 'l7', videoId: 'K18Tnq7sC6M', title: 'THE WHITE WOLF | The Making of John (Episode 1) | Powerful Military Motivation Story', channel: 'Duck Book Writers', subscribers: '', views: 'Long form', date: '', thumbnailUrl: 'https://i.ytimg.com/vi/K18Tnq7sC6M/hqdefault.jpg', duration: '', src: 'https://www.youtube.com/embed/K18Tnq7sC6M?autoplay=0&rel=0', desc: 'Videos we produced and curated for authors — long-form storytelling and education on Cinema.' },
+  ];
+
+  const shortsList = [
+    { id: 's1', videoId: 'eGA2oAaswxQ', src: 'https://www.youtube.com/embed/eGA2oAaswxQ?autoplay=1&mute=0&controls=1&loop=1&playlist=eGA2oAaswxQ', title: 'The Real Message of White Wolf - Love Is the Strongest Force #herojourney #courage #love', views: 'Short', likes: '—' },
+    { id: 's2', videoId: 'wysJZvHFqxI', src: 'https://www.youtube.com/embed/wysJZvHFqxI?autoplay=1&mute=0&controls=1&loop=1&playlist=wysJZvHFqxI', title: 'White Wolf - John became a Navy SEAL | T.C. Baker #herojourney #militarymotivation', views: 'Short', likes: '—' },
+    { id: 's3', videoId: 'tT-BzWbyqkw', src: 'https://www.youtube.com/embed/tT-BzWbyqkw?autoplay=1&mute=0&controls=1&loop=1&playlist=tT-BzWbyqkw', title: "Why Nobody Can Cross Darien Gap ?? What's Wrong here? ??", views: 'Short', likes: '—' },
+    { id: 's4', videoId: 'XfnznTT2BqY', src: 'https://www.youtube.com/embed/XfnznTT2BqY?autoplay=1&mute=0&controls=1&loop=1&playlist=XfnznTT2BqY', title: 'SHE IS ME | JENYCEE ZABDA', views: 'Short', likes: '—' },
+    { id: 's5', videoId: 'rdCdrqbpptg', src: 'https://www.youtube.com/embed/rdCdrqbpptg?autoplay=1&mute=0&controls=1&loop=1&playlist=rdCdrqbpptg', title: 'The Attorney for the Damned #Shorts #History #Documentary #PerfectCrime', views: 'Short', likes: '—' },
+    { id: 's6', videoId: '0EezRgZ6tmE', src: 'https://www.youtube.com/embed/0EezRgZ6tmE?autoplay=1&mute=0&controls=1&loop=1&playlist=0EezRgZ6tmE', title: 'How Libya Built $25B New Rivers Over The Sahara Desert? #shorts', views: 'Short', likes: '—' },
+  ];
+
+  const thumbnailList = playlist.map((v, i) => ({ id: i + 1, image: v.thumbnailUrl, title: v.title }));
+
+  const handleNextShort = () => setCurrentShortIndex((p) => (p + 1) % shortsList.length);
+  const handlePrevShort = () => setCurrentShortIndex((p) => (p - 1 + shortsList.length) % shortsList.length);
+  const handleNextImage = useCallback(() => setActiveThumbnailIndex((p) => (p + 1) % thumbnailList.length), [thumbnailList.length]);
+  const handlePrevImage = useCallback(() => setActiveThumbnailIndex((p) => (p - 1 + thumbnailList.length) % thumbnailList.length), [thumbnailList.length]);
+
+  useEffect(() => {
+    if (isLightboxOpen || tabManual || !inView) return;
+    const order: Array<'long' | 'short' | 'thumbnail'> = ['long', 'short', 'thumbnail'];
+    const id = window.setInterval(() => setActiveTab((p) => order[(order.indexOf(p) + 1) % order.length]), 3000);
+    return () => window.clearInterval(id);
+  }, [isLightboxOpen, tabManual, inView]);
+
+  useEffect(() => {
+    const handle = () => setWidth(window.innerWidth);
+    handle();
+    window.addEventListener('resize', handle);
+    return () => window.removeEventListener('resize', handle);
+  }, []);
+
+  useEffect(() => {
+    if (!isLightboxOpen) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight') handleNextImage();
+      if (e.key === 'ArrowLeft') handlePrevImage();
+      if (e.key === 'Escape') setIsLightboxOpen(false);
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [isLightboxOpen, handleNextImage, handlePrevImage]);
+
+  return (
+    <section
+      ref={sectionRef}
+      className="relative w-full bg-gradient-to-t from-[#fff8e6] via-[rgba(255,190,2,0.18)] to-violet-100/40 pt-6 sm:pt-8 md:pt-10 lg:pt-12 py-12 sm:py-14 md:py-20 lg:py-24 overflow-hidden z-50"
+    >
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-[7] h-20 bg-gradient-to-b from-violet-100/40 to-transparent sm:h-24" aria-hidden />
+      <div className="absolute bottom-[-12%] right-[-15%] w-[min(95%,560px)] sm:w-[min(78%,680px)] aspect-square rounded-full bg-[#FFBE02]/35 blur-[100px] sm:blur-[128px] z-[8] pointer-events-none" aria-hidden />
+      <div className="absolute bottom-0 left-0 right-0 w-full h-[220px] sm:h-[280px] md:h-[340px] lg:h-[400px] xl:h-[460px] z-10 pointer-events-none [mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.35)_14%,black_28%)] [-webkit-mask-image:linear-gradient(to_bottom,transparent_0%,rgba(0,0,0,0.35)_14%,black_28%)]" aria-hidden>
+        <Image src="/book-to-video/shades.png" alt="" fill className="object-cover object-center opacity-38" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#fff8e6] via-[#fff8e6]/85 to-transparent pointer-events-none" />
       </div>
 
-      <div className="absolute left-1/2 top-1/2 z-0 h-[45%] w-[min(96%,1400px)] -translate-x-1/2 -translate-y-1/2 bg-[#FFBE02]/12 blur-[80px]" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 relative z-30">
+        <div className="flex flex-col items-center justify-center mb-5 sm:mb-6 lg:mb-8 px-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-zinc-900 mb-3 sm:mb-4 text-center">Videos We Created</h2>
+          <div className="flex items-center gap-6 sm:gap-8 md:gap-10 border-b border-gray-200 w-full max-w-[500px] justify-center pb-2">
+            {(['long', 'short', 'thumbnail'] as const).map((tab) => (
+              <button key={tab} type="button"
+                onClick={() => { setTabManual(true); setActiveTab(tab); }}
+                className={`pb-2 text-base sm:text-lg md:text-xl font-semibold transition-all cursor-pointer capitalize ${activeTab === tab ? 'text-[#FFBE02] border-b-2 border-[#FFBE02]' : 'text-gray-400 hover:text-gray-600'}`}>
+                {tab === 'long' ? 'Long' : tab === 'short' ? 'Short' : 'Thumbnails'}
+              </button>
+            ))}
+          </div>
+        </div>
 
-      {[
-        { src: '/youtube-page/book-4.png', x: '-242%', y: '-54%', scale: 0.96, z: 20, delay: 0.62 },
-        { src: '/youtube-page/book-3.png', x: '-328%', y: '-49%', scale: 0.92, z: 16, delay: 0.72 },
-        { src: '/youtube-page/book-2.png', x: '-398%', y: '-43%', scale: 0.88, z: 12, delay: 0.82 },
-        { src: '/youtube-page/book-1.png', x: '-462%', y: '-38%', scale: 0.84, z: 8, delay: 0.92 },
-        { src: '/youtube-page/book-6.png', x: '142%', y: '-54%', scale: 0.96, z: 20, delay: 0.62 },
-        { src: '/youtube-page/hero-right-fatal-exchange.png', x: '228%', y: '-49%', scale: 0.92, z: 16, delay: 0.72 },
-        { src: '/youtube-page/hero-right-educated.png', x: '298%', y: '-43%', scale: 0.88, z: 12, delay: 0.82 },
-        { src: '/youtube-page/hero-right-paradox.png', x: '362%', y: '-38%', scale: 0.84, z: 8, delay: 0.92 },
-      ].map((book, i) => (
-        <motion.div
-          key={`${book.src}-${i}`}
-          className="absolute left-1/2 top-1/2 w-[82px] sm:w-[110px] md:w-[134px] lg:w-[152px] xl:w-[164px] aspect-[5/18] sm:aspect-[2/3] overflow-hidden rounded-[2px] drop-shadow-[0_12px_26px_rgba(0,0,0,0.22)]"
-          style={{ zIndex: book.z }}
-          initial={{ x: '-50%', y: '-46%', opacity: 0, scale: 0.58 }}
-          animate={{ x: book.x, y: book.y, opacity: 1, scale: book.scale }}
-          transition={{ duration: 1.9, delay: book.delay, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <Image src={book.src} alt={`Book ${i + 1}`} fill
-            sizes="(max-width: 640px) 82px, (max-width: 768px) 110px, (max-width: 1024px) 134px, 164px"
-            className="object-cover object-center" />
-        </motion.div>
-      ))}
+        <div className="relative w-full max-w-[min(92vw,316px)] mx-auto md:max-w-[1000px] lg:max-w-[1080px] max-md:drop-shadow-[0_3px_14px_rgba(0,0,0,0.14)]">
+          <div className={`relative w-full z-20 pointer-events-none mx-auto ${width < 768 ? 'aspect-[10/20]' : 'aspect-[16/9]'}`}>
+            <Image src={width < 768 ? '/youtube-page/mobile-removebg-preview.png' : '/book-to-video/fourth_S_TV.png'} alt={width < 768 ? 'Phone frame' : 'TV frame'} fill
+              className={`object-contain ${width < 768 ? '' : 'scale-105'}`}
+              sizes={width < 768 ? '(max-width: 767px) 316px, 100vw' : '(max-width: 1080px) 100vw, 1080px'} />
+          </div>
 
-      <motion.div
-        className="absolute left-1/2 top-1/2 z-[60] w-full max-sm:aspect-[10/19] max-sm:max-w-[min(168px,calc(100vw-1rem))] sm:aspect-auto sm:max-w-none sm:w-[min(59vw,468px)] sm:min-h-[calc(min(59vw,468px)*0.68)] md:w-[min(60vw,574px)] md:min-h-[calc(min(60vw,574px)*0.68)] lg:w-[min(61vw,682px)] lg:min-h-[calc(min(61vw,682px)*0.68)] xl:w-[min(62vw,774px)] xl:min-h-[calc(min(62vw,774px)*0.68)] overflow-visible drop-shadow-[0_22px_44px_rgba(0,0,0,0.3)]"
-        initial={{ x: '-50%', y: '18%', opacity: 0 }}
-        animate={{ x: '-50%', y: '-50%', opacity: 1 }}
-        transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <Image src="/youtube-page/hero-led-mobile.png" alt="Cinema on mobile" fill
-          className="object-contain object-center sm:hidden"
-          sizes="(max-width: 639px) min(168px, 92vw), 0" priority />
-        <Image src="/youtube-page/led.png" alt="LED display" fill
-          className="object-contain object-center hidden sm:block"
-          sizes="(max-width: 768px) 59vw, (max-width: 1024px) 60vw, (max-width: 1280px) 61vw, 774px" priority />
-      </motion.div>
-    </div>
-  </section>
-);
+          <div className={`absolute bg-white z-40 overflow-hidden shadow-inner box-border ${width < 768 ? 'rounded-[22px] border-[4px] border-black' : 'rounded-t-[5px] sm:rounded-t-[7px] rounded-b-[11px] sm:rounded-b-[14px]'}`}
+            style={width < 768
+              ? { top: '10.35%', left: '6.95%', right: '6.95%', bottom: '9.95%' }
+              : { top: width < 1024 ? 'calc(14.25% - 52px)' : 'calc(16.25% - 68px)', left: width < 1024 ? 'calc(10% - 16px)' : 'calc(11% - 24px)', right: width < 1024 ? 'calc(10% - 16px)' : 'calc(11% - 24px)', bottom: width < 1024 ? 'calc(16.75% - 28px)' : 'calc(18.75% - 36px)' }}>
+
+            {/* YouTube Header */}
+            <div className="sticky top-0 z-50 bg-white h-10 sm:h-11 md:h-12 flex items-center justify-between px-1.5 sm:px-2.5 md:px-3 shrink-0 shadow-sm border-b border-gray-200">
+              <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3">
+                <button className="p-1 sm:p-1.5 hover:bg-gray-100 rounded-full"><Menu className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-gray-900" /></button>
+                <div className="relative h-[18px] w-[5.5rem] sm:h-5 sm:w-24 md:h-5 md:w-28 cursor-pointer flex items-center">
+                  <Image src="/images/duck-logo-final.png" alt="Logo" fill className="object-contain object-left" />
+                </div>
+              </div>
+              <div className="flex-1 max-w-[420px] mx-1 sm:mx-2 md:mx-3 hidden md:flex items-center gap-2">
+                <div className="flex w-full">
+                  <div className="flex flex-1 items-center border border-gray-300 rounded-l-full px-2.5 py-0.5 shadow-inner bg-white focus-within:border-[#FFBE02] ml-4">
+                    <input type="text" placeholder="Search" className="w-full py-1 text-[13px] outline-none font-normal text-gray-700 placeholder-gray-500" />
+                  </div>
+                  <button className="bg-[#f8f8f8] border border-l-0 border-gray-300 rounded-r-full px-3 flex items-center justify-center hover:bg-[#f0f0f0]"><Search className="w-4 h-4 text-gray-600" /></button>
+                </div>
+                <button className="p-1.5 bg-[#f9f9f9] rounded-full hover:bg-[#e5e5e5]"><Mic className="w-4 h-4 text-gray-900" /></button>
+              </div>
+              <div className="flex items-center gap-0.5 sm:gap-1">
+                <button className="p-1 hover:bg-gray-100 rounded-full hidden sm:block"><Bell className="w-4 h-4 text-gray-900" /></button>
+                <div className="ml-0.5 sm:ml-1 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-[#FFBE02] text-black flex items-center justify-center text-[10px] sm:text-xs font-bold cursor-pointer">D</div>
+              </div>
+            </div>
+
+            <div className="w-full h-[calc(100%-2.5rem)] sm:h-[calc(100%-2.75rem)] md:h-[calc(100%-3rem)] overflow-hidden bg-white relative">
+              {/* LONG TAB */}
+              {activeTab === 'long' && (
+                <div className="w-full h-full flex flex-col lg:flex-row p-2 sm:p-3 md:p-4 gap-2 sm:gap-3 md:gap-4 overflow-y-auto">
+                  <div className="w-full lg:w-[70%]">
+                    <div className="w-full aspect-video bg-black rounded-md sm:rounded-lg overflow-hidden shadow-sm mb-2 sm:mb-3">
+                      <iframe key={`${currentVideo.videoId}-${inView ? 'on' : 'off'}`} width="100%" height="100%"
+                        src={ledAwareEmbedSrc(inView, currentVideo.videoId, currentVideo.src)}
+                        title="Player" allow="autoplay; encrypted-media" loading="lazy" className="border-0" />
+                    </div>
+                    <h3 className="text-sm sm:text-[15px] md:text-base font-bold text-zinc-900 mb-1.5 sm:mb-2 leading-snug font-serif line-clamp-3">{currentVideo.title}</h3>
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-2 sm:pb-3 gap-2 sm:gap-3">
+                      <div className="flex items-center gap-2">
+                        <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden bg-gray-200 border border-gray-100">
+                          <Image src="/images/duck-logo-final.png" alt="Avatar" fill className="object-contain p-1" />
+                        </div>
+                        <div className="flex flex-col mr-2">
+                          <p className="font-bold text-[13px] sm:text-sm text-zinc-900 leading-tight">{currentVideo.channel}</p>
+                        </div>
+                        <button className="bg-[#FFBE02] hover:bg-[#e6aa02] text-black px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-xs sm:text-[13px] font-bold transition-colors">Subscribe</button>
+                      </div>
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <div className="flex items-center bg-[#f2f2f2] rounded-full overflow-hidden h-8">
+                          <button className="flex items-center gap-1.5 px-3 hover:bg-[#e5e5e5] border-r border-[#d9d9d9] h-full transition-colors">
+                            <span className="text-xs font-medium text-zinc-900">12K</span>
+                          </button>
+                        </div>
+                        <button className="flex items-center gap-1.5 bg-[#f2f2f2] px-3 py-1.5 rounded-full hover:bg-[#e5e5e5] transition-colors h-8">
+                          <Share2 className="w-3.5 h-3.5 text-zinc-900" />
+                          <span className="text-xs font-medium text-zinc-900">Share</span>
+                        </button>
+                        <button className="flex items-center justify-center bg-[#f2f2f2] w-8 h-8 rounded-full hover:bg-[#e5e5e5] transition-colors">
+                          <MoreVertical className="w-3.5 h-3.5 text-zinc-900" />
+                        </button>
+                      </div>
+                    </div>
+                    <div className="bg-[#f2f2f2] rounded-lg p-2 sm:p-2.5 text-xs sm:text-[13px] text-zinc-900 hover:bg-[#e5e5e5] transition-colors cursor-pointer">
+                      <p className="font-bold mb-1">{currentVideo.views}</p>
+                      <p className="whitespace-pre-line leading-relaxed">{currentVideo.desc}</p>
+                    </div>
+                  </div>
+                  <div className="w-full lg:w-[30%] flex flex-col gap-2">
+                    {playlist.map((video) => (
+                      <div key={video.id} onClick={() => setCurrentVideo({ ...video, src: video.src.replace('autoplay=0', 'autoplay=1') })} className="flex gap-1.5 cursor-pointer group">
+                        <div className="relative w-[120px] sm:w-[136px] md:w-[148px] h-[68px] sm:h-[76px] md:h-[84px] flex-shrink-0 rounded-lg overflow-hidden bg-black">
+                          <Image src={video.thumbnailUrl} alt="" fill className="object-cover" sizes="148px" />
+                        </div>
+                        <div className="flex flex-col pr-2 min-w-0">
+                          <h4 className="text-[12px] sm:text-[13px] font-semibold text-zinc-900 line-clamp-2 leading-tight mb-0.5">{video.title}</h4>
+                          <p className="text-[11px] text-gray-600">{video.channel}</p>
+                          <p className="text-[11px] text-gray-600">{video.views}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* SHORTS TAB */}
+              {activeTab === 'short' && (
+                <div className="w-full h-full flex flex-col items-center justify-center bg-white relative overflow-hidden">
+                  <button onClick={handlePrevShort} className="absolute left-2 sm:left-4 md:left-6 z-50 p-1.5 sm:p-2 md:p-2.5 rounded-full bg-white/90 hover:bg-white shadow-lg border border-gray-200 transition-all active:scale-95">
+                    <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-gray-800" />
+                  </button>
+                  <button onClick={handleNextShort} className="absolute right-2 sm:right-4 md:right-6 z-50 p-1.5 sm:p-2 md:p-2.5 rounded-full bg-white/90 hover:bg-white shadow-lg border border-gray-200 transition-all active:scale-95">
+                    <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-gray-800" />
+                  </button>
+                  <div className="relative w-full h-full flex items-center justify-center py-2 sm:py-1">
+                    <AnimatePresence initial={false} mode="popLayout">
+                      <motion.div key={shortsList[currentShortIndex].id}
+                        initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}
+                        transition={{ type: 'spring', stiffness: 200, damping: 25 }}
+                        className="relative z-30 w-[72%] max-w-[168px] sm:max-w-[188px] md:max-w-[208px] lg:max-w-[236px] aspect-[9/16] max-h-[82%] sm:max-h-[400px] bg-black rounded-lg sm:rounded-xl overflow-hidden shadow-2xl mx-auto">
+                        <iframe key={`${shortsList[currentShortIndex].videoId}-${inView ? 'on' : 'off'}`}
+                          width="100%" height="100%"
+                          src={ledAwareEmbedSrc(inView, shortsList[currentShortIndex].videoId, shortsList[currentShortIndex].src)}
+                          title="Shorts" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen loading="lazy" className="border-0 object-cover" />
+                        <div className="absolute bottom-0 left-0 w-full p-3 sm:p-4 pb-4 sm:pb-6 bg-gradient-to-t from-black/90 via-black/60 to-transparent z-30">
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="text-white font-bold text-xs sm:text-sm">@DuckBookWriters</span>
+                            <button className="bg-white text-black text-[10px] sm:text-xs font-bold px-2.5 py-1 rounded-full hover:bg-gray-200 transition-colors">Subscribe</button>
+                          </div>
+                          <p className="text-white text-xs sm:text-sm font-medium leading-snug pr-12 line-clamp-2">{shortsList[currentShortIndex].title}</p>
+                        </div>
+                        <div className="absolute right-2 sm:right-3 bottom-20 sm:bottom-24 flex flex-col items-center gap-2 sm:gap-3 z-40">
+                          <div className="flex flex-col items-center gap-0.5 cursor-pointer">
+                            <div className="bg-gray-800/70 backdrop-blur-sm p-1.5 sm:p-2 rounded-full hover:bg-gray-700 transition-colors">
+                              <PlayCircle className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
+                            </div>
+                            <span className="text-white text-[9px] sm:text-xs font-bold">{shortsList[currentShortIndex].likes}</span>
+                          </div>
+                          <div className="flex flex-col items-center gap-0.5 cursor-pointer">
+                            <div className="bg-gray-800/70 backdrop-blur-sm p-1.5 sm:p-2 rounded-full hover:bg-gray-700 transition-colors">
+                              <Share2 className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
+                            </div>
+                            <span className="text-white text-[9px] sm:text-xs font-bold">Share</span>
+                          </div>
+                        </div>
+                      </motion.div>
+                    </AnimatePresence>
+                  </div>
+                </div>
+              )}
+
+              {/* THUMBNAIL TAB */}
+              {activeTab === 'thumbnail' && (
+                <div className="w-full h-full relative bg-[#f9f9f9]">
+                  <div className="w-full h-full overflow-y-auto p-3 sm:p-4 md:p-5 lg:p-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-5 w-full">
+                      {thumbnailList.map((thumb, idx) => (
+                        <motion.div key={thumb.id}
+                          initial={{ opacity: 0, y: 50, scale: 0.95 }} whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                          viewport={{ once: true, margin: '-50px' }} transition={{ duration: 0.5, ease: 'easeOut', delay: (idx % 3) * 0.1 }}
+                          onClick={() => { setActiveThumbnailIndex(idx); if (width >= 768) setIsLightboxOpen(true); }}
+                          className="group cursor-pointer flex flex-col gap-2">
+                          <div className="relative w-full aspect-[16/9] overflow-hidden rounded-lg shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5">
+                            <Image src={thumb.image} alt={thumb.title} fill className="object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
+                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                              <div className="opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300 bg-[#FFBE02]/90 rounded-full p-2">
+                                <ChevronRight className="w-6 h-6 text-white" />
+                              </div>
+                            </div>
+                          </div>
+                          <h4 className="text-sm font-bold text-zinc-900 group-hover:text-[#FFBE02] transition-colors duration-300 line-clamp-1 px-0.5">{thumb.title}</h4>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+                  <AnimatePresence>
+                    {isLightboxOpen && width >= 768 && (
+                      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                        className="absolute inset-0 z-[100] bg-black/95 backdrop-blur-md flex flex-col items-center justify-center">
+                        <button onClick={() => setIsLightboxOpen(false)} className="absolute top-2 sm:top-4 right-2 sm:right-4 z-[110] p-2 sm:p-2.5 bg-white/95 hover:bg-white rounded-full shadow-lg transition-all active:scale-95">
+                          <X className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
+                        </button>
+                        <div className="relative w-full h-full flex items-center justify-center px-2 sm:px-12">
+                          <button onClick={(e) => { e.stopPropagation(); handlePrevImage(); }} className="absolute left-2 sm:left-4 z-[110] p-2 sm:p-2.5 rounded-full bg-white/95 hover:bg-white shadow-lg transition-all active:scale-95">
+                            <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
+                          </button>
+                          <div className="relative w-full h-[60%] sm:h-[70%] md:h-[80%] max-w-[900px] shadow-2xl">
+                            <AnimatePresence initial={false} mode="wait">
+                              <motion.div key={activeThumbnailIndex}
+                                initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}
+                                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                                className="absolute inset-0 w-full h-full">
+                                <div className="relative w-full h-full rounded-xl overflow-hidden border border-white/10 bg-[#1a1a1a]">
+                                  <Image src={thumbnailList[activeThumbnailIndex].image} alt={thumbnailList[activeThumbnailIndex].title} fill className="object-contain" sizes="(max-width: 900px) 100vw, 900px" />
+                                </div>
+                              </motion.div>
+                            </AnimatePresence>
+                          </div>
+                          <button onClick={(e) => { e.stopPropagation(); handleNextImage(); }} className="absolute right-2 sm:right-4 z-[110] p-2 sm:p-2.5 rounded-full bg-white/95 hover:bg-white shadow-lg transition-all active:scale-95">
+                            <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-800" />
+                          </button>
+                        </div>
+                        <div className="absolute bottom-6 w-full text-center">
+                          <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} key={`info-${activeThumbnailIndex}`} className="text-white">
+                            <h3 className="text-xl sm:text-2xl font-bold mb-1 tracking-wide font-serif">{thumbnailList[activeThumbnailIndex].title}</h3>
+                            <p className="text-gray-400 text-sm">{activeThumbnailIndex + 1} / {thumbnailList.length}</p>
+                          </motion.div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
 
 // ─── 5. RIGHT FIT SECTION ────────────────────────────────────────────────────
 const RightFitSection = () => {
@@ -845,7 +1101,7 @@ export default function BookToCinemaPage() {
     <div className="w-full bg-[#faf9f6] font-sans overflow-x-hidden">
       <Header forceBookToVideoLayout />
       <HeroSection />
-      <LEDSection />
+      <VideosWeCreatedSection />
       <RightFitSection />
       <HowItWorksSection />
       <OutcomeSection />
