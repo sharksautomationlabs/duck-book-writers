@@ -777,19 +777,19 @@ const NewsEvents = () => {
                 type="button"
                 aria-label="Scroll blogs left"
                 onClick={() => scrollBlogs('left')}
-                className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-gray-300 bg-white text-black hover:bg-yellow-400 hover:border-yellow-400 transition-colors duration-200 inline-flex items-center justify-center shrink-0"
+                className="hidden sm:inline-flex w-11 h-11 rounded-full border border-gray-300 bg-white text-black hover:bg-yellow-400 hover:border-yellow-400 transition-colors duration-200 items-center justify-center shrink-0"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
 
               <div
                 ref={blogsScrollerRef}
-                className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+                className="flex gap-4 sm:gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth flex-1 min-w-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
               >
                 {blogPosts.map((post, index) => (
                   <motion.article
                     key={post.slug}
-                    className="min-w-[280px] sm:min-w-[320px] lg:min-w-[360px] max-w-[360px] bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col snap-start shrink-0"
+                    className="min-w-[85vw] sm:min-w-[320px] lg:min-w-[360px] max-w-[85vw] sm:max-w-[360px] bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col snap-start shrink-0"
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.15, delay: (index + 9) * 0.025 }}
@@ -830,7 +830,7 @@ const NewsEvents = () => {
                 type="button"
                 aria-label="Scroll blogs right"
                 onClick={() => scrollBlogs('right')}
-                className="w-10 h-10 sm:w-11 sm:h-11 rounded-full border border-gray-300 bg-white text-black hover:bg-yellow-400 hover:border-yellow-400 transition-colors duration-200 inline-flex items-center justify-center shrink-0"
+                className="hidden sm:inline-flex w-11 h-11 rounded-full border border-gray-300 bg-white text-black hover:bg-yellow-400 hover:border-yellow-400 transition-colors duration-200 items-center justify-center shrink-0"
               >
                 <ChevronRight className="w-5 h-5" />
               </button>
