@@ -201,14 +201,14 @@ const HeroSection = () => {
           {/* Heading */}
           <h1 className="mb-5 leading-[1.1]">
             <span className="block text-zinc-900 text-5xl sm:text-6xl md:text-7xl font-bold">Your Story.</span>
-            <span className="block text-5xl sm:text-6xl md:text-7xl font-bold italic" style={{ color: '#b8860b' }}>Your Legacy.</span>
+            <span className="block text-5xl sm:text-6xl md:text-7xl font-bold" style={{ color: '#b8860b' }}>Your Legacy.</span>
           </h1>
 
           {/* Belief shift */}
           <p className="text-zinc-700 text-lg sm:text-xl font-medium leading-relaxed mb-2">
             Most writers believe publishing is the finish line.
           </p>
-          <p className="text-xl sm:text-2xl font-bold italic mb-4" style={{ color: '#b8860b' }}>
+          <p className="text-xl sm:text-2xl font-bold mb-4" style={{ color: '#b8860b' }}>
             It&apos;s not.
           </p>
           <p className="text-zinc-500 text-base leading-relaxed mb-2">
@@ -255,81 +255,150 @@ const HeroSection = () => {
   );
 };
 
-// ─── 4. IS THIS FOR ME? ───────────────────────────────────────────────────────
-const IsThisForMeSection = () => {
-  const forYou = [
+// ─── 4. LED SECTION ──────────────────────────────────────────────────────────
+const LEDSection = () => (
+  <section
+    className="relative hidden w-full max-w-[100vw] overflow-x-clip overflow-y-hidden bg-gradient-to-b from-[#fffbeb] via-violet-100/35 to-white pt-12 sm:block sm:pt-16 md:pt-20 lg:pt-24 xl:pt-28 pb-10 sm:pb-14 md:pb-16 lg:pb-20 font-sans"
+    aria-label="Featured books and display"
+  >
+    <div className="relative z-40 mx-auto flex w-full min-w-0 max-w-none max-sm:min-h-[min(580px,72svh)] sm:min-h-[min(660px,66svh)] md:min-h-[min(740px,70vh)] lg:min-h-[min(820px,72vh)] xl:min-h-[min(880px,74vh)] items-center justify-center overflow-x-clip overflow-y-hidden px-0 pointer-events-none">
+
+      <div className="absolute inset-0 z-[6] pointer-events-none max-sm:hidden">
+        <div className="absolute top-0 bottom-0 left-0 w-[5%] max-w-[56px] bg-gradient-to-r from-violet-100/35 via-transparent to-transparent" />
+        <div className="absolute top-0 bottom-0 right-0 w-[5%] max-w-[56px] bg-gradient-to-l from-violet-100/35 via-transparent to-transparent" />
+      </div>
+
+      <div className="absolute left-1/2 top-1/2 z-0 h-[45%] w-[min(96%,1400px)] -translate-x-1/2 -translate-y-1/2 bg-[#FFBE02]/12 blur-[80px]" />
+
+      {[
+        { src: '/youtube-page/book-4.png', x: '-242%', y: '-54%', scale: 0.96, z: 20, delay: 0.62 },
+        { src: '/youtube-page/book-3.png', x: '-328%', y: '-49%', scale: 0.92, z: 16, delay: 0.72 },
+        { src: '/youtube-page/book-2.png', x: '-398%', y: '-43%', scale: 0.88, z: 12, delay: 0.82 },
+        { src: '/youtube-page/book-1.png', x: '-462%', y: '-38%', scale: 0.84, z: 8, delay: 0.92 },
+        { src: '/youtube-page/book-6.png', x: '142%', y: '-54%', scale: 0.96, z: 20, delay: 0.62 },
+        { src: '/youtube-page/hero-right-fatal-exchange.png', x: '228%', y: '-49%', scale: 0.92, z: 16, delay: 0.72 },
+        { src: '/youtube-page/hero-right-educated.png', x: '298%', y: '-43%', scale: 0.88, z: 12, delay: 0.82 },
+        { src: '/youtube-page/hero-right-paradox.png', x: '362%', y: '-38%', scale: 0.84, z: 8, delay: 0.92 },
+      ].map((book, i) => (
+        <motion.div
+          key={`${book.src}-${i}`}
+          className="absolute left-1/2 top-1/2 w-[82px] sm:w-[110px] md:w-[134px] lg:w-[152px] xl:w-[164px] aspect-[5/18] sm:aspect-[2/3] overflow-hidden rounded-[2px] drop-shadow-[0_12px_26px_rgba(0,0,0,0.22)]"
+          style={{ zIndex: book.z }}
+          initial={{ x: '-50%', y: '-46%', opacity: 0, scale: 0.58 }}
+          animate={{ x: book.x, y: book.y, opacity: 1, scale: book.scale }}
+          transition={{ duration: 1.9, delay: book.delay, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <Image src={book.src} alt={`Book ${i + 1}`} fill
+            sizes="(max-width: 640px) 82px, (max-width: 768px) 110px, (max-width: 1024px) 134px, 164px"
+            className="object-cover object-center" />
+        </motion.div>
+      ))}
+
+      <motion.div
+        className="absolute left-1/2 top-1/2 z-[60] w-full max-sm:aspect-[10/19] max-sm:max-w-[min(168px,calc(100vw-1rem))] sm:aspect-auto sm:max-w-none sm:w-[min(59vw,468px)] sm:min-h-[calc(min(59vw,468px)*0.68)] md:w-[min(60vw,574px)] md:min-h-[calc(min(60vw,574px)*0.68)] lg:w-[min(61vw,682px)] lg:min-h-[calc(min(61vw,682px)*0.68)] xl:w-[min(62vw,774px)] xl:min-h-[calc(min(62vw,774px)*0.68)] overflow-visible drop-shadow-[0_22px_44px_rgba(0,0,0,0.3)]"
+        initial={{ x: '-50%', y: '18%', opacity: 0 }}
+        animate={{ x: '-50%', y: '-50%', opacity: 1 }}
+        transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <Image src="/youtube-page/hero-led-mobile.png" alt="Cinema on mobile" fill
+          className="object-contain object-center sm:hidden"
+          sizes="(max-width: 639px) min(168px, 92vw), 0" priority />
+        <Image src="/youtube-page/led.png" alt="LED display" fill
+          className="object-contain object-center hidden sm:block"
+          sizes="(max-width: 768px) 59vw, (max-width: 1024px) 60vw, (max-width: 1280px) 61vw, 774px" priority />
+      </motion.div>
+    </div>
+  </section>
+);
+
+// ─── 5. RIGHT FIT SECTION ────────────────────────────────────────────────────
+const RightFitSection = () => {
+  const forYouList = [
     'You have a manuscript, draft, or story idea',
     'You want it professionally published',
     'You care about real audience reach — not just publishing for the sake of it',
     'You want your work structured and positioned properly',
   ];
-  const notForYou = [
+  const notForYouList = [
     'You just want to self-publish without strategy',
     "You don't care about distribution or visibility",
     'You are treating this as a casual hobby',
   ];
 
   return (
-    <section className="relative w-full overflow-hidden bg-gradient-to-b from-[#eeede8] via-[#fff9f2] to-[#fff5e8] py-20 px-4 sm:px-6 md:px-10 lg:px-14">
-      <div className="pointer-events-none absolute top-1/2 left-[-6%] h-[260px] w-[260px] rounded-full bg-violet-200/15 blur-[90px]" />
+    <section className="relative overflow-hidden bg-gradient-to-b from-[#fffbeb] via-[#fff8e6]/90 to-[#fefce8] py-14 font-sans sm:py-20">
+      <div className="pointer-events-none absolute -top-16 right-[-10%] h-[220px] w-[220px] rounded-full bg-[#FFBE02]/14 blur-[80px]" />
+      <div className="max-w-[1140px] mx-auto px-4 sm:px-6">
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        {/* Section heading — left aligned */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-12 max-w-xl"
-        >
-          <span className="inline-block py-1.5 px-4 rounded-full bg-[#FFBE02]/10 text-[#b8860b] text-xs font-bold tracking-widest uppercase mb-3 border border-[#FFBE02]/20">
-            — IS THIS FOR ME?
-          </span>
-          <h2 className="text-zinc-900 text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
-            Is This The{' '}
-            <span className="italic" style={{ color: '#b8860b' }}>Right Fit</span>{' '}
-            For You?
+        <div className="text-center mb-10 sm:mb-12">
+          <h2 className="text-[2rem] sm:text-[3.25rem] md:text-[4rem] leading-none tracking-tight mb-1.5 sm:mb-3">
+            <span className="font-bold text-[#EAB308]">Right</span>{' '}
+            <span className="font-normal text-[#1F1F1F]">Fit</span>
           </h2>
-        </motion.div>
+          <p className="text-[1.02rem] sm:text-[1.65rem] md:text-[1.85rem] text-[#333333] font-light tracking-wide">
+            Is this the right fit for you?
+          </p>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-9">
+
+          {/* LEFT CARD: gold */}
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="bg-white/80 backdrop-blur-xl rounded-2xl sm:rounded-[2rem] p-7 sm:p-8 border border-white/60 shadow-[0_12px_40px_-8px_rgba(0,0,0,0.08)]"
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.55, ease: 'easeOut' }}
+            whileHover={{ y: -8, scale: 1.01 }}
+            className="relative overflow-hidden rounded-[2rem] sm:rounded-[2.1rem] p-9 sm:p-11 md:p-12 h-full border border-[#FFBE02]/35 shadow-[0_22px_48px_-20px_rgba(234,179,8,0.35)] bg-gradient-to-br from-[#fffefb] via-[#fff8e8] to-[#FFBE02]/20"
           >
-            <h3 className="font-bold text-lg mb-6 flex items-center gap-2 text-emerald-600">
-              <span>✅</span> This Is For You If:
-            </h3>
-            <ul className="space-y-4">
-              {forYou.map((t) => (
-                <li key={t} className="flex items-start gap-3 text-zinc-600 text-sm sm:text-base leading-relaxed">
-                  <span className="text-emerald-500 mt-0.5 flex-shrink-0 font-bold">✓</span> {t}
-                </li>
-              ))}
-            </ul>
+            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.06] mix-blend-overlay pointer-events-none" />
+            <div className="absolute -top-16 -right-10 w-52 h-52 rounded-full bg-[#FFBE02]/30 blur-3xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-40 h-40 rounded-full bg-[#EAB308]/20 blur-3xl pointer-events-none" />
+            <div className="relative z-10">
+              <h3 className="text-[2rem] sm:text-[2.25rem] font-bold text-[#b45309] mb-6 sm:mb-7 tracking-tight leading-tight drop-shadow-sm">
+                This is for you if:
+              </h3>
+              <ul className="flex flex-col gap-3.5 sm:gap-4">
+                {forYouList.map((text, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <span className="text-[#FFBE02] text-[1.2rem] leading-[1.2] mt-0.5 font-bold">•</span>
+                    <span className="text-[1.05rem] sm:text-[1.34rem] leading-[1.45] text-[#1f2937] font-medium">{text}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </motion.div>
 
+          {/* RIGHT CARD: purple gradient */}
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="bg-white/80 backdrop-blur-xl rounded-2xl sm:rounded-[2rem] p-7 sm:p-8 border border-white/60 shadow-[0_12px_40px_-8px_rgba(0,0,0,0.08)]"
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.55, delay: 0.08, ease: 'easeOut' }}
+            whileHover={{ y: -8, scale: 1.01 }}
+            className="relative overflow-hidden rounded-[2rem] sm:rounded-[2.1rem] p-0.5 sm:p-1 bg-gradient-to-b from-white/35 to-white/5 shadow-[0_24px_56px_-18px_rgba(139,45,240,0.45)] h-full"
           >
-            <h3 className="font-bold text-lg mb-6 flex items-center gap-2 text-red-500">
-              <span>✗</span> This Is NOT For You If:
-            </h3>
-            <ul className="space-y-4">
-              {notForYou.map((t) => (
-                <li key={t} className="flex items-start gap-3 text-zinc-600 text-sm sm:text-base leading-relaxed">
-                  <span className="text-red-400 mt-0.5 flex-shrink-0 font-bold">✗</span> {t}
-                </li>
-              ))}
-            </ul>
+            <div className="relative overflow-hidden rounded-[calc(2rem-4px)] sm:rounded-[calc(2.1rem-4px)] p-9 sm:p-11 md:p-12 h-full bg-gradient-to-br from-[#8B2DF0] via-[#D925C8] to-[#FF5E00]">
+              <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay pointer-events-none" />
+              <div className="absolute -bottom-16 -left-10 w-52 h-52 rounded-full bg-white/10 blur-3xl pointer-events-none" />
+              <div className="absolute top-0 right-0 w-36 h-36 rounded-full bg-[#8B2DF0]/40 blur-2xl pointer-events-none" />
+              <div className="absolute bottom-0 left-0 w-full h-14 sm:h-16 bg-gradient-to-t from-black/15 to-transparent pointer-events-none rounded-b-[inherit]" />
+              <div className="relative z-10">
+                <h3 className="text-[2rem] sm:text-[2.25rem] font-bold text-white mb-6 sm:mb-7 tracking-tight leading-tight drop-shadow-md">
+                  This isn&apos;t for you if:
+                </h3>
+                <ul className="flex flex-col gap-3.5 sm:gap-4">
+                  {notForYouList.map((text, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <span className="text-[#FFBE02] text-[1.2rem] leading-[1.2] mt-0.5 font-bold">•</span>
+                      <span className="text-[1.05rem] sm:text-[1.34rem] leading-[1.45] text-white/95 font-medium">{text}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </motion.div>
+
         </div>
       </div>
     </section>
@@ -374,7 +443,7 @@ const HowItWorksSection = () => {
             </span>
             <h2 className="text-zinc-900 text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
               How It{' '}
-              <span className="italic" style={{ color: '#b8860b' }}>Works</span>
+              <span style={{ color: '#b8860b' }}>Works</span>
             </h2>
           </motion.div>
           <motion.p
@@ -452,7 +521,7 @@ const OutcomeSection = () => (
           </span>
           <h2 className="text-zinc-900 text-3xl sm:text-4xl md:text-5xl font-bold mb-6 leading-tight">
             What Happens If You{' '}
-            <span className="italic" style={{ color: '#b8860b' }}>Do This?</span>
+            <span style={{ color: '#b8860b' }}>Do This?</span>
           </h2>
           <p className="text-zinc-500 text-base sm:text-lg leading-relaxed mb-8">
             Instead of a manuscript sitting unseen, your story becomes a published book, a global asset, and a visual content system designed for discovery.
@@ -540,7 +609,7 @@ const CaseStudiesSection = () => {
             </span>
             <h2 className="text-zinc-900 text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
               Real Writers.{' '}
-              <span className="italic" style={{ color: '#b8860b' }}>Real Results.</span>
+              <span style={{ color: '#b8860b' }}>Real Results.</span>
             </h2>
           </motion.div>
         </div>
@@ -610,7 +679,7 @@ const WhyItWorksSection = () => (
           </span>
           <h2 className="text-zinc-900 text-3xl sm:text-4xl md:text-5xl font-bold leading-tight">
             Why This{' '}
-            <span className="italic" style={{ color: '#b8860b' }}>System Works</span>
+            <span style={{ color: '#b8860b' }}>System Works</span>
           </h2>
         </motion.div>
       </div>
@@ -715,7 +784,7 @@ const FinalCTASection = () => (
           <h2 className="text-zinc-900 text-4xl sm:text-5xl font-bold mb-2 leading-tight">
             Book Your Free
           </h2>
-          <h2 className="text-4xl sm:text-5xl font-bold italic mb-6 leading-tight" style={{ color: '#b8860b' }}>
+          <h2 className="text-4xl sm:text-5xl font-bold mb-6 leading-tight" style={{ color: '#b8860b' }}>
             Strategy Call
           </h2>
           <p className="text-zinc-600 text-base sm:text-lg leading-relaxed mb-6">
@@ -776,7 +845,8 @@ export default function BookToCinemaPage() {
     <div className="w-full bg-[#faf9f6] font-sans overflow-x-hidden">
       <Header forceBookToVideoLayout />
       <HeroSection />
-      <IsThisForMeSection />
+      <LEDSection />
+      <RightFitSection />
       <HowItWorksSection />
       <OutcomeSection />
       <CaseStudiesSection />
