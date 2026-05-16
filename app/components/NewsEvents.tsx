@@ -1388,6 +1388,67 @@ const NewsEvents = () => {
             </motion.div>
           ))}
         </div>
+
+        {/* Blog section — home page */}
+        <div className="mt-16 sm:mt-20">
+          <div className="text-center mb-10">
+            <h2 className="font-['Poppins'] font-bold text-3xl sm:text-4xl text-black mb-3">
+              From our blog
+            </h2>
+            <p className="font-['Poppins'] text-gray-600 max-w-2xl mx-auto text-base sm:text-lg">
+              Tips on writing, publishing, and reaching readers — straight from the Duck Book Writers team.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+            {blogPosts.slice(0, 3).map((post, index) => (
+              <motion.article
+                key={post.slug}
+                className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.15, delay: index * 0.06 }}
+                whileHover={{ y: -5 }}
+              >
+                <div className="h-40 bg-gradient-to-br from-amber-500 to-yellow-400 flex items-center justify-center">
+                  <Newspaper className="w-14 h-14 text-white" aria-hidden />
+                </div>
+                <div className="p-6 flex flex-col flex-grow">
+                  <time
+                    dateTime={post.date}
+                    className="text-sm text-gray-500 font-['Poppins'] mb-3"
+                  >
+                    {new Date(`${post.date}T12:00:00`).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </time>
+                  <h3 className="font-['Poppins'] font-bold text-xl text-black mb-3 line-clamp-2">
+                    {post.title}
+                  </h3>
+                  <p className="text-gray-600 text-sm mb-5 line-clamp-3 flex-grow font-['Poppins']">
+                    {post.excerpt}
+                  </p>
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className="inline-flex font-['Poppins'] font-semibold text-sm text-yellow-600 hover:text-yellow-700"
+                  >
+                    Read article →
+                  </Link>
+                </div>
+              </motion.article>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <Link
+              href="/news"
+              className="inline-flex items-center gap-2 font-['Poppins'] font-semibold text-sm text-black border border-black px-6 py-2.5 rounded-full hover:bg-black hover:text-white transition-colors duration-200"
+            >
+              View all articles →
+            </Link>
+          </div>
+        </div>
+
       </div>
     </section>
   );
