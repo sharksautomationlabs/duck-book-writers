@@ -86,15 +86,13 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://www.youtube.com" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
-        {/* Calendly: warm DNS/TLS for asset host, booking app, and iframe origin. */}
+        {/* Calendly: warm DNS/TLS early so the lazy-loaded embed connects fast */}
         <link rel="preconnect" href="https://assets.calendly.com" crossOrigin="" />
         <link rel="preconnect" href="https://calendly.com" crossOrigin="" />
         <link rel="preconnect" href="https://app.calendly.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://assets.calendly.com" />
         <link rel="dns-prefetch" href="https://calendly.com" />
         <link rel="dns-prefetch" href="https://app.calendly.com" />
-        <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />
-        {/* added for calendly     */}
         <FacebookPixel />
       </head>
       <body
@@ -104,7 +102,6 @@ export default function RootLayout({
         <CalendlyLoaderSuppress />
         <TawkTo />
         {children}
-        <Script src="https://assets.calendly.com/assets/external/widget.js" strategy="afterInteractive" />
         {/* Google Analytics 4 */}
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-T5M6922BKE" strategy="afterInteractive" />
         <Script id="ga4-init" strategy="afterInteractive">{`
