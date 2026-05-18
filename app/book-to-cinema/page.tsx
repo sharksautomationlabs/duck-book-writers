@@ -229,7 +229,13 @@ const HeroSection = () => {
         >
           <div className="rounded-2xl sm:rounded-[2rem] overflow-hidden shadow-[0_24px_60px_-12px_rgba(0,0,0,0.14)] border border-zinc-100 bg-black">
             <div className="aspect-video">
-              <video src="/videos/ebook ad longform comp.mov" controls className="w-full h-full object-contain" />
+              <iframe
+                src="https://www.youtube.com/embed/X5S3P073N9U?rel=0"
+                title="Book to Cinema"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full border-0"
+              />
             </div>
           </div>
           <p className="text-zinc-400 text-sm mt-3 text-center">
