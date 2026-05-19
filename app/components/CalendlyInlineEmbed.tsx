@@ -3,70 +3,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { CALENDLY_LINK } from '../config/constants';
 
-const CALENDLY_CSS = 'https://assets.calendly.com/assets/external/widget.css';
-const CALENDLY_JS = 'https://assets.calendly.com/assets/external/widget.js';
-
-let scriptPromise: Promise<void> | null = null;
-
-function waitForCalendlyObject(): Promise<void> {
-  return new Promise((resolve, reject) => {
-    if ((window as any).Calendly) { resolve(); return; }
-    const start = Date.now();
-    const iv = setInterval(() => {
-      if ((window as any).Calendly) { clearInterval(iv); resolve(); return; }
-      if (Date.now() - start > 8000) { clearInterval(iv); reject(new Error('Calendly timeout')); }
-    }, 50);
-  });
-}
-
-function loadCalendlyScript(): Promise<void> {
-  if (typeof window === 'undefined') return Promise.resolve();
-  if ((window as any).Calendly) return Promise.resolve();
-  if (scriptPromise) return scriptPromise;
-
-  scriptPromise = new Promise<void>((resolve, reject) => {
-    const existing = document.querySelector<HTMLScriptElement>(`script[src="${CALENDLY_JS}"]`);
-    if (existing) {
-      // Script tag exists (e.g. loaded by layout); poll until window.Calendly is ready.
-      waitForCalendlyObject().then(resolve).catch(reject);
-      return;
-    }
-    const script = document.createElement('script');
-    script.src = CALENDLY_JS;
-    script.async = true;
-    script.onload = () => waitForCalendlyObject().then(resolve).catch(reject);
-    script.onerror = () => {
-      scriptPromise = null;
-      reject(new Error('Calendly script failed to load'));
-    };
-    document.body.appendChild(script);
-  });
-
-  return scriptPromise;
-}
-
-function loadCalendlyCSS() {
-  if (typeof document === 'undefined') return;
-  if (document.querySelector(`link[href="${CALENDLY_CSS}"]`)) return;
-  const link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.href = CALENDLY_CSS;
-  document.head.appendChild(link);
-}
-
-function initCalendly(el: HTMLElement, url: string) {
-  el.innerHTML = '';
-  const embedUrl = url.includes('?') ? url : `${url}?hide_gdpr_banner=1`;
-  (window as any).Calendly?.initInlineWidget({ url: embedUrl, parentElement: el });
-}
-
 export type CalendlyInlineEmbedProps = {
   containerId: string;
   heightPx?: number;
   heightPxMobile?: number;
   className?: string;
   calendlyUrl?: string;
-  /** Accepted for API compatibility — not applied */
+  /** Accepted for API compatibility */
   visualScale?: number;
   /** Accepted for API compatibility */
   autoResize?: boolean;
@@ -79,51 +22,42 @@ export default function CalendlyInlineEmbed({
   className = '',
   calendlyUrl = CALENDLY_LINK,
 }: CalendlyInlineEmbedProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const initDoneRef = useRef(false);
+  const widgetRef = useRef<HTMLDivElement>(null);
   const [loaded, setLoaded] = useState(false);
 
-  useEffect(() => {
-    // Reset on each mount so navigation back to this page re-initialises.
-    initDoneRef.current = false;
-
-    const el = containerRef.current;
-    if (!el) return;
-
-    let done = false;
-
-    const run = () => {
-      if (done) return;
-      done = true;
-      loadCalendlyCSS();
-      loadCalendlyScript()
-        .then(() => {
-          if (!containerRef.current) return;
-          // Guard against React StrictMode double-invoke: only init once per mount.
-          if (initDoneRef.current) return;
-          initDoneRef.current = true;
-          initCalendly(containerRef.current, calendlyUrl);
-          setLoaded(true);
-        })
-        .catch(() => {
-          // Script failed (network error, ad-blocker, etc.) — remove skeleton so
-          // the page doesn't show a pulsing grey box indefinitely.
-          setLoaded(true);
-        });
-    };
-
-    // Lazy: fire when near viewport. Fallback after 2.5s in case observer misses.
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { observer.disconnect(); clearTimeout(fallback); run(); } },
-      { rootMargin: '400px' }
-    );
-    observer.observe(el);
-    const fallback = setTimeout(() => { observer.disconnect(); run(); }, 2500);
-
-    return () => { observer.disconnect(); clearTimeout(fallback); };
-  }, [calendlyUrl]);
+  const embedUrl = calendlyUrl.includes('?')
+    ? calendlyUrl
+    : `${calendlyUrl}?hide_gdpr_banner=1`;
 
   const minH = heightPxMobile ?? heightPx;
+
+  useEffect(() => {
+    const el = widgetRef.current;
+    if (!el) return;
+    let cleared = false;
+
+    const tryInit = (): boolean => {
+      // If Calendly auto-init (via data-url) already put an iframe here, just mark loaded.
+      if (el.querySelector('iframe')) {
+        if (!cleared) setLoaded(true);
+        return true;
+      }
+      const Cal = (window as any).Calendly;
+      if (!Cal?.initInlineWidget) return false;
+      el.innerHTML = '';
+      Cal.initInlineWidget({ url: embedUrl, parentElement: el });
+      if (!cleared) setLoaded(true);
+      return true;
+    };
+
+    if (tryInit()) return;
+
+    // Calendly script not yet ready — poll every 100ms (max 10s).
+    const iv = setInterval(() => { if (tryInit()) clearInterval(iv); }, 100);
+    const to = setTimeout(() => { clearInterval(iv); if (!cleared) setLoaded(true); }, 10000);
+
+    return () => { cleared = true; clearInterval(iv); clearTimeout(to); };
+  }, [embedUrl]);
 
   return (
     <div
@@ -131,18 +65,17 @@ export default function CalendlyInlineEmbed({
       className={`w-full relative ${className}`.trim()}
       style={{ minHeight: minH }}
     >
-      {/* Gray skeleton shown until Calendly loads */}
       {!loaded && (
         <div className="absolute inset-0 z-10 animate-pulse rounded-xl bg-gray-100" aria-hidden />
       )}
       {/*
-        calendly-inline-widget class is required by Calendly's widget.css.
-        height must be set (not just minHeight) so Calendly renders the full UI.
-        This div is always in DOM so initInlineWidget gets real pixel dimensions.
+        data-url triggers Calendly auto-init when widget.js scans the DOM.
+        initInlineWidget (above) handles the case where the script loaded first.
       */}
       <div
-        ref={containerRef}
+        ref={widgetRef}
         className="calendly-inline-widget w-full"
+        data-url={embedUrl}
         style={{ minWidth: 320, minHeight: minH, height: heightPx }}
       />
     </div>
