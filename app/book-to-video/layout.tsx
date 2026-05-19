@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import BookToVideoClientLayout from './BookToVideoClientLayout';
 
 /** Static HTML cached by CDN; revalidate hourly so updates ship without manual deploys. */
@@ -24,9 +25,14 @@ export default function BookToVideoLayout({
 }) {
   return (
     <>
-      {/* Fetch widget.js and warm the iframe origin before React hydrates. */}
-      <link rel="preload" href="https://assets.calendly.com/assets/external/widget.js" as="script" />
+      <link rel="preconnect" href="https://assets.calendly.com" crossOrigin="" />
       <link rel="preconnect" href="https://app.calendly.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://assets.calendly.com/assets/external/widget.css" />
+      {/* Load widget.js eagerly so window.Calendly is ready when the inline embeds mount. */}
+      <Script
+        src="https://assets.calendly.com/assets/external/widget.js"
+        strategy="afterInteractive"
+      />
       <BookToVideoClientLayout>{children}</BookToVideoClientLayout>
     </>
   );

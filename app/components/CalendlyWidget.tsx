@@ -35,13 +35,9 @@ const CalendlyWidget: React.FC<CalendlyWidgetProps> = ({
     script.onload = () => setIsCalendlyLoaded(true);
     document.head.appendChild(script);
 
-    return () => {
-      // Cleanup script if component unmounts
-      const existingScript = document.querySelector('script[src="https://assets.calendly.com/assets/external/widget.js"]');
-      if (existingScript) {
-        existingScript.remove();
-      }
-    };
+    // Don't remove the script on unmount — window.Calendly must remain available
+    // for CalendlyInlineEmbed and any future navigations back to pages with popups.
+    return () => {};
   }, []);
 
   const openCalendlyPopup = () => {

@@ -8,6 +8,17 @@ const CALENDLY_JS = 'https://assets.calendly.com/assets/external/widget.js';
 
 let scriptPromise: Promise<void> | null = null;
 
+function waitForCalendlyObject(): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if ((window as any).Calendly) { resolve(); return; }
+    const start = Date.now();
+    const iv = setInterval(() => {
+      if ((window as any).Calendly) { clearInterval(iv); resolve(); return; }
+      if (Date.now() - start > 8000) { clearInterval(iv); reject(new Error('Calendly timeout')); }
+    }, 50);
+  });
+}
+
 function loadCalendlyScript(): Promise<void> {
   if (typeof window === 'undefined') return Promise.resolve();
   if ((window as any).Calendly) return Promise.resolve();
@@ -16,16 +27,18 @@ function loadCalendlyScript(): Promise<void> {
   scriptPromise = new Promise<void>((resolve, reject) => {
     const existing = document.querySelector<HTMLScriptElement>(`script[src="${CALENDLY_JS}"]`);
     if (existing) {
-      if ((window as any).Calendly) { resolve(); return; }
-      existing.addEventListener('load', () => resolve());
-      existing.addEventListener('error', () => reject(new Error('Calendly failed')));
+      // Script tag exists (e.g. loaded by layout); poll until window.Calendly is ready.
+      waitForCalendlyObject().then(resolve).catch(reject);
       return;
     }
     const script = document.createElement('script');
     script.src = CALENDLY_JS;
     script.async = true;
-    script.onload = () => resolve();
-    script.onerror = () => reject(new Error('Calendly failed'));
+    script.onload = () => waitForCalendlyObject().then(resolve).catch(reject);
+    script.onerror = () => {
+      scriptPromise = null;
+      reject(new Error('Calendly script failed to load'));
+    };
     document.body.appendChild(script);
   });
 
@@ -43,7 +56,8 @@ function loadCalendlyCSS() {
 
 function initCalendly(el: HTMLElement, url: string) {
   el.innerHTML = '';
-  (window as any).Calendly?.initInlineWidget({ url, parentElement: el });
+  const embedUrl = url.includes('?') ? url : `${url}?hide_gdpr_banner=1`;
+  (window as any).Calendly?.initInlineWidget({ url: embedUrl, parentElement: el });
 }
 
 export type CalendlyInlineEmbedProps = {
@@ -66,9 +80,13 @@ export default function CalendlyInlineEmbed({
   calendlyUrl = CALENDLY_LINK,
 }: CalendlyInlineEmbedProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const initDoneRef = useRef(false);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
+    // Reset on each mount so navigation back to this page re-initialises.
+    initDoneRef.current = false;
+
     const el = containerRef.current;
     if (!el) return;
 
@@ -78,11 +96,20 @@ export default function CalendlyInlineEmbed({
       if (done) return;
       done = true;
       loadCalendlyCSS();
-      void loadCalendlyScript().then(() => {
-        if (!containerRef.current) return;
-        initCalendly(containerRef.current, calendlyUrl);
-        setLoaded(true);
-      });
+      loadCalendlyScript()
+        .then(() => {
+          if (!containerRef.current) return;
+          // Guard against React StrictMode double-invoke: only init once per mount.
+          if (initDoneRef.current) return;
+          initDoneRef.current = true;
+          initCalendly(containerRef.current, calendlyUrl);
+          setLoaded(true);
+        })
+        .catch(() => {
+          // Script failed (network error, ad-blocker, etc.) — remove skeleton so
+          // the page doesn't show a pulsing grey box indefinitely.
+          setLoaded(true);
+        });
     };
 
     // Lazy: fire when near viewport. Fallback after 2.5s in case observer misses.
