@@ -1,0 +1,34 @@
+name: Publish Scheduled Blog Post
+
+on:
+  schedule:
+    - cron: '0 0 * * *'   # Har roz midnight UTC (5am Pakistan time)
+  workflow_dispatch:        # GitHub UI se manually bhi chala sakte hain
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Publish next draft
+        run: node scripts/publish-draft.js
+
+      - name: Commit and push if a draft was published
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add content/blogs.json content/drafts/
+          git diff --staged --quiet && echo "Nothing to publish today." || (
+            git commit -m "chore: auto-publish blog post [$(date +%Y-%m-%d)]" &&
+            git push
+          )
